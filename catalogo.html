@@ -13,8 +13,8 @@
   </head>
   <body>
     <!-- Un header todo chido hecho con Bootstrap -->
-    <div class="container">
-        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+    <div class="container" id="headerContainer">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom" id="catHead">
           <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
             <span class="fs-4 wordmark">Autopartes <strong>El Mexicano</strong></span>
           </a>
@@ -26,29 +26,30 @@
         </header>
     </div>
     <!-- Empieza lo chido aquuiii -->
-     <div class="container">
-      <nav id="sidebar">
-        <span>Categoría</span>
-        <ul class="filterCategory">   
+     <div class="container col-12 col-sm-4 col-md-3 col-xxl-2" id="sidebarContainer">
+      <nav id="sidebar" class="">
+        <span class="categoryName">Categoría</span>
+        <ul class="filterCategoryList">   
           <li class="filter"><input type="checkbox">Marchas</li>
           <li class="filter"><input type="checkbox">Alternadores</li>
           <li class="filter"><input type="checkbox">Compresores</li>
           <li class="filter"><input type="checkbox">Motores</li>
           <li class="filter"><input type="checkbox">Transmisión</li>
-          <li class="filter"><input type="checkbox">Bombas de dirección</li>
+          <li class="filter"><input type="checkbox">Bombas</li>
           <li class="filter"><input type="checkbox">Radiadores</li>
         </ul>
-        <span>Marca</span>
-        <ul class="filterBrand">
+        <span class="categoryName">Marca</span>
+        <ul class="filterCategoryList">
           <li class="filter"><input type="checkbox">Chevrolet</li>
           <li class="filter"><input type="checkbox">Toyota</li>
           <li class="filter"><input type="checkbox">Mercedes</li>
           <li class="filter"><input type="checkbox">Honda</li>
           <li class="filter"><input type="checkbox">MG</li>
         </ul>
-        <label>Año</label>
-        <div class="container">
+        <span class="categoryName">Año</span>
+        <div class="container" id="selectYears">
           <input type="number" placeholder="2018" id="startingYear">
+          <span>-</span>
           <input type="number" placeholder="2025" id="endingYear">
         </div> 
         
@@ -59,8 +60,6 @@
     <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
           <p class="col-md-4 mb-0 text-body-secondary">&copy; 2025 Autopartes El Mexicano S.A. de C.V.</p>
-          <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg></a>
           <ul class="nav col-md-4 justify-content-end">
             <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Principal</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Catalogo</a></li>
