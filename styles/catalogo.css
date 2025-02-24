@@ -1,0 +1,6 @@
+li {
+    list-style: none;
+}
+li input{
+    margin-right: 1rem;
+}
