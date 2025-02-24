@@ -1,5 +1,4 @@
 li {
-    text-align: justify;
     list-style: none;
 }
 nav ul{
@@ -23,7 +22,6 @@ li input{
 }
 #sidebar li{
     font-size: 1.2em;
-    /* text-align: center; */
     width: fit-content  ;
 }
 .categoryName{
@@ -32,7 +30,6 @@ li input{
 }
 input[type=number]{
     width: 60px;
-    /* margin-right: 20px; */
 }
 @media (min-width: 576px) {
     #sidebarContainer {
