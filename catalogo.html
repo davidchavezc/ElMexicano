@@ -28,6 +28,7 @@
     <!-- Empieza lo chido aquuiii -->
      <div class="container">
       <nav id="sidebar">
+        <span>Categoría</span>
         <ul class="filterCategory">   
           <li class="filter"><input type="checkbox">Marchas</li>
           <li class="filter"><input type="checkbox">Alternadores</li>
@@ -37,7 +38,22 @@
           <li class="filter"><input type="checkbox">Bombas de dirección</li>
           <li class="filter"><input type="checkbox">Radiadores</li>
         </ul>
+        <span>Marca</span>
+        <ul class="filterBrand">
+          <li class="filter"><input type="checkbox">Chevrolet</li>
+          <li class="filter"><input type="checkbox">Toyota</li>
+          <li class="filter"><input type="checkbox">Mercedes</li>
+          <li class="filter"><input type="checkbox">Honda</li>
+          <li class="filter"><input type="checkbox">MG</li>
+        </ul>
+        <label>Año</label>
+        <div class="container">
+          <input type="number" placeholder="2018" id="startingYear">
+          <input type="number" placeholder="2025" id="endingYear">
+        </div> 
+        
       </nav>
+      <!-- Termina el sidebar -->
      </div>
      <!-- Un footer generico del bootstrap -->
     <div class="container">
@@ -55,5 +71,6 @@
       </div>  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="scripts/jquery-3.7.1.min.js"></script>
+    <script src="scripts/catalogo.js"></script>
   </body>
 </html>
