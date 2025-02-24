@@ -1,5 +1,6 @@
 li {
     list-style: none;
+    font-size: 1.2em;
 }
 nav ul{
     padding-left: 0;
@@ -10,36 +11,22 @@ nav{
 li input{
     margin-right: 1rem;
 }
-#sidebarContainer{
-    background-color: rgb(223, 223, 223);
+.card-img-top{
+    width: 250px;
+    height: 200px;
+    box-shadow: 0px 0px 2px rgb(203, 203, 203);
     border-radius: 1em;
-    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.364);
 }
-.filterCategoryList{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-#sidebar li{
-    font-size: 1.2em;
-    width: fit-content  ;
+#cards .card{
+    border: none;
 }
 .categoryName{
     font-size: 2em;
     font-weight: 600;
 }
-input[type=number]{
-    width: 60px;
+.card-title{
+    font-size: 1.5em;
 }
-@media (min-width: 576px) {
-    main {
-        margin: 0em 1rem;
-    }
-}
-/* Hasta aquí llego el sidebar */
-main{
-    display: flex;
-}
-input[type=search]{
-    width: 100px;
+#cards .col{
+    margin-top: 2em;
 }
