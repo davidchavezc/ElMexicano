@@ -32,8 +32,14 @@ input[type=number]{
     width: 60px;
 }
 @media (min-width: 576px) {
-    #sidebarContainer {
-        margin-left: 1rem;
+    main {
+        margin: 0em 1rem;
     }
 }
 /* Hasta aquí llego el sidebar */
+main{
+    display: flex;
+}
+input[type=search]{
+    width: 100px;
+}

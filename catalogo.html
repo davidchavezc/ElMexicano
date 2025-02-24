@@ -26,40 +26,45 @@
         </header>
     </div>
     <!-- Empieza lo chido aquuiii -->
+    <main>
     <!-- Sidebar de filtros -->
-    <div class="container col-12 col-sm-4 col-md-3 col-xxl-2" id="sidebarContainer">
-      <nav id="sidebar" class="">
-        <span class="categoryName">Categoría</span>
-        <ul class="filterCategoryList">   
-          <li class="filter"><input type="checkbox">Marchas</li>
-          <li class="filter"><input type="checkbox">Alternadores</li>
-          <li class="filter"><input type="checkbox">Compresores</li>
-          <li class="filter"><input type="checkbox">Motores</li>
-          <li class="filter"><input type="checkbox">Transmisión</li>
-          <li class="filter"><input type="checkbox">Bombas</li>
-          <li class="filter"><input type="checkbox">Radiadores</li>
-        </ul>
-        <span class="categoryName">Marca</span>
-        <ul class="filterCategoryList">
-          <li class="filter"><input type="checkbox">Chevrolet</li>
-          <li class="filter"><input type="checkbox">Toyota</li>
-          <li class="filter"><input type="checkbox">Mercedes</li>
-          <li class="filter"><input type="checkbox">Honda</li>
-          <li class="filter"><input type="checkbox">MG</li>
-        </ul>
-        <span class="categoryName">Año</span>
-        <div class="container" id="selectYears">
-          <input type="number" placeholder="2018" id="startingYear">
-          <span>-</span>
-          <input type="number" placeholder="2025" id="endingYear">
-        </div> 
-        
-      </nav>
-      <!-- Termina el sidebar -->
-     </div>
-     <!-- Termina el sidebar -->
-    <div class="container col-12 col-sm-8 col-md-9 col-xxl-10" id="productListContainer">
-    </div>
+      <div class="container col-12 col-sm-4 col-md-3 col-xxl-2" id="sidebarContainer">
+        <nav id="sidebar">
+          <span class="categoryName">Categoría</span>
+          <ul class="filterCategoryList">   
+            <li class="filter"><input type="checkbox">Marchas</li>
+            <li class="filter"><input type="checkbox">Alternadores</li>
+            <li class="filter"><input type="checkbox">Compresores</li>
+            <li class="filter"><input type="checkbox">Motores</li>
+            <li class="filter"><input type="checkbox">Transmisión</li>
+            <li class="filter"><input type="checkbox">Bombas</li>
+            <li class="filter"><input type="checkbox">Radiadores</li>
+          </ul>
+          <span class="categoryName">Marca</span>
+          <ul class="filterCategoryList">
+            <li class="filter"><input type="checkbox">Chevrolet</li>
+            <li class="filter"><input type="checkbox">Toyota</li>
+            <li class="filter"><input type="checkbox">Mercedes</li>
+            <li class="filter"><input type="checkbox">Honda</li>
+            <li class="filter"><input type="checkbox">MG</li>
+          </ul>
+          <span class="categoryName">Año</span>
+          <div class="container" id="selectYears">
+            <input type="number" placeholder="2018" id="startingYear">
+            <span>-</span>
+            <input type="number" placeholder="2025" id="endingYear">
+          </div> 
+        </nav>
+       </div>
+       <!-- Termina el sidebar -->
+      <div class="container col-12 col-sm-8 col-md-9 col-xxl-10" id="productListContainer">
+        <div class="row">
+          <div class="col-12 d-flex justify-content-end">
+            <input type="search" id="searchbar" class="form-control">
+          </div>
+        </div>
+      </div>
+    </main>
      <!-- Un footer generico del bootstrap -->
     <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
@@ -71,7 +76,7 @@
             <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Nosotros</a></li>
           </ul>
         </footer>
-      </div>  
+    </div>  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="scripts/jquery-3.7.1.min.js"></script>
     <script src="https://kit.fontawesome.com/ec327dec8e.js" crossorigin="anonymous"></script>
