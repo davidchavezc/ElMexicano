@@ -29,6 +29,7 @@
 
     <div class="container mt-4">
         <div class="row">
+            <!-- Columna Añadir Articulo -->
             <div class="col-12 col-md-6 mb-4">
                 <div class="border p-3 inventory-section">
                     <h5 class="fw-bold">Añadir Artículo</h5>
@@ -67,15 +68,27 @@
                     </div>
                 </div>
             </div>
+            <!-- Columna Eliminar Articulo -->
             <div class="col-12 col-md-6">
                 <div class="border p-3 inventory-section">
                     <h5 class="fw-bold">Eliminar Artículo</h5>
                     <div class="mb-3">
-                        
+                        <label class="fw-bold">Nombre</label>
+                        <input type="text" class="form-control" placeholder="Ingrese el nombre del Artículo">
+                    </div>
+                    <div class="d-flex gap-2 mb-3">
+                        <button class="btn btn-danger"> Eliminar</button>
+                        <input type="password" class="form-control" placeholder="Contraseña de Administrador">
+                    </div>
+                    <div class="d-flex gap-2 mb-3">
+                        <button class="btn btn-success">Confirmar</button>
+                        <button class="btn btn-danger">Cancelar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div><!-- Div de Cierre  -->
+
+    
 </body>
 </html>
