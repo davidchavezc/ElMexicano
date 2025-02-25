@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es-MX">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,14 +8,20 @@
     <link rel="stylesheet" href="styles/inventory.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75,300..800;1,75,300..800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75,300..800;1,75,300..800&display=swap"
+        rel="stylesheet">
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
+
 <body>
     <div class="containter">
+        <!-- Nav principal -->
         <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <a href="/"
+                class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
                 <span class="fs-4 wordmark">Autopartes <strong>El Mexicano</strong> Administrador</span>
             </a>
             <ul class="nav nav-pills">
@@ -60,7 +67,8 @@
                     </div>
                     <div class="mb-3">
                         <label class="fw-bold">Imagen</label>
-                        <input type="file" class="form-control" accept="image/*"> <!-- Cambiar el accept por el tipo de archivo -->
+                        <input type="file" class="form-control" accept="image/*">
+                        <!-- Cambiar el accept por el tipo de archivo -->
                     </div>
                     <div class="d-flex gap-2">
                         <button class="btn btn-success">Crear</button>
@@ -89,6 +97,27 @@
         </div>
     </div><!-- Div de Cierre  -->
 
-    
+    <div class="container">
+        <!-- Copyright © -->
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <p class="col-md-4 mb-0 text-body-secondary">© 2025 Autopartes El Mexicano</p>
+            <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <svg class="bi me-2" width="40" height = "32"><use xlink:href="#bootstrap"/></svg>
+            </a>
+
+            <!-- Nav de Footer -->
+            <ul class="nav col-md-4 justify-content-end">
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Principal</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Catálogo</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Contáctanos</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Nosotros</a></li>
+            </ul>
+        </footer>
+    </div> <!-- Div de Cierre  -->
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="scripts/jquery-3.7.1.min.js"></script>
 </body>
+
 </html>
