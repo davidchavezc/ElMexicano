@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelos - Autopartes El Mexicano</title>
+    <link rel="stylesheet" href="styles/piezas.css"><!-- Es el mismo estilo de CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75,300..800;1,75,300..800&display=swap"
+        rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body>
+    <!-- Nav principal -->
+    <div class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+            <a href="/"
+                class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <span class="fs-4 wordmark">Autopartes <strong>El Mexicano</strong> Administrador</span>
+            </a>
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="#" class="nav-link">Marca</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Empleados</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Piezas</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Historial de Ventas</a></li>
+                <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Modelo</a></li>
+            </ul>
+        </header>
+    </div><!-- Cierre Div Nav-->
+
+    <!-- Contenido Principal -->
+    <div class="container mb-4">
+        <div class="row">
+            <div class="col-12 col-md-6 mb-4">
+                <div class="border p-3 inventory-section">
+                    <h5 class="fw-bold">Añadir Modelo</h5>
+                    <div class="mb-3">
+                        <label class="fw-bold">Nombre</label>
+                        <input type="text" class="form-control" placeholder="Ingrese el nombre del modelo">
+                        <label class="fw-bold">Año</label>
+                        <input type="number" class="form-control" placeholder="Ingrese el año del modelo">
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-success">Crear</button>
+                        <button class="btn btn-danger">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="border p-3 inventory-section">
+                    <h5 class="fw-bold">Eliminar Modelo</h5>
+                    <div class="mb-3">
+                        <label class="fw-bold">Nombre</label>
+                        <input type="text" class="form-control" placeholder="Ingresa el nombre del modelo">
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-success">Eliminar</button>
+                        <button class="btn btn-danger">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Modelos -->
+        <div class="mt-3 border p-3 inventory-section">
+            <h5 class="fw-bold">Modelos</h5>
+            <select class="form-select">
+                <option selected>Selecciona un modelo</option>
+                <option value="1">Ford - 1994</option>
+                <option value="2">Chevrolet - 1994</option>
+                <option value="3">Volkswagen - 1994</option>
+                <option value="4">Audi - 2005</option>
+            </select>
+        </div>
+    </div><!-- Cierre Div Contenido Principal -->
+
+    <!-- Footer -->
+    <div class="container">
+        <!-- Copyright © -->
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <p class="col-md-4 mb-0 text-body-secondary">© 2025 Autopartes El Mexicano</p>
+            <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <svg class="bi me-2" width="40" height = "32"><use xlink:href="#bootstrap"/></svg>
+            </a>
+
+            <!-- Nav de Footer -->
+            <ul class="nav col-md-4 justify-content-end">
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Principal</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Catálogo</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Contáctanos</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Nosotros</a></li>
+            </ul>
+        </footer>
+    </div> <!-- Div de Cierre Footer -->
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="scripts/jquery-3.7.1.min.js"></script>
+</body>
+
+</html>
