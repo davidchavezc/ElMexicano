@@ -1,0 +1,71 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.img-thumbnail {
+    border: none;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.text-danger {
+    color: #dc3545;
+}
+
+.input-group .btn-outline-secondary {
+    border-color: #ced4da;
+}
+
+/* Card de botones para Add o Substraction*/
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    overflow: hidden;
+    width: 150px;
+}
+
+.quantity-control .btn{
+    border: none;
+    border-radius: 0;
+    padding: 8px 12px;
+    background-color: #fff;
+}
+
+.quantity-control .btn:hover{
+    background-color: #f8f9fa;
+}
+
+.quantity-input {
+    border: none;
+    width: 60px;
+    text-align: center;
+    padding: 8px 0;
+    background-color: #fff;
+}
+
+.quantity-input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 8px 12px;
+}
