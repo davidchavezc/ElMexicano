@@ -9,5 +9,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "0g": "^0.4.2",
+    "axios": "^1.8.4",
+    "npm": "^11.2.0"
+  }
 }
