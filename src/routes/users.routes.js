@@ -1,7 +1,7 @@
 import {Router} from "express";
 import {pool} from '../db.js';
 
-const router = Router();
+const routerUsuarios = Router();
 
 router.get("/usuarios", async (req, res) => {
     const result= await pool.query("SELECT * FROM usuario");
@@ -9,4 +9,4 @@ router.get("/usuarios", async (req, res) => {
     
 });
 
-export default router;
+export default routerUsuarios;
