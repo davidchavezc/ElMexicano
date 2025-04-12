@@ -1,4 +1,4 @@
-import pg from 'pg'
+import pg from 'pg';
 
 export const pool = new pg.Pool({
     user: "postgres", //usuario que tengas en postgre
