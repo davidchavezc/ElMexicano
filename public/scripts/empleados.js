@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <td>${empleado.nombre_empleado} ${empleado.apellido_empleado}</td>
           <td>${empleado.usuario_empleado}</td>
           <td>${empleado.contrasena_empleado}</td>
+          <td>${empleado.id_rol}</td>
           <td>
             <button class="btn btn-warning btn-sm">Editar</button>
             <button class="btn btn-danger btn-sm">Eliminar</button>
