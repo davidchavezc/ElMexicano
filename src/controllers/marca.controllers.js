@@ -11,3 +11,15 @@ export const getMarcas = async (req,res) => {
     }
 
 }
+
+export const postMarcas = async (req,res) => {
+    try{
+        const result = await pool.query("INSERT INTO marcas");
+        res.json(result.rows); 
+    }
+    catch{
+        console.error("Error al crear marca:", error);
+        res.status(500).send("Error interno del servidor");
+    }
+
+}
