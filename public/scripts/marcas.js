@@ -1,43 +1,37 @@
-async function cargarMarcas() {
-    try {
-      const response = await fetch("/marcas");
-      const marcas = await response.json();
-  
-      const select = document.getElementById("marcas");
-      select.innerHTML = "";
-  
-      const defaultOption = document.createElement("option");
-      defaultOption.textContent = "Ver marcas actuales";
-      defaultOption.disabled = true;
-      defaultOption.selected = true;
-      select.appendChild(defaultOption);
-  
-      marcas.forEach((marca) => {
-        const option = document.createElement("option");
-        option.value = marca.id_marca;
-        option.textContent = marca.nombre_marca;
-        select.appendChild(option);
-      });
-    } catch (error) {
-      console.error("Error al cargar marcas:", error);
+$(document).ready(async function () {
+    // Función para cargar las marcas
+    async function cargarMarcas() {
+      try {
+        const response = await fetch("/marcas");
+        const marcas = await response.json();
+    
+        const $select = $("#marcas");
+        $select.empty();  // Limpiar las opciones existentes
+    
+        const $defaultOption = $("<option>").text("Ver marcas actuales").prop("disabled", true).prop("selected", true);
+        $select.append($defaultOption);
+    
+        marcas.forEach((marca) => {
+          const $option = $("<option>").val(marca.id_marca).text(marca.nombre_marca);
+          $select.append($option);
+        });
+      } catch (error) {
+        console.error("Error al cargar marcas:", error);
+      }
     }
-  }
   
-  document.addEventListener("DOMContentLoaded", () => {
-    // Llamamos al cargar la página
-    cargarMarcas();
+    // Llamar la función al cargar la página
+    await cargarMarcas();
   
-    const btnCrear = document.getElementById("btn-crear-marca");
-  
-    btnCrear.addEventListener("click", async () => {
-      const inputNombre = document.getElementById("nombre-marca");
-      const nombreMarca = inputNombre.value.trim();
-  
+    // Manejo del evento para crear una nueva marca
+    $("#btn-crear-marca").on("click", async function () {
+      const nombreMarca = $("#nombre-marca").val().trim();
+    
       if (nombreMarca === "") {
         alert("Por favor escribe un nombre de marca.");
         return;
       }
-  
+    
       try {
         const response = await fetch("/marcas", {
           method: "POST",
@@ -46,13 +40,14 @@ async function cargarMarcas() {
           },
           body: JSON.stringify({ nombre_marca: nombreMarca })
         });
-  
+    
         if (response.ok) {
           const nuevaMarca = await response.json();
           alert(`Marca creada: ${nuevaMarca.nombre_marca}`);
-          inputNombre.value = "";
-  
-          cargarMarcas();
+          $("#nombre-marca").val("");  // Limpiar el campo de texto
+    
+          // Recargar las marcas
+          await cargarMarcas();
         } else {
           throw new Error("No se pudo crear la marca.");
         }
@@ -60,5 +55,10 @@ async function cargarMarcas() {
         console.error("Error al crear la marca:", error);
         alert("Ocurrió un error al crear la marca.");
       }
+    });
+  
+    // Limpiar el campo de texto al hacer clic en el botón de limpiar
+    $("#btn-limpiar1-marca").on("click", function () {
+      $("#nombre-marca").val("");
     });
   });
