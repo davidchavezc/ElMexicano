@@ -11,5 +11,9 @@ VALUES
 INSERT INTO usuario 
 (nombre_empleado,apellido_empleado, usuario_empleado,contrasena_empleado,id_rol)
 VALUES
-('David','Chavez','David1','hola',2)
+('David','Chavez','David1','hola',2);
 
+
+INSERT INTO marcas
+(nombre_marca)
+VALUES('Toyota');
