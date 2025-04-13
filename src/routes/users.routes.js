@@ -1,16 +1,9 @@
 import {Router} from "express";
 import {pool} from '../db.js';
+import { getUsuarios } from "../controllers/users.controllers.js";
 
 const routerUsuarios = Router();
 
-routerUsuarios.get("/usuarios", async (req, res) => {
-    try {
-        const result = await pool.query("SELECT * FROM usuario");
-        res.json(result.rows); 
-    } catch (error) {
-        console.error("Error al obtener usuarios:", error);
-        res.status(500).send("Error interno del servidor");
-    }
-});
+routerUsuarios.get('/usuarios', getUsuarios);
 
 export default routerUsuarios;
