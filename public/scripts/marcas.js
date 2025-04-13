@@ -22,3 +22,39 @@ document.addEventListener("DOMContentLoaded", async () => {
       console.error("Error al cargar marcas:", error);
     }
   });
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const btnCrear = document.getElementById("btn-crear-marca");
+  
+    btnCrear.addEventListener("click", async () => {
+      const inputNombre = document.getElementById("nombre-marca");
+      const nombreMarca = inputNombre.value.trim();
+  
+      // Validación básica
+      if (nombreMarca === "") {
+        alert("Por favor escribe un nombre de marca.");
+        return;
+      }
+  
+      try {
+        const response = await fetch("/marcas", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json", 
+          },
+          body: JSON.stringify({ nombre_marca: nombreMarca }) 
+        });
+  
+        if (response.ok) {
+          const nuevaMarca = await response.json();
+          alert(`Marca creada: ${nuevaMarca.nombre_marca}`);
+          inputNombre.value = ""; 
+        } else {
+          throw new Error("No se pudo crear la marca.");
+        }
+      } catch (error) {
+        console.error("Error al crear la marca:", error);
+        alert("Ocurrió un error al crear la marca.");
+      }
+    });
+  });
