@@ -1,16 +1,16 @@
-document.addEventListener("DOMContentLoaded", async () => {
+async function cargarMarcas() {
     try {
       const response = await fetch("/marcas");
       const marcas = await response.json();
   
       const select = document.getElementById("marcas");
       select.innerHTML = "";
-
+  
       const defaultOption = document.createElement("option");
-    defaultOption.textContent = "Ver marcas actuales";
-    defaultOption.disabled = true;
-    defaultOption.selected = true;
-    select.appendChild(defaultOption);//para que si pueda decir que vea las marcas actuales
+      defaultOption.textContent = "Ver marcas actuales";
+      defaultOption.disabled = true;
+      defaultOption.selected = true;
+      select.appendChild(defaultOption);
   
       marcas.forEach((marca) => {
         const option = document.createElement("option");
@@ -21,16 +21,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (error) {
       console.error("Error al cargar marcas:", error);
     }
-  });
-
+  }
+  
   document.addEventListener("DOMContentLoaded", () => {
+    // Llamamos al cargar la página
+    cargarMarcas();
+  
     const btnCrear = document.getElementById("btn-crear-marca");
   
     btnCrear.addEventListener("click", async () => {
       const inputNombre = document.getElementById("nombre-marca");
       const nombreMarca = inputNombre.value.trim();
   
-      // Validación básica
       if (nombreMarca === "") {
         alert("Por favor escribe un nombre de marca.");
         return;
@@ -40,15 +42,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         const response = await fetch("/marcas", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json", 
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify({ nombre_marca: nombreMarca }) 
+          body: JSON.stringify({ nombre_marca: nombreMarca })
         });
   
         if (response.ok) {
           const nuevaMarca = await response.json();
           alert(`Marca creada: ${nuevaMarca.nombre_marca}`);
-          inputNombre.value = ""; 
+          inputNombre.value = "";
+  
+          cargarMarcas();
         } else {
           throw new Error("No se pudo crear la marca.");
         }
