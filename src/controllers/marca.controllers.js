@@ -30,7 +30,11 @@ export const postMarcas = async (req, res) => {
 
   export const eliminaMarcas = async (req, res) => {
     try {
-      
+      const{nombre_marca}=req.body;
+
+      const result = await pool.query(
+        "DELETE FROM marcas WHERE nombre_marca = $1 RETURNING *",
+        [nombre_marca]);
     } catch (error) {
       console.error("Error al eliminar marca:", error);
       res.status(500).send("Error interno del servidor");
