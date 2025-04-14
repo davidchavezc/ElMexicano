@@ -35,6 +35,12 @@ export const postMarcas = async (req, res) => {
       const result = await pool.query(
         "DELETE FROM marcas WHERE nombre_marca = $1 RETURNING *",
         [nombre_marca]);
+
+        if (result.rowCount === 0) {
+          return res.status(404).json({ message: "Marca no encontrada" });
+        }
+
+        res.status(200).json(result.rows[0]);
     } catch (error) {
       console.error("Error al eliminar marca:", error);
       res.status(500).send("Error interno del servidor");
