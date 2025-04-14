@@ -27,3 +27,12 @@ export const postMarcas = async (req, res) => {
       res.status(500).send("Error interno del servidor");
     }
   };
+
+  export const eliminaMarcas = async (req, res) => {
+    try {
+      
+    } catch (error) {
+      console.error("Error al eliminar marca:", error);
+      res.status(500).send("Error interno del servidor");
+    }
+  };
