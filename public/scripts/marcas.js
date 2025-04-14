@@ -58,7 +58,7 @@ $(document).ready(async function () {
     });
   
     $('#btn-eliminar-marca').on("click", async function () {
-      const nombreMarcaE = $('.form-select').val()?.trim();
+      const nombreMarcaE = $('#marcasE').val()?.trim();
 
       if (!nombreMarcaE) {
         alert("Por favor selecciona una marca para eliminar.");
@@ -79,8 +79,7 @@ $(document).ready(async function () {
 
         if (response.ok) {
           alert("Marca eliminada correctamente.");
-          // Aquí podrías volver a cargar el select con marcas actualizadas:
-          cargarMarcas(); // si tienes esta función, vuelve a cargar el select
+          cargarMarcas(); // vuelve a cargar el select
         } else {
           const errorText = await response.text();
           alert("No se pudo eliminar la marca: " + errorText);
