@@ -33,7 +33,7 @@ export const postMarcas = async (req, res) => {
       const{nombre_marca}=req.body;
 
       const result = await pool.query(
-        "DELETE FROM marcas WHERE nombre_marca = $1 RETURNING *",
+        "DELETE FROM marcas WHERE id_marca = $1 RETURNING *",
         [nombre_marca]);
 
         if (result.rowCount === 0) {
