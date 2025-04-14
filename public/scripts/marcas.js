@@ -5,7 +5,7 @@ $(document).ready(async function () {
         const response = await fetch("/marcas");
         const marcas = await response.json();
     
-        const $select = $("#marcas");
+        const $select = $(".form-select");
         $select.empty();  // Limpiar las opciones existentes
     
         const $defaultOption = $("<option>").text("Ver marcas actuales").prop("disabled", true).prop("selected", true);
