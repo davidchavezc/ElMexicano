@@ -1,9 +1,8 @@
 import {Router} from "express";
-import {pool} from '../db.js';
-import { getUsuarios } from "../controllers/usuarios.controllers.js";
+import { getVentas } from "../controllers/venta.controllers.js";
 
 const routerVenta = Router();
 
-routerVentas.get('/ventas', getVenta);
+routerVenta.get('/ventas', getVentas);
 
 export default routerVenta;
