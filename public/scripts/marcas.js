@@ -58,24 +58,25 @@ $(document).ready(async function () {
     });
   
     $('#btn-eliminar-marca').on("click", async function () {
-      const nombreMarcaE = $('#marcasE').val()?.trim();
-
-      if (!nombreMarcaE) {
+      const idMarca = $('#marcasE').val()?.trim(); // Obtener el texto de la opción seleccionada
+      const nombreMarca = $('#marcasE option:selected').text().trim();
+      console.log(idMarca);
+      if (!idMarca) {
         alert("Por favor selecciona una marca para eliminar.");
         return;
       }
     
-      const confirmacion = confirm(`¿Estás seguro de que deseas eliminar la marca "${nombreMarcaE}"?`);
+      const confirmacion = confirm(`¿Estás seguro de que deseas eliminar la marca "${nombreMarca}"?`);
       if (!confirmacion) return;
 
-      try{
-        const response= await fetch("/marcas",{
-          method:"DELETE",
+      try {
+        const response = await fetch("/marcas", {
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ nombre_marca: nombreMarcaE })
-        })
+          body: JSON.stringify({ nombre_marca: idMarca })
+        });
 
         if (response.ok) {
           alert("Marca eliminada correctamente.");
@@ -84,14 +85,12 @@ $(document).ready(async function () {
           const errorText = await response.text();
           alert("No se pudo eliminar la marca: " + errorText);
         }
-
-      }
-      
-      catch{
+      } catch (error) {
         console.error("Error al eliminar la marca:", error);
         alert("Ocurrió un error al intentar eliminar la marca.");
       }
-    })
+    });
+
     // Limpiar el campo de texto al hacer clic en el botón de limpiar
     $("#btn-limpiar1-marca").on("click", function () {
       $("#nombre-marca").val("");
