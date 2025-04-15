@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Piezas - Autopartes El Mexicano</title>
-    <link rel="stylesheet" href="styles/piezas.css">
+    <link rel="stylesheet" href="../assets/styles/piezas.css">
+    <link rel="stylesheet" href="../assets/styles/landingPage.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -16,20 +17,20 @@
 </head>
 
 <body>
-    <div class="containter">
+    <div class="container">
         <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-              <span class="fs-4 wordmark">Autopartes <strong>El Mexicano</strong> Administrador</span>
-            </a>
-            <ul class="nav nav-pills">
-              <li class="nav-item"><a href="piezas.html" class="nav-link active" aria-current="page">Piezas</a></li>
-              <li class="nav-item"><a href="marca.html" class="nav-link">Marca</a></li>
-              <li class="nav-item"><a href="empleados.html" class="nav-link">Empleados</a></li>
-              <li class="nav-item"><a href="historial.html" class="nav-link">Historial de Ventas</a></li>
-              <li class="nav-item"><a href="modelos.html" class="nav-link">Modelo</a></li>
-              <li class="nav-item"><a href="ReporteDeVentas.html" class="nav-link">Reporte de Ventas</a></li>
-            </ul>
-          </header>
+          <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <span class="fs-4 wordmark">Autopartes <strong>El Mexicano</strong></span>
+          </a>
+          <ul class="nav nav-pills">
+            <li class="nav-item"><a href="empleados.html" class="nav-link ">Empleados</a></li>
+            <li class="nav-item"><a href="historial.html" class="nav-link">Historial de venta</a></li>
+            <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Piezas</a></li>
+            <li class="nav-item"><a href="marca.html" class="nav-link">Marca</a></li>
+            <li class="nav-item"><a href="modelos.html" class="nav-link">Modelo</a></li>
+            <li class="nav-item"><a href="../pos/reporte.html" class="nav-link">Reporte de Ventas</a></li>
+          </ul>
+        </header>
     </div>
 
     <div class="container mt-4">
@@ -69,7 +70,7 @@
                     </div>
                     <div class="d-flex gap-2">
                         <button class="btn btn-success">Crear</button>
-                        <button class="btn btn-danger">Cancelar</button>
+                        <button class="btn btn">Cancelar</button>
                     </div>
                 </div>
             </div>
@@ -77,16 +78,16 @@
                 <div class="border p-3 inventory-section">
                     <h5 class="fw-bold">Eliminar Artículo</h5>
                     <div class="mb-3">
-                        <label class="fw-bold">Nombre</label>
+                        <label class="fw-bold">Artículo</label>
                         <input type="text" class="form-control" placeholder="Ingrese el nombre del Artículo">
                     </div>
                     <div class="d-flex gap-2 mb-3">
-                        <button class="btn btn-danger"> Eliminar</button>
                         <input type="password" class="form-control" placeholder="Contraseña de Administrador">
                     </div>
                     <div class="d-flex gap-2 mb-3">
-                        <button class="btn btn-success">Confirmar</button>
-                        <button class="btn btn-danger">Cancelar</button>
+                        <button class="btn btn-danger">Eliminar</button>
+                            <button class="btn btn">Cancelar</button>
+                        <!-- <button class="btn btn-danger">Cancelar</button> -->
                     </div>
                 </div>
             </div>
