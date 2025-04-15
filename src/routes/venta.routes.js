@@ -1,8 +1,8 @@
 import {Router} from "express";
-import { getVentas } from "../controllers/venta.controllers.js";
+import { getPiezas } from "../controllers/venta.controllers.js";
 
 const routerVenta = Router();
 
-routerVenta.get('/ventas', getVentas);
+routerVenta.get('/piezas', getPiezas);
 
 export default routerVenta;
