@@ -17,3 +17,4 @@ VALUES
 INSERT INTO marcas
 (nombre_marca)
 VALUES('Toyota');
+
