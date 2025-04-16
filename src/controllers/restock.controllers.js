@@ -2,7 +2,7 @@ import {pool} from '../db.js'
 
 export const getPiezas = async (req,res) => {
     try{
-        const result = await pool.query("SELECT * FROM piezas");
+        const result = await pool.query("SELECT * FROM pieza");
         res.json(result.rows); 
     }
     catch{
