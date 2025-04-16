@@ -6,6 +6,7 @@ import {port} from './config.js';
 import routerUsuarios from "./routes/usuarios.routes.js";
 import routerMarcas from "./routes/marca.routes.js";
 import routerVenta from "./routes/venta.routes.js";
+import routerRestock from "./routes/restock.routes.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
 app.use("/" , routerUsuarios);
 app.use("/", routerMarcas);
 app.use("/", routerVenta);
+app.use("/", routerRestock);
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
