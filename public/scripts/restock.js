@@ -11,7 +11,7 @@ $(document).ready(async function () {
         const div =(`
         <div class="col">
                 <div class="card h-100">
-                    <img src="${pieza.imagen}" alt="Motor de arranque" class="card-img-top">
+                    <img src="${pieza.imagen || '/img/default.jpg'}" alt="Motor de arranque" class="card-img-top">
                     <div class="card-body text-center">
                         <p>${pieza.nombre_pieza}</p>
                         <p><span class="text-danger">${pieza.cantidad} en stock</span></p>
@@ -21,7 +21,47 @@ $(document).ready(async function () {
             `)
             $vistaGeneral.append(div);
       });
-  
+      
+      $('#pieza-seleccionada').on('click', '.confirm-button', async function () {
+        const id = $(this).data('id');
+        const nuevaCantidad = $(this).siblings('.quantity-control').find('.quantity-input').val();
+      
+        try {
+          const response = await fetch('/restock', {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              id_pieza: id, 
+              cantidad: nuevaCantidad
+            })
+          });
+      
+          if (response.ok) {
+            alert('Cantidad actualizada correctamente');
+          } else {
+            alert('Error al actualizar la cantidad');
+          }
+        } catch (error) {
+          console.error('Error en la solicitud:', error);
+        }
+      });
+
+      $('#pieza-seleccionada').on('click', '.increment', function () {
+        const $input = $(this).siblings('.quantity-input');
+        let current = parseInt($input.val());
+        $input.val(current + 1);
+      });
+      
+      $('#pieza-seleccionada').on('click', '.decrement', function () {
+        const $input = $(this).siblings('.quantity-input');
+        let current = parseInt($input.val());
+        if (current > 1) {
+          $input.val(current - 1);
+        }
+      });
+    
     } catch (error) {
       console.error("Error al cargar piezas:", error);
     }
@@ -90,7 +130,7 @@ $(document).ready(async function () {
                     <input type="number" class="form-control quantity-input text-center" value="${pieza.cantidad}" min="1" readonly>
                     <button class="btn btn-outline-secondary increment" id="boton-sumar-cantidad">+</button>
                 </div>
-                <button class="btn btn-primary confirm-button">Confirmar</button>
+                <button class="btn btn-primary confirm-button" data-id="${pieza.id_pieza}">Confirmar</button>
             </div>
             `;
             $('#pieza-seleccionada').html(html);
@@ -102,6 +142,7 @@ $(document).ready(async function () {
   
       $('#buscador-pieza').after($ul);
     }
+
     // Ocultar sugerencias si se hace clic fuera
     $(document).on('click', function (e) {
       if (!$(e.target).closest('#buscador-pieza, #lista-sugerencias').length) {
@@ -110,16 +151,6 @@ $(document).ready(async function () {
     });
   });
 
-  $('#pieza-seleccionada').on('click', '.increment', function () {
-    const $input = $(this).siblings('.quantity-input');
-    let current = parseInt($input.val());
-    $input.val(current + 1);
-  });
   
-  $('#pieza-seleccionada').on('click', '.decrement', function () {
-    const $input = $(this).siblings('.quantity-input');
-    let current = parseInt($input.val());
-    if (current > 1) {
-      $input.val(current - 1);
-    }
-  });
+
+  

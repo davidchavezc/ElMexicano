@@ -13,9 +13,10 @@ export const getPiezas = async (req,res) => {
 }
 
 export const updatePiezas = async (req,res) => {
+    const { id_pieza, cantidad } = req.body;
     try{
-        const result = await pool.query("UPDATE pieza SET cantidad = $1 WHERE id = $2 RETURNING *", [cantidad,id]);
-        res.json(result.rows); 
+        await pool.query("UPDATE pieza SET cantidad = $1 WHERE id_pieza = $2 RETURNING *", [cantidad,id_pieza]);
+        res.status(200).json({ message: 'Actualización exitosa' }); 
     }
     catch{
         console.error("Error al actualizar piezas:", error);
