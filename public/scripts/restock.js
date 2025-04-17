@@ -77,10 +77,28 @@ $(document).ready(async function () {
           click: function () {
             $('#buscador-pieza').val(pieza.nombre_pieza);
             $('#lista-sugerencias').remove();
-            // Aquí puedes cargar más datos de la pieza si lo necesitas
+      
+            // Generar el HTML con los datos de la pieza
+            const html = `
+              <img src="${pieza.imagen}" alt="" class="img-thumbnail me-3"
+                style="width: 150px;">
+            <div>
+                <h3>${pieza.nombre_pieza}</h3>
+                <p>Piezas en stock: <span class="text-primary">${pieza.cantidad}</span></p>
+                <div class="quantity-control mb-3">
+                    <button class="btn btn-outline-secondary decrement">-</button>
+                    <input type="number" class="form-control quantity-input text-center" value="5" min="1" readonly>
+                    <button class="btn btn-outline-secondary increment">+</button>
+                </div>
+                <button class="btn btn-primary confirm-button">Confirmar</button>
+            </div>
+            `;
+      
+            // Insertar en el div que tienes en tu HTML (asegúrate de tener este div: <div id="pieza-seleccionada"></div>)
+            $('#pieza-seleccionada').html(html);
           }
         });
-  
+      
         $ul.append($li);
       });
   
