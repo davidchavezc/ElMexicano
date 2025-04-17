@@ -1,4 +1,7 @@
-$(document).ready(async function () {
+let piezas = [];
+
+
+$(document).ready(async function cargarPiezas() {
     try {
       const response = await fetch("/restock");
       const piezas = await response.json();
@@ -40,6 +43,7 @@ $(document).ready(async function () {
       
           if (response.ok) {
             alert('Cantidad actualizada correctamente');
+            await cargarPiezas();
           } else {
             alert('Error al actualizar la cantidad');
           }
@@ -67,8 +71,7 @@ $(document).ready(async function () {
     }
   });
 
-  $(document).ready(async function () {
-    let piezas = [];
+  $(document).ready(async function (){
   
     // Cargar todas las piezas desde el backend al iniciar
     fetch('/restock')
