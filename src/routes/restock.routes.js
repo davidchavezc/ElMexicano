@@ -6,6 +6,6 @@ const routerRestock = Router();
 
 routerRestock.get('/restock', getPiezas);
 
-routerRestock.update('/restock', updatePiezas);
+routerRestock.put('/restock', updatePiezas);
 
 export default routerRestock;
