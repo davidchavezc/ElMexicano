@@ -3,6 +3,6 @@ import { getPiezas } from "../controllers/venta.controllers.js";
 
 const routerVenta = Router();
 
-routerVenta.get('/piezas', getPiezas);
+routerVenta.get('/venta', getPiezas);
 
 export default routerVenta;

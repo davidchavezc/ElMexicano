@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let piezas = [];
 
   // Cargar todas las piezas desde el backend al iniciar
-  fetch('/piezas')
+  fetch('/venta')
     .then(response => {
       if (!response.ok) {
         throw new Error("Error en la solicitud");
@@ -65,5 +65,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-
-  
