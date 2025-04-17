@@ -87,14 +87,12 @@ $(document).ready(async function () {
                 <p>Piezas en stock: <span class="text-primary">${pieza.cantidad}</span></p>
                 <div class="quantity-control mb-3">
                     <button class="btn btn-outline-secondary decrement">-</button>
-                    <input type="number" class="form-control quantity-input text-center" value="5" min="1" readonly>
-                    <button class="btn btn-outline-secondary increment">+</button>
+                    <input type="number" class="form-control quantity-input text-center" value="${pieza.cantidad}" min="1" readonly>
+                    <button class="btn btn-outline-secondary increment" id="boton-sumar-cantidad">+</button>
                 </div>
                 <button class="btn btn-primary confirm-button">Confirmar</button>
             </div>
             `;
-      
-            // Insertar en el div que tienes en tu HTML (asegúrate de tener este div: <div id="pieza-seleccionada"></div>)
             $('#pieza-seleccionada').html(html);
           }
         });
@@ -104,11 +102,24 @@ $(document).ready(async function () {
   
       $('#buscador-pieza').after($ul);
     }
-  
     // Ocultar sugerencias si se hace clic fuera
     $(document).on('click', function (e) {
       if (!$(e.target).closest('#buscador-pieza, #lista-sugerencias').length) {
         $('#lista-sugerencias').remove();
       }
     });
+  });
+
+  $('#pieza-seleccionada').on('click', '.increment', function () {
+    const $input = $(this).siblings('.quantity-input');
+    let current = parseInt($input.val());
+    $input.val(current + 1);
+  });
+  
+  $('#pieza-seleccionada').on('click', '.decrement', function () {
+    const $input = $(this).siblings('.quantity-input');
+    let current = parseInt($input.val());
+    if (current > 1) {
+      $input.val(current - 1);
+    }
   });
