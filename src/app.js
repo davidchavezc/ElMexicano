@@ -8,6 +8,7 @@ import routerMarcas from "./routes/marca.routes.js";
 import routerVenta from "./routes/venta.routes.js";
 import routerRestock from "./routes/restock.routes.js";
 import routerLogin from "./routes/login.routes.js";
+import session from 'express-session';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -30,3 +31,10 @@ app.use("/", routerLogin);
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
+
+app.use(session({
+  secret: 'tu_clave_secreta',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // Cambia a true si usas HTTPS
+}));
