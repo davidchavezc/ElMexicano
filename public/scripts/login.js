@@ -17,9 +17,9 @@ $('#iniciar-sesion').on("click", async function () {
       .then(data => {
         console.log(data);
         if (data.id_rol === 1) {
-          window.location.href = '/admin/empleados.html';
+            window.location.replace = '/admin/empleados.html';
         } else {
-          window.location.href = '/pos/restock.html';
+          window.location.replace = '/pos/restock.html';
         }
       })
       .catch(err => {
