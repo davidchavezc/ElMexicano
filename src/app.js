@@ -7,9 +7,11 @@ import routerUsuarios from "./routes/usuarios.routes.js";
 import routerMarcas from "./routes/marca.routes.js";
 import routerVenta from "./routes/venta.routes.js";
 import routerRestock from "./routes/restock.routes.js";
+import routerLogin from "./routes/login.routes.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
+const port =3000;
 
 
 app.use(express.static(path.join(__dirname, "../public")));
@@ -23,6 +25,7 @@ app.use("/" , routerUsuarios);
 app.use("/", routerMarcas);
 app.use("/", routerVenta);
 app.use("/", routerRestock);
+app.use("/", routerLogin);
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
