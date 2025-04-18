@@ -2,7 +2,6 @@ import express from "express";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import path from "path";
-import {port} from './config.js';
 import routerUsuarios from "./routes/usuarios.routes.js";
 import routerMarcas from "./routes/marca.routes.js";
 import routerVenta from "./routes/venta.routes.js";
@@ -22,7 +21,7 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
-app.use("/" , routerUsuarios);
+app.use("/", routerUsuarios);
 app.use("/", routerMarcas);
 app.use("/", routerVenta);
 app.use("/", routerRestock);
@@ -36,5 +35,5 @@ app.use(session({
   secret: 'tu_clave_secreta',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } // Cambia a true si usas HTTPS
+  cookie: { secure: false }
 }));
