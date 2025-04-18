@@ -65,11 +65,13 @@
                 <form>
                     <div class="row">
                         
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <input type="text" class="form-control" placeholder="Nombre">
                         </div>
-                        
-                        <div class="col-md-3">
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" placeholder="Apellido">
+                        </div>
+                        <div class="col-md-2">
                             <input type="text" class="form-control" placeholder="Usuario de Empleado">
                         </div>
                         
@@ -78,7 +80,11 @@
                         </div>
 
                         <div class="col-md-2">
-                            <select  class="form-select"></select>
+                            <select class="form-select">
+                                <option value="" disabled selected>Selecciona un rol</option>
+                                <option value="1">Administrador</option>
+                                <option value="2">Empleado</option>
+                            </select>
                         </div>
                         
                         <div class="col-md-2">
