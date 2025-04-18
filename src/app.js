@@ -9,6 +9,7 @@ import routerVenta from "./routes/venta.routes.js";
 import routerRestock from "./routes/restock.routes.js";
 import routerCategorias from "./routes/categorias.routes.js";
 import routerLogin from "./routes/login.routes.js";
+import routerPiezas from "./routes/pieza.routes.js";
 
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -39,6 +40,7 @@ app.use("/", routerMarcas);
 app.use("/", routerVenta);
 app.use("/", routerRestock);
 app.use("/", routerCategorias);
+app.use("/", routerPiezas);
 
 app.use("/", routerLogin);
 
