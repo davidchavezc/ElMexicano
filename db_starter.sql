@@ -1,13 +1,13 @@
 CREATE TABLE IF NOT EXISTS public.categoria
 (
-    id_categoria integer NOT NULL,
+    id_categoria integer NOT NULL ADD GENERATED ALWAYS AS IDENTITY;,
     nombre text COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT categoria_pkey PRIMARY KEY (id_categoria)
 );
 
 CREATE TABLE IF NOT EXISTS public.detalle_venta
 (
-    id_venta integer NOT NULL,
+    id_venta integer NOT NULL ADD GENERATED ALWAYS AS IDENTITY;,
     id_pieza integer NOT NULL,
     cantidad integer NOT NULL,
     subtotal numeric NOT NULL,
@@ -16,14 +16,14 @@ CREATE TABLE IF NOT EXISTS public.detalle_venta
 
 CREATE TABLE IF NOT EXISTS public.marcas
 (
-    id_marca serial NOT NULL,
+    id_marca serial NOT NULL ADD GENERATED ALWAYS AS IDENTITY;,
     nombre_marca text COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT marcas_pkey PRIMARY KEY (id_marca)
 );
 
 CREATE TABLE IF NOT EXISTS public.metodo_pago
 (
-    id_metodopago serial NOT NULL,
+    id_metodopago serial NOT NULL ADD GENERATED ALWAYS AS IDENTITY;,
     nombre_metodopago text COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT metodo_pago_pkey PRIMARY KEY (id_metodopago)
 );
