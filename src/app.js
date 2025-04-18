@@ -32,7 +32,7 @@ app.listen(port, () => {
 });
 
 app.use(session({
-  secret: 'tu_clave_secreta',
+  secret: 'password',
   resave: false,
   saveUninitialized: false,
   cookie: { secure: false }
