@@ -5,6 +5,7 @@ $('#endingYear').val('2025')
 $(document).ready( async function () {
         desplegarMarcas();
         desplegarCategorias();
+        desplegarPiezas();
     }
 )
 
@@ -25,3 +26,22 @@ async function desplegarCategorias(){
         $('#listaCategorias').append(categoriahtml);
     })
 }
+
+async function desplegarPiezas(){
+    const response = await fetch("/piezas");
+    const categorias = await response.json();
+    categorias.forEach(pieza => {
+        const piezahtml = `
+        <div class="col" class="piezaTarjeta">
+        <div class="card text-center">
+          <img src="/img/${pieza.imagen}" class="card-img-top" alt="${pieza.nombre_pieza}">
+          <div class="card-body">
+            <h6 class="card-title">${pieza.nombre_pieza}</h6>
+            <p class="card-text">SKU: ${pieza.id_pieza}</p>
+          </div>
+        </div>
+        </div>`
+        $('#cuadriculaPiezas').append(piezahtml);
+    })
+}
+
