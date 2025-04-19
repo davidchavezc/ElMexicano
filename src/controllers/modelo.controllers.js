@@ -27,3 +27,18 @@ export const getModeloPorId = async (req, res) => {
         res.status(500).json({message: "Error al obtener modelo"});
     }
 };
+
+// Crear modelo
+export const crearModelo = async (req, res)=>{
+    try{
+        const {nombre, id_marca} = req.body;
+
+        const result = await pool.query("INSERT INTO modelo (nombre, id_marca) VALUES ($1, $2) RETURNING *"
+            [nombre, id_marca]
+        );
+        res.status(201).json(result.rows[0]);
+    } catch (error){
+        console.error("Error al crear modelo: ", error);
+        res.status(500).json({ message: "Error al crear modelo" });
+    }
+};
