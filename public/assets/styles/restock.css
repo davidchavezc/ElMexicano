@@ -29,8 +29,6 @@ body {
     border-color: #ced4da;
 }
 
-/* Card de botones para Add o Substraction*/
-
 .quantity-control {
     display: flex;
     align-items: center;
