@@ -42,3 +42,25 @@ export const crearModelo = async (req, res)=>{
         res.status(500).json({ message: "Error al crear modelo" });
     }
 };
+
+// Actualizar modelo
+export const updateModelo = async (req, res) =>{
+    try{
+        const { id } = req.params;
+        const { nombre, id_marca } = req.body;
+
+        const result = await pool.query(
+            "UPDATE modelo SET nombre = $1, id_marca = $2 WHERE id_modelo = $3 RETURNING *",
+            [nombre, id_marca, id]
+        );
+        if(result.rows.length === 0){
+            return res.status(404).json({
+                message: "Modelo no encontrado"
+            });
+        }
+        res.json(result.rows[0]);
+    } catch (error){
+        console.error("Error al actualizar modelo: ", error);
+        res.status(500).json({ message: "Error al actualizar modelo" });
+    }
+}; 
