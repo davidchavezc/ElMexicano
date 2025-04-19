@@ -64,3 +64,21 @@ export const updateModelo = async (req, res) =>{
         res.status(500).json({ message: "Error al actualizar modelo" });
     }
 }; 
+
+// Eliminar modelo
+export const deleteModelo = async (req, res) =>{
+    try{
+        const {id} = req.params;
+
+        const result = await pool.query("DELETE FROM modelo WHERE id_modelo = $1 RETURNING *",
+            [id]
+        );
+        if(result.rows.length === 0){
+            return res.status(404).json({ message: "Modelo no encontrado"});
+        }
+        res.json(result.rows[0]);
+    } catch ( error ){
+        console.error("Error al eliminar modelo: ", error);
+        res.status(500).json({ message: "Error al eliminar modelo"});
+    }
+};
