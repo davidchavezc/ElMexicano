@@ -36,7 +36,7 @@ app.get("/admin", (req, res) => {
 });
 
 app.get("/empleado", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/admin/venta.html"));
+  res.sendFile(path.join(__dirname, "../public/empleado/venta.html"));
 });
 
 app.use("/", routerUsuarios);
