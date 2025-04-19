@@ -32,13 +32,15 @@ async function desplegarPiezas(){
     const categorias = await response.json();
     categorias.forEach(pieza => {
         const piezahtml = `
-        <div class="col" class="piezaTarjeta">
+        <div class="col" class="pieza-tarjeta">
         <div class="card text-center">
-          <img src="/img/${pieza.imagen}" class="card-img-top" alt="${pieza.nombre_pieza}">
-          <div class="card-body">
-            <h6 class="card-title">${pieza.nombre_pieza}</h6>
-            <p class="card-text">SKU: ${pieza.id_pieza}</p>
-          </div>
+        <a href='producto.html?id=${pieza.id_pieza}' class='text-decoration-none text-black'>
+        <img src="/img/${pieza.imagen}" class="card-img-top" alt="${pieza.nombre_pieza}">
+        <div class="card-body">
+        <h6 class="card-title">${pieza.nombre_pieza}</h6>
+        <p class="card-text">SKU: ${pieza.id_pieza}</p>
+        </a>
+        </div>
         </div>
         </div>`
         $('#cuadriculaPiezas').append(piezahtml);
