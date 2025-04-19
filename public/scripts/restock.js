@@ -12,12 +12,12 @@ $(document).ready(async function cargarPiezas() {
       piezas.forEach((pieza) => {
         
         const div =(`
-        <div class="col">
+        <div class="col ">
                 <div class="card h-100">
-                    <img src="${pieza.imagen || '/img/default.jpg'}" alt="Motor de arranque" class="card-img-top">
+                    <img src="../img/${pieza.imagen || '../img/default.jpg'}" alt="Motor de arranque" class="card-img-top shadow-sm">
                     <div class="card-body text-center">
-                        <p>${pieza.nombre_pieza}</p>
-                        <p><span class="text-danger">${pieza.cantidad} en stock</span></p>
+                        <p class="fs-2">${pieza.nombre_pieza}</p>
+                        <p><span class="text-danger fs-3">${pieza.cantidad} en stock</span></p>
                     </div>
                 </div>
             </div>
@@ -123,7 +123,7 @@ $(document).ready(async function cargarPiezas() {
       
             // Generar el HTML con los datos de la pieza
             const html = `
-              <img src="${pieza.imagen}" alt="" class="img-thumbnail me-3"
+              <img src="../img/${pieza.imagen}" alt="" class="img-thumbnail me-3"
                 style="width: 150px;">
             <div>
                 <h3>${pieza.nombre_pieza}</h3>
