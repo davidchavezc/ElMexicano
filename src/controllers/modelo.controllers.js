@@ -82,3 +82,16 @@ export const deleteModelo = async (req, res) =>{
         res.status(500).json({ message: "Error al eliminar modelo"});
     }
 };
+
+// Obtener modelos por marca
+export const getModelosPorMarca = async (req, res) => {
+    try {
+        const {id_marca} = req.params;
+        const result = await pool.query("SELECT * FROM modelo WHERE id_marca = $1",
+            [id_marca]);
+        res.json(result.rows);
+    } catch (error){
+        console.error("Error al obtener nmodelos por marca: ", error);
+        res.status(500).json({ message: "Error al obtener modelos por marca"});
+    }
+};
