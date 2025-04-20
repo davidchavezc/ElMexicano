@@ -4,8 +4,8 @@ import { getPiezas, updatePiezas } from "../controllers/restock.controllers.js";
 
 const routerRestock = Router();
 
-routerRestock.get('/restock', getPiezas);
+routerRestock.get('/piezas', getPiezas);
 
-routerRestock.put('/restock', updatePiezas);
+routerRestock.put('/piezas', updatePiezas);
 
 export default routerRestock;
