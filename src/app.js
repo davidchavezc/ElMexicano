@@ -28,7 +28,7 @@ app.use(express.json());
 
 // Rutas para usuarios
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/index.html"));
+  res.sendFile(path.join(__dirname, "../public/main/index.html"));
 });
 
 app.get("/login", (req, res) => {
