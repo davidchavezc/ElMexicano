@@ -3,7 +3,7 @@ let piezas = [];
 
 $(document).ready(async function cargarPiezas() {
     try {
-      const response = await fetch("/restock");
+      const response = await fetch("/piezas");
       const piezas = await response.json();
 
       const $vistaGeneral = $("#piezas-disponibles");
@@ -30,7 +30,7 @@ $(document).ready(async function cargarPiezas() {
         const nuevaCantidad = $(this).siblings('.quantity-control').find('.quantity-input').val();
       
         try {
-          const response = await fetch('/restock', {
+          const response = await fetch('/piezas', {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json'
@@ -74,7 +74,7 @@ $(document).ready(async function cargarPiezas() {
   $(document).ready(async function (){
   
     // Cargar todas las piezas desde el backend al iniciar
-    fetch('/restock')
+    fetch('/piezas')
       .then(response => {
         if (!response.ok) {
           throw new Error("Error en la solicitud");
