@@ -31,9 +31,16 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
-
 app.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/main/login.html"));
+});
+
+app.get("/nosotros", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/main/nosotros.html"));
+});
+
+app.get("/catalogo", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/main/catalogo.html"));
 });
 
 // Rutas para pantallas de empleado
