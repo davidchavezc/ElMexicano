@@ -50,28 +50,28 @@ app.get("/admin", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/admin/reporte.html"));
 });
 
-app.get(["/admin/empleados", "/empleado"], (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/admin/empleados.html"))
+app.get(["/admin/empleados", "/empleados"], (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/admin/empleados.html"))
 });
 
 app.get(["/admin/historial", "/historial"], (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/admin/historial.html"))
+  res.sendFile(path.join(__dirname, "../public/admin/historial.html"))
 });
 
 app.get(["/admin/marcas", "marcas"], (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/admin/marcas.html"))
+  res.sendFile(path.join(__dirname, "../public/admin/marcas.html"))
 })
 
 app.get(["/admin/modelos", "modelos"], (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/admin/modelos.html"))
+  res.sendFile(path.join(__dirname, "../public/admin/modelos.html"))
 })
 
 app.get(["/admin/piezas", "piezas"], (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/admin/piezas.html"))
+  res.sendFile(path.join(__dirname, "../public/admin/piezas.html"))
 })
 
 app.get(["/admin/reporte", "reporte"], (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/admin/reporte.html"))
+  res.sendFile(path.join(__dirname, "../public/admin/reporte.html"))
 })
 
 // Routers
