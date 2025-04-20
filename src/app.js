@@ -11,7 +11,6 @@ import routerCategorias from "./routes/categorias.routes.js";
 import routerLogin from "./routes/login.routes.js";
 import routerPiezas from "./routes/pieza.routes.js";
 
-
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port =3000;
@@ -27,17 +26,55 @@ app.use(session({
 app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.json());
 
+// Rutas para usuarios
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
+
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/main/login.html"));
+});
+
+// Rutas para pantallas de empleado
+app.get(["/empleado/venta", "/venta", "/empleado"], (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/empleado/venta.html"));
+});
+
+app.get(["/empleado/restock", "/restock"], (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/empleado/restock.html"));
+});
+
+// Rutas para administrador
 app.get("/admin", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/admin/reporte.html"));
 });
 
-app.get("/empleado", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/empleado/venta.html"));
+app.get(["/admin/empleados", "/empleado"], (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/admin/empleados.html"))
 });
+
+app.get(["/admin/historial", "/historial"], (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/admin/historial.html"))
+});
+
+app.get(["/admin/marcas", "marcas"], (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/admin/marcas.html"))
+})
+
+app.get(["/admin/modelos", "modelos"], (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/admin/modelos.html"))
+})
+
+app.get(["/admin/piezas", "piezas"], (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/admin/piezas.html"))
+})
+
+app.get(["/admin/reporte", "reporte"], (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/admin/reporte.html"))
+})
+
+// Routers
 
 app.use("/", routerUsuarios);
 app.use("/", routerMarcas);
@@ -45,7 +82,6 @@ app.use("/", routerVenta);
 app.use("/", routerRestock);
 app.use("/", routerCategorias);
 app.use("/", routerPiezas);
-
 app.use("/", routerLogin);
 
 app.listen(port, () => {
