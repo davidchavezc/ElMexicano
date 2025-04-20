@@ -6,7 +6,6 @@ import path from "path";
 import routerUsuarios from "./routes/usuarios.routes.js";
 import routerMarcas from "./routes/marca.routes.js";
 import routerVenta from "./routes/venta.routes.js";
-import routerRestock from "./routes/restock.routes.js";
 import routerCategorias from "./routes/categorias.routes.js";
 import routerLogin from "./routes/login.routes.js";
 import routerPiezas from "./routes/pieza.routes.js";
@@ -86,7 +85,6 @@ app.get(["/admin/reporte", "reporte"], (req, res) => {
 app.use("/", routerUsuarios);
 app.use("/", routerMarcas);
 app.use("/", routerVenta);
-app.use("/", routerRestock);
 app.use("/", routerCategorias);
 app.use("/", routerPiezas);
 app.use("/", routerLogin);
