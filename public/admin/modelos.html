@@ -41,11 +41,11 @@
       <div class="mb-4">
         <h5 class="fw-bold">Añadir Modelo</h5>
         <div class="mb-3">
-          <label class="fw-bold">Nombre</label>
+          <label class="fw-bold">Nombre de Modelo</label>
           <input type="text" id="nombre_modelo" class="form-control" placeholder="Ingrese el nombre del modelo">
-          <label class="fw-bold mt-2">Año</label>
+          <label class="fw-bold mt-2">Año de Modelo</label>
           <input type="number" id="anio_modelo" class="form-control" placeholder="Ingrese el año del modelo">
-          <label class="fw-bold mt-2">Marca</label>
+          <label class="fw-bold mt-2">Marca de Modelo</label>
           <select id="id_marca" class="form-select"></select>
         </div>
         <div class="d-flex gap-2">
@@ -57,8 +57,13 @@
       <div class="mb-4">
         <h5 class="fw-bold">Eliminar Modelo</h5>
         <div class="mb-3">
-          <label class="fw-bold">Nombre</label>
-          <input type="text" id="nombre_eliminar" class="form-control" placeholder="Ingresa el nombre del modelo">
+          <label class="fw-bold">Nombre de Modelo</label>
+          <input type="text" id="nombre_eliminar" class="form-control" placeholder="Nombre del modelo">
+          <label class="fw-bold">Año de Modelo</label>
+          <input type="number" id="anio_eliminar" class="form-control" placeholder="Año del modelo">
+          <label class="fw-bold">Marca de Modelo</label>
+          <select id="marca_eliminar" class="form-select"></select>
+          <button class="btn btn-success" id="btnEliminarModelo">Eliminar</button>
         </div>
         <div class="d-flex gap-2">
           <button class="btn btn-success" id="btnEliminarModelo">Eliminar</button>
