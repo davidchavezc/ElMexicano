@@ -1,12 +1,23 @@
-import {Router} from "express";
-import { agregarUsuario, getUsuarios } from "../controllers/usuarios.controllers.js";
+import { Router } from "express";
+import {
+  agregarUsuario,
+  getUsuarios,
+  editarUsuario,
+  eliminarUsuario,
+} from "../controllers/usuarios.controllers.js";
 
 const routerUsuarios = Router();
 
-//Endpoint para obtener a los usuarios 
-routerUsuarios.get('/usuarios', getUsuarios);
+// Endpoint para obtener los usuarios
+routerUsuarios.get("/usuarios", getUsuarios);
 
-// Endpoint para agregar un usuario
+// Endpoint para agregar usuarios
 routerUsuarios.post("/usuarios", agregarUsuario);
+
+// Endpoint para editar usuarios
+routerUsuarios.put("/usuarios/:id", editarUsuario);
+
+// Endpoint para eliminar usuarios
+routerUsuarios.delete("/usuarios/:id", eliminarUsuario);
 
 export default routerUsuarios;
