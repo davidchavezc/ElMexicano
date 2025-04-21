@@ -83,9 +83,11 @@ $(document).ready(async function () {
           cargarMarcas(); // vuelve a cargar el select
         } else {
           const errorText = await response.text();
-          alert("No se pudo eliminar la marca: " + errorText);
+          const errorMessage = JSON.parse(errorText).message;
+          alert("No se pudo eliminar la marca, " + errorMessage);
         }
       } catch (error) {
+        console.log(error)
         console.error("Error al eliminar la marca:", error);
         alert("Ocurrió un error al intentar eliminar la marca.");
       }
