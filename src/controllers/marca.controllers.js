@@ -15,7 +15,15 @@ export const getMarcas = async (req,res) => {
 export const postMarcas = async (req, res) => {
     try {
       const { nombre_marca } = req.body;
-  
+      
+      const nombreEnUso = await pool.query(
+        "SELECT * FROM marcas WHERE nombre_marca = $1",
+        [nombre_marca]);
+
+      if (nombreEnUso.rowCount > 0) {
+          return res.status(403).json({message: "ya existe una marca llamada"});
+      }
+
       const result = await pool.query(
         "INSERT INTO marcas (nombre_marca) VALUES ($1) RETURNING *",
         [nombre_marca]
@@ -36,9 +44,9 @@ export const postMarcas = async (req, res) => {
         "SELECT * FROM pieza WHERE id_marca = $1",
         [nombre_marca]);
 
-        if (marcaEnUso.rowCount > 0) {
-          return res.status(404).json({message: "la marca tiene piezas asociadas"});
-        }
+      if (marcaEnUso.rowCount > 0) {
+        return res.status(400).json({message: "la marca tiene piezas asociadas"});
+      }
 
       const result = await pool.query(
         "DELETE FROM marcas WHERE id_marca = $1 RETURNING *",

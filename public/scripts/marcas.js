@@ -43,13 +43,16 @@ $(document).ready(async function () {
     
         if (response.ok) {
           const nuevaMarca = await response.json();
-          alert(`Marca creada: ${nuevaMarca.nombre_marca}`);
-          $("#nombre-marca").val("");  // Limpiar el campo de texto
+          $("#nombre-marca").val("");
     
-          // Recargar las marcas
           await cargarMarcas();
+          const operacionExitosa = createAlert('success', `Nueva marca ${nuevaMarca.nombre_marca} creada exitosamente.`);
+          $('#alerts').prepend(operacionExitosa);
         } else {
-          throw new Error("No se pudo crear la marca.");
+          const errorText = await response.text();
+          const errorMessage = JSON.parse(errorText).message;
+          const errorAlert = createAlert('danger', `No se pudo crear la marca, ${errorMessage} ${nombreMarca}.`);
+          $('#alerts').prepend(errorAlert);
         }
       } catch (error) {
         console.error("Error al crear la marca:", error);
@@ -58,9 +61,9 @@ $(document).ready(async function () {
     });
   
     $('#btn-eliminar-marca').on("click", async function () {
-      const idMarca = $('#marcasE').val()?.trim(); // Obtener el texto de la opción seleccionada
+      const idMarca = $('#marcasE').val()?.trim();
       const nombreMarca = $('#marcasE option:selected').text().trim();
-      console.log(idMarca);
+
       if (!idMarca) {
         alert("Por favor selecciona una marca para eliminar.");
         return;
@@ -79,14 +82,18 @@ $(document).ready(async function () {
         });
 
         if (response.ok) {
-          alert("Marca eliminada correctamente.");
-          cargarMarcas(); // vuelve a cargar el select
+          const marca = await response.json();
+          cargarMarcas();
+          const operacionExitosa = createAlert('success', `Marca ${marca.nombre_marca} eliminada correctamente.`);
+          $('#alerts').prepend(operacionExitosa);
         } else {
           const errorText = await response.text();
           const errorMessage = JSON.parse(errorText).message;
-          alert("No se pudo eliminar la marca, " + errorMessage);
-        }
-      } catch (error) {
+          const errorAlert = createAlert('danger', `No se pudo eliminar la marca, ${errorMessage}.`);
+          $('#alerts').prepend(errorAlert);
+      }
+    }
+       catch (error) {
         console.log(error)
         console.error("Error al eliminar la marca:", error);
         alert("Ocurrió un error al intentar eliminar la marca.");
@@ -98,3 +105,14 @@ $(document).ready(async function () {
       $("#nombre-marca").val("");
     });
   });
+
+  function createAlert(type, message) {
+    const wrapper = document.createElement('div')
+    wrapper.innerHTML = [
+      `<div class="alert alert-${type} alert-dismissible mt-3" role="alert">`,
+      `   <div>${message}</div>`,
+      '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+      '</div>'
+    ].join('')
+    return wrapper;
+  }
