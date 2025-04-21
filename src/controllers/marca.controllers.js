@@ -32,12 +32,20 @@ export const postMarcas = async (req, res) => {
     try {
       const{nombre_marca}=req.body;
 
+      const marcaEnUso = await pool.query(
+        "SELECT * FROM pieza WHERE id_marca = $1",
+        [nombre_marca]);
+
+        if (marcaEnUso.rowCount > 0) {
+          return res.status(404).json({message: "la marca tiene piezas asociadas"});
+        }
+
       const result = await pool.query(
         "DELETE FROM marcas WHERE id_marca = $1 RETURNING *",
         [nombre_marca]);
 
         if (result.rowCount === 0) {
-          return res.status(404).json({ message: "Marca no encontrada" });
+          return res.status(404).json({message: "Marca no encontrada"});
         }
 
         res.status(200).json(result.rows[0]);
