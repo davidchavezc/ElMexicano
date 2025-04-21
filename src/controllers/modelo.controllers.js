@@ -15,7 +15,7 @@ export const getModelos = async (req, res) => {
 export const getModeloPorId = async (req, res) => {
     try{
         const { id } = req.params;
-        const result = await pool.query("SELECT * FROM modelo WHERE id_modelo $1", [id]);
+        const result = await pool.query("SELECT * FROM modelos WHERE id_modelo = $1", [id]);
         
         if(result.rows.lenght === 0){
             return res.status(404).json({ message: "Modelo no encontrado"});
@@ -31,10 +31,10 @@ export const getModeloPorId = async (req, res) => {
 // Crear modelo
 export const crearModelo = async (req, res)=>{
     try{
-        const {nombre, id_marca} = req.body;
+        const {nombre_modelo, anio_modelo, id_marca} = req.body;
 
-        const result = await pool.query("INSERT INTO modelo (nombre, id_marca) VALUES ($1, $2) RETURNING *"
-            [nombre, id_marca]
+        const result = await pool.query("INSERT INTO modelos (nombre_modelo, anio_modelo, id_marca) VALUES ($1, $2, $3) RETURNING *",
+            [nombre_modelo, anio_modelo, id_marca]
         );
         res.status(201).json(result.rows[0]);
     } catch (error){
@@ -47,11 +47,11 @@ export const crearModelo = async (req, res)=>{
 export const updateModelo = async (req, res) =>{
     try{
         const { id } = req.params;
-        const { nombre, id_marca } = req.body;
+        const { nombre_modelo, anio_modelo, id_marca } = req.body;
 
         const result = await pool.query(
-            "UPDATE modelo SET nombre = $1, id_marca = $2 WHERE id_modelo = $3 RETURNING *",
-            [nombre, id_marca, id]
+            "UPDATE modelos SET nombre_modelo = $1, anio_modelo = $2, id_marca = $3 WHERE id_modelo = $4 RETURNING *",
+            [nombre_modelo, anio_modelo, id_marca, id]
         );
         if(result.rows.length === 0){
             return res.status(404).json({
@@ -70,7 +70,7 @@ export const deleteModelo = async (req, res) =>{
     try{
         const {id} = req.params;
 
-        const result = await pool.query("DELETE FROM modelo WHERE id_modelo = $1 RETURNING *",
+        const result = await pool.query("DELETE FROM modelos WHERE id_modelo = $1 RETURNING *",
             [id]
         );
         if(result.rows.length === 0){
@@ -87,7 +87,7 @@ export const deleteModelo = async (req, res) =>{
 export const getModelosPorMarca = async (req, res) => {
     try {
         const {id_marca} = req.params;
-        const result = await pool.query("SELECT * FROM modelo WHERE id_marca = $1",
+        const result = await pool.query("SELECT * FROM modelos WHERE id_marca = $1",
             [id_marca]);
         res.json(result.rows);
     } catch (error){
