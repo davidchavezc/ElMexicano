@@ -2,7 +2,7 @@ $(document).ready(async function () {
   await cargarEmpleados();
 
   $("form").on("submit", async function (event) {
-    event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+    event.preventDefault();
 
     const nombre = $('input[placeholder="Nombre"]').val().trim();
     const apellido = $('input[placeholder="Apellido"]').val().trim();
@@ -15,8 +15,7 @@ $(document).ready(async function () {
       return;
     }
 
-    const nuevoEmpleado = {
-      id_empleado: null,
+    const datosEmpleado = {
       nombre_empleado: nombre,
       apellido_empleado: apellido,
       usuario_empleado: usuario,
@@ -25,25 +24,35 @@ $(document).ready(async function () {
     };
 
     try {
-      const response = await fetch("/usuarios", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(nuevoEmpleado),
-      });
+      let response;
+      if (window.usuarioEditandoId) {
+        // Método PUT para edición
+        response = await fetch(`/usuarios/${window.usuarioEditandoId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(datosEmpleado),
+        });
+      } else {
+        // Método POST para agregar
+        response = await fetch("/usuarios", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(datosEmpleado),
+        });
+      }
 
       if (response.ok) {
-        alert("Empleado agregado correctamente.");
+        alert(window.usuarioEditandoId ? "Empleado editado correctamente." : "Empleado agregado correctamente.");
         $("form")[0].reset();
+        window.usuarioEditandoId = null;
         await cargarEmpleados();
       } else {
         const errorText = await response.text();
-        alert("Error al agregar empleado: " + errorText);
+        alert("Error: " + errorText);
       }
     } catch (error) {
-      console.error("Error al agregar empleado:", error);
-      alert("Ocurrió un error al intentar agregar el empleado.");
+      console.error("Error:", error);
+      alert("Ocurrió un error.");
     }
   });
 });
@@ -65,8 +74,8 @@ async function cargarEmpleados() {
         <td>${empleado.contrasena_empleado}</td>
         <td>${empleado.id_rol}</td>
         <td>
-          <button class="btn btn-warning btn-sm">Editar</button>
-          <button class="btn btn-danger btn-sm">Eliminar</button>
+          <button class="btn btn-warning btn-sm" onclick="editarEmpleado(${empleado.id_empleado}, '${empleado.nombre_empleado}', '${empleado.apellido_empleado}', '${empleado.usuario_empleado}', '${empleado.contrasena_empleado}', '${empleado.id_rol}')">Editar</button>
+          <button class="btn btn-danger btn-sm" onclick="eliminarEmpleado(${empleado.id_empleado})">Eliminar</button>
         </td>
       `);
       $tbody.append($tr);
@@ -75,3 +84,33 @@ async function cargarEmpleados() {
     console.error("Error al cargar empleados:", error);
   }
 }
+
+window.editarEmpleado = function (id, nombre, apellido, usuario, contrasena, rol) {
+  window.usuarioEditandoId = id;
+  $('input[placeholder="Nombre"]').val(nombre);
+  $('input[placeholder="Apellido"]').val(apellido);
+  $('input[placeholder="Usuario de Empleado"]').val(usuario);
+  $('input[placeholder="Contraseña"]').val(contrasena);
+  $("select").val(rol);
+};
+
+window.eliminarEmpleado = async function (id) {
+  if (!confirm("¿Estás seguro de que quieres eliminar este empleado?")) return;
+
+  try {
+    const response = await fetch(`/usuarios/${id}`, {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      alert("Empleado eliminado correctamente.");
+      await cargarEmpleados();
+    } else {
+      const errorText = await response.text();
+      alert("Error al eliminar empleado: " + errorText);
+    }
+  } catch (error) {
+    console.error("Error al eliminar empleado:", error);
+    alert("Ocurrió un error al intentar eliminar el empleado.");
+  }
+};
