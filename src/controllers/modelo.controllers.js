@@ -95,3 +95,20 @@ export const getModelosPorMarca = async (req, res) => {
         res.status(500).json({ message: "Error al obtener modelos por marca"});
     }
 };
+
+export const eliminarModeloPorCampos = async (req, res) => {
+    try {
+        const { nombre_modelo, anio_modelo, id_marca } = req.body;
+        const result = await pool.query(
+            "DELETE FROM modelos WHERE nombre_modelo = $1 AND anio_modelo = $2 AND id_marca = $3 RETURNING *",
+            [nombre_modelo, anio_modelo, id_marca]
+        );
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: "Modelo no encontrado" });
+        }
+        res.json({ message: "Modelo eliminado correctamente", modelo: result.rows[0] });
+    } catch (error) {
+        console.error("Error al eliminar modelo por campos:", error);
+        res.status(500).json({ message: "Error al eliminar modelo" });
+    }
+};
