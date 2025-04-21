@@ -9,6 +9,7 @@ import routerVenta from "./routes/venta.routes.js";
 import routerCategorias from "./routes/categorias.routes.js";
 import routerLogin from "./routes/login.routes.js";
 import routerPiezas from "./routes/pieza.routes.js";
+import routerModelos from "./routes/modelo.routes.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -84,6 +85,7 @@ app.get(["/admin/reporte"], (req, res) => {
 
 app.use("/", routerUsuarios);
 app.use("/", routerMarcas);
+app.use("/", routerModelos);
 app.use("/", routerVenta);
 app.use("/", routerCategorias);
 app.use("/", routerPiezas);
