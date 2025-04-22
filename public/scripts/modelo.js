@@ -1,9 +1,96 @@
 $(document).ready(function() {
-    // Cargar marcas en todos los selectores
-    cargarMarcas();
+    // Variable global para almacenar todas las marcas
+    let todasLasMarcas = [];
     
-    // Evento para cuando cambia la marca seleccionada
-    $("#marca_filtro").change(function() {
+    // Cargar marcas para autocompletado
+    cargarMarcasAutocompletado();
+    
+    // Función para cargar marcas para autocompletado
+    function cargarMarcasAutocompletado() {
+        $.ajax({
+            url: '/marcas',
+            type: 'GET',
+            success: function(marcas) {
+                todasLasMarcas = marcas;
+                
+                // Configurar autocompletado para cada campo de búsqueda
+                configurarAutocompletado('#buscar_marca_crear', '#lista_marcas_crear', '#id_marca');
+                configurarAutocompletado('#buscar_marca_eliminar', '#lista_marcas_eliminar', '#marca_eliminar');
+                configurarAutocompletado('#buscar_marca_filtro', '#lista_marcas_filtro', '#marca_filtro');
+            },
+            error: function(error) {
+                console.error('Error al cargar marcas:', error);
+            }
+        });
+    }
+    
+    // Función para configurar autocompletado
+    function configurarAutocompletado(inputSelector, listaSelector, hiddenInputSelector) {
+        // Evento para cuando se escribe en el campo de búsqueda
+        $(inputSelector).on('input', function() {
+            const busqueda = $(this).val().toLowerCase();
+            const $lista = $(listaSelector);
+            
+            // Limpiar lista
+            $lista.empty();
+            
+            // Si el campo está vacío, ocultar la lista
+            if (busqueda === '') {
+                $lista.addClass('d-none');
+                return;
+            }
+            
+            // Filtrar marcas que coincidan con la búsqueda
+            const marcasFiltradas = todasLasMarcas.filter(marca => 
+                marca.nombre_marca.toLowerCase().includes(busqueda)
+            );
+            
+            // Si no hay resultados, mostrar mensaje
+            if (marcasFiltradas.length === 0) {
+                $lista.append(`<div class="p-2 text-muted">No se encontraron marcas</div>`);
+            } else {
+                // Mostrar resultados
+                marcasFiltradas.forEach(marca => {
+                    $lista.append(`
+                        <div class="p-2 marca-item" data-id="${marca.id_marca}" data-nombre="${marca.nombre_marca}">
+                            ${marca.nombre_marca}
+                        </div>
+                    `);
+                });
+            }
+            
+            // Mostrar la lista
+            $lista.removeClass('d-none');
+        });
+        
+        // Evento para cuando se hace clic en un elemento de la lista
+        $(document).on('click', `${listaSelector} .marca-item`, function() {
+            const id = $(this).data('id');
+            const nombre = $(this).data('nombre');
+            
+            // Establecer el valor en el campo de búsqueda
+            $(inputSelector).val(nombre);
+            
+            // Establecer el ID en el campo oculto
+            $(hiddenInputSelector).val(id);
+            
+            // Ocultar la lista
+            $(listaSelector).addClass('d-none');
+            
+            // Disparar evento de cambio para cargar modelos si es necesario
+            $(hiddenInputSelector).trigger('change');
+        });
+        
+        // Ocultar la lista cuando se hace clic fuera
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest(`${inputSelector}, ${listaSelector}`).length) {
+                $(listaSelector).addClass('d-none');
+            }
+        });
+    }
+    
+    // Evento para cuando cambia la marca seleccionada en el filtro
+    $("#marca_filtro").on('change', function() {
         const idMarca = $(this).val();
         if (idMarca) {
             // Si hay un año seleccionado, filtrar por marca y año
@@ -33,7 +120,7 @@ $(document).ready(function() {
     });
 
     // Evento para cuando cambia la marca en el selector de eliminar
-    $("#marca_eliminar").change(function() {
+    $("#marca_eliminar").on('change', function() {
         const idMarca = $(this).val();
         if (idMarca) {
             // Si hay un año seleccionado, filtrar por marca y año
@@ -69,6 +156,11 @@ $(document).ready(function() {
         const anio_modelo = $('#anio_modelo').val();
         const id_marca = $('#id_marca').val();
 
+        if (!nombre_modelo || !anio_modelo || !id_marca) {
+            alert('Por favor, completa todos los campos para crear el modelo.');
+            return;
+        }
+
         $.ajax({
             url: '/modelos',
             type: 'POST',
@@ -76,6 +168,11 @@ $(document).ready(function() {
             data: JSON.stringify({ nombre_modelo, anio_modelo, id_marca }),
             success: function(data) {
                 alert('Modelo creado correctamente');
+                // Limpiar campos
+                $('#nombre_modelo').val('');
+                $('#anio_modelo').val('');
+                $('#buscar_marca_crear').val('');
+                $('#id_marca').val('');
                 cargarModelos();
             },
             error: function() {
@@ -87,7 +184,7 @@ $(document).ready(function() {
     // Cargar modelos en el select de la parte inferior
     function cargarModelos() {
         $.get('/modelos', function(modelos) {
-            const $select = $('.inventory-section select.form-select');
+            const $select = $('#lista_modelo');
             $select.empty();
             $select.append('<option selected>Selecciona un modelo</option>');
             modelos.forEach(function(modelo) {
@@ -133,38 +230,22 @@ $(document).ready(function() {
             });
         }
     });
-});
-
-// Función para cargar marcas en todos los selectores
-function cargarMarcas() {
-    $.ajax({
-        url: '/marcas',
-        type: 'GET',
-        success: function(marcas) {
-            // Limpiar y llenar el selector de marcas para crear modelo
-            $("#id_marca").empty();
-            $("#id_marca").append('<option value="">Selecciona una marca</option>');
-            
-            // Limpiar y llenar el selector de marcas para eliminar modelo
-            $("#marca_eliminar").empty();
-            $("#marca_eliminar").append('<option value="">Selecciona una marca</option>');
-            
-            // Limpiar y llenar el selector de marcas para filtrar modelos
-            $("#marca_filtro").empty();
-            $("#marca_filtro").append('<option value="">Selecciona una marca</option>');
-            
-            // Agregar cada marca a los selectores
-            marcas.forEach(marca => {
-                $("#id_marca").append(`<option value="${marca.id_marca}">${marca.nombre_marca}</option>`);
-                $("#marca_eliminar").append(`<option value="${marca.id_marca}">${marca.nombre_marca}</option>`);
-                $("#marca_filtro").append(`<option value="${marca.id_marca}">${marca.nombre_marca}</option>`);
-            });
-        },
-        error: function(error) {
-            console.error('Error al cargar marcas:', error);
-        }
+    
+    // Botones de cancelar
+    $('#btnCancelarModelo').click(function() {
+        $('#nombre_modelo').val('');
+        $('#anio_modelo').val('');
+        $('#buscar_marca_crear').val('');
+        $('#id_marca').val('');
     });
-}
+    
+    $('#btnCancelarEliminar').click(function() {
+        $('#buscar_marca_eliminar').val('');
+        $('#marca_eliminar').val('');
+        $('#anio_eliminar').val('');
+        $('#modelo_eliminar').empty().append('<option selected>Selecciona un modelo</option>');
+    });
+});
 
 // Función para cargar modelos por marca (modificada para ser reutilizable)
 function cargarModelosPorMarca(idMarca, selector = "#lista_modelo") {
@@ -189,7 +270,7 @@ function cargarModelosPorMarca(idMarca, selector = "#lista_modelo") {
     });
 }
 
-// Nueva función para cargar modelos por marca y año
+// Función para cargar modelos por marca y año
 function cargarModelosPorMarcaYAnio(idMarca, anioModelo, selector = "#lista_modelo") {
     $.ajax({
         url: `/modelos/marca/${idMarca}/anio/${anioModelo}`,
