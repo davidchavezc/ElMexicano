@@ -44,7 +44,7 @@ export const postLogin = async (req, res) => {
     }
   };
 
-  export const log = async (req, res) => {
+  export const logOut = async (req, res) => {
     req.session.destroy((err) => {
       if (err) {
           console.error("Error al cerrar sesión:", err);
