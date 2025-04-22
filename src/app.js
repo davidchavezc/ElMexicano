@@ -3,7 +3,6 @@ import session from 'express-session';
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import path from "path";
-import cors from 'cors';
 import routerUsuarios from "./routes/usuarios.routes.js";
 import routerMarcas from "./routes/marca.routes.js";
 import routerVenta from "./routes/venta.routes.js";
@@ -24,8 +23,6 @@ app.use(session({
 }));
 
 app.use(express.json());
-app.use(cors({origin: 'http://localhost:3000', // o el puerto desde donde estés accediendo tu HTML
-  credentials: true}));
 app.use(express.static(path.join(__dirname, "../public")));
 
 // Rutas para usuarios
