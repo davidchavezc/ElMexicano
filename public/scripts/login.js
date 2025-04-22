@@ -2,8 +2,11 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("login-form").addEventListener("submit", async (e) => {
       e.preventDefault();
 
+
       const user = e.target.querySelector('input[name="usuario"]')?.value.trim();
       const password = e.target.querySelector('input[name="contraseña"]')?.value.trim();
+
+
 
       if (!user || !password) {
           alert("Por favor, completa todos los campos.");
@@ -29,8 +32,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
           const resJson = await res.json();
 
+
           if (resJson.redirect) {
               window.location.href = resJson.redirect;
+
+
+
           } else {
               alert("No se pudo redirigir. Revisa el rol del usuario.");
           }
@@ -39,4 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
           alert("Hubo un problema al iniciar sesión.");
       }
   });
+
+
+
 });
