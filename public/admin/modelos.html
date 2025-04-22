@@ -76,14 +76,19 @@
 
       <!-- Seleccionar Modelo -->
       <hr>
+      <hr>
       <div>
         <h5 class="fw-bold">Modelos</h5>
-        <select class="form-select" id="lista_modelo">
-          <option selected>Selecciona un modelo</option>
-      </select>
+        <div class="mb-3">
+          <label class="fw-bold">Marca de Modelo</label>
+          <select id="marca_filtro" class="form-select mb-3">
+            <option value="">Selecciona una marca</option>
+          </select>
+          <select class="form-select" id="lista_modelo">
+            <option selected>Selecciona un modelo</option>
+          </select>
+        </div>
       </div>
-    </div>
-  </div>
 
   <!-- Footer -->
   <div class="container">

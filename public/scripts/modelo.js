@@ -1,10 +1,17 @@
 $(document).ready(function() {
-    // Cargar marcas en el select
-    $.get('/marcas', function(marcas) {
-        $('#id_marca').empty();
-        marcas.forEach(function(marca) {
-            $('#id_marca').append(`<option value="${marca.id_marca}">${marca.nombre_marca}</option>`);
-        });
+    // Cargar marcas en todos los selectores
+    cargarMarcas();
+    
+    // Evento para cuando cambia la marca seleccionada
+    $("#marca_filtro").change(function() {
+        const idMarca = $(this).val();
+        if (idMarca) {
+            cargarModelosPorMarca(idMarca);
+        } else {
+            // Si no hay marca seleccionada, limpiar la lista de modelos
+            $("#lista_modelo").empty();
+            $("#lista_modelo").append('<option selected>Selecciona un modelo</option>');
+        }
     });
 
     // Crear modelo
@@ -41,10 +48,10 @@ $(document).ready(function() {
         });
     }
 
-    // Inicializar modelos al cargar la página
+    // PAra nicializar modelos al cargar la página
     cargarModelos();
 
-    // Cargar marcas en el select de eliminar (puedes reutilizar el de añadir si quieres)
+    // Para marcas en el select de eliminar (puedes reutilizar el de añadir si quieres)
     $.get('/marcas', function(marcas) {
         $('#marca_eliminar').empty();
         marcas.forEach(function(marca) {
@@ -79,3 +86,57 @@ $(document).ready(function() {
         });
     });
 });
+
+// Función para cargar marcas en todos los selectores
+function cargarMarcas() {
+    $.ajax({
+        url: '/marcas',
+        type: 'GET',
+        success: function(marcas) {
+            // Limpiar y llenar el selector de marcas para crear modelo
+            $("#id_marca").empty();
+            $("#id_marca").append('<option value="">Selecciona una marca</option>');
+            
+            // Limpiar y llenar el selector de marcas para eliminar modelo
+            $("#marca_eliminar").empty();
+            $("#marca_eliminar").append('<option value="">Selecciona una marca</option>');
+            
+            // Limpiar y llenar el selector de marcas para filtrar modelos
+            $("#marca_filtro").empty();
+            $("#marca_filtro").append('<option value="">Selecciona una marca</option>');
+            
+            // Agregar cada marca a los selectores
+            marcas.forEach(marca => {
+                $("#id_marca").append(`<option value="${marca.id_marca}">${marca.nombre_marca}</option>`);
+                $("#marca_eliminar").append(`<option value="${marca.id_marca}">${marca.nombre_marca}</option>`);
+                $("#marca_filtro").append(`<option value="${marca.id_marca}">${marca.nombre_marca}</option>`);
+            });
+        },
+        error: function(error) {
+            console.error('Error al cargar marcas:', error);
+        }
+    });
+}
+
+// Función para cargar modelos por marca
+function cargarModelosPorMarca(idMarca) {
+    $.ajax({
+        url: `/modelos/marca/${idMarca}`,
+        type: 'GET',
+        success: function(modelos) {
+            $("#lista_modelo").empty();
+            
+            if (modelos.length === 0) {
+                $("#lista_modelo").append('<option selected>No hay modelos para esta marca</option>');
+            } else {
+                $("#lista_modelo").append('<option selected>Selecciona un modelo</option>');
+                modelos.forEach(modelo => {
+                    $("#lista_modelo").append(`<option value="${modelo.id_modelo}">${modelo.nombre_modelo} (${modelo.anio_modelo})</option>`);
+                });
+            }
+        },
+        error: function(error) {
+            console.error('Error al cargar modelos por marca:', error);
+        }
+    });
+}
