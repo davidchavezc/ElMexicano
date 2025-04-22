@@ -5,7 +5,8 @@ import {
     updateModelo,
     deleteModelo,
     getModelosPorMarca,
-    crearModelo
+    crearModelo,
+    getModelosPorMarcaYAnio
 } from "../controllers/modelo.controllers.js";
 
 import { eliminarModeloPorCampos } from "../controllers/modelo.controllers.js";
@@ -20,5 +21,6 @@ router.post("/modelos", crearModelo);
 router.put("/modelos/:id", updateModelo);
 router.delete("/modelos/:id", deleteModelo);
 router.get("/modelos/marca/:id_marca", getModelosPorMarca);
+router.get("/modelos/marca/:id_marca/anio/:anio_modelo", getModelosPorMarcaYAnio);
 
 export default router;
