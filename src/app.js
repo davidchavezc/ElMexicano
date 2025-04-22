@@ -45,6 +45,10 @@ app.get("/catalogo", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/main/catalogo.html"));
 });
 
+app.get("/producto", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/main/producto.html"))
+});
+
 // Rutas para pantallas de empleado
 app.get(["/empleado/venta", "/venta", "/empleado"], (req, res) => {
   res.sendFile(path.join(__dirname, "../public/empleado/venta.html"));
