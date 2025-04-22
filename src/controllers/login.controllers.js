@@ -10,7 +10,7 @@ export const postLogin = async (req, res) => {
   
     try {
       const resultado = await pool.query(
-        "SELECT * FROM usuario WHERE usuario_empleado=$1 AND contrasena_empleado=$2",
+        "SELECT id_empleado, nombre_empleado, id_rol FROM usuario WHERE usuario_empleado=$1 AND contrasena_empleado=$2",
         [usuario_empleado, contrasena_empleado]
       );
   
@@ -21,11 +21,16 @@ export const postLogin = async (req, res) => {
       const usuario = resultado.rows[0];
   
       req.session.usuario = {
-        id: usuario.id_usuario,
+        id: usuario.id_empleado,
         nombre: usuario.nombre_empleado,
         rol: usuario.id_rol
       };
-  
+      
+      console.log("Sesión creada:", req.session.usuario);
+
+      res.setHeader('Content-Type', 'application/json');
+
+      console.log("Enviando respuesta al cliente");
       return res.status(200).json({mensaje: "Login exitoso", id_rol: usuario.id_rol });
     } catch (error) {
       console.error("Error al intentar entrar", error);
