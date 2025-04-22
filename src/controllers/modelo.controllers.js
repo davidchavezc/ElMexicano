@@ -86,13 +86,15 @@ export const deleteModelo = async (req, res) =>{
 // Obtener modelos por marca
 export const getModelosPorMarca = async (req, res) => {
     try {
-        const {id_marca} = req.params;
-        const result = await pool.query("SELECT * FROM modelos WHERE id_marca = $1",
-            [id_marca]);
+        const { id_marca } = req.params;
+        const result = await pool.query(
+            "SELECT * FROM modelos WHERE id_marca = $1 ORDER BY nombre_modelo",
+            [id_marca]
+        );
         res.json(result.rows);
-    } catch (error){
-        console.error("Error al obtener nmodelos por marca: ", error);
-        res.status(500).json({ message: "Error al obtener modelos por marca"});
+    } catch (error) {
+        console.error("Error al obtener modelos por marca: ", error);
+        res.status(500).json({ message: "Error al obtener modelos por marca" });
     }
 };
 
