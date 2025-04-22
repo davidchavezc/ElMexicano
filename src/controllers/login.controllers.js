@@ -31,7 +31,13 @@ export const postLogin = async (req, res) => {
       res.setHeader('Content-Type', 'application/json');
 
       console.log("Enviando respuesta al cliente");
-      return res.status(200).json({mensaje: "Login exitoso", id_rol: usuario.id_rol });
+      return res.status(200).json({
+        mensaje: "Login exitoso",
+        id_rol: usuario.id_rol,
+        redirect: usuario.id_rol === 1
+            ? "/admin/empleados.html"
+            : "/empleado/restock.html",
+    });
     } catch (error) {
       console.error("Error al intentar entrar", error);
       res.status(500).send("Error interno del servidor");
