@@ -1,5 +1,5 @@
 import {Router} from "express";
-import { postLogin } from "../controllers/login.controllers.js";
+import { postLogin, logOut } from "../controllers/login.controllers.js";
 
 const routerLogin = Router();
 
