@@ -98,6 +98,21 @@ export const getModelosPorMarca = async (req, res) => {
     }
 };
 
+// Obtener modelos por marca y año
+export const getModelosPorMarcaYAnio = async (req, res) => {
+    try {
+        const { id_marca, anio_modelo } = req.params;
+        const result = await pool.query(
+            "SELECT * FROM modelos WHERE id_marca = $1 AND anio_modelo = $2 ORDER BY nombre_modelo",
+            [id_marca, anio_modelo]
+        );
+        res.json(result.rows);
+    } catch (error) {
+        console.error("Error al obtener modelos por marca y año: ", error);
+        res.status(500).json({ message: "Error al obtener modelos por marca y año" });
+    }
+};
+
 export const eliminarModeloPorCampos = async (req, res) => {
     try {
         const { nombre_modelo, anio_modelo, id_marca } = req.body;
