@@ -65,7 +65,8 @@ document.addEventListener("DOMContentLoaded", () => {
   async function renderPiezaSeleccionada(id_pieza) {
     // Verificar si la pieza ya está en el contenedor
     if ($(`div[idpieza="${id_pieza}"]`).length > 0) {
-      alert("La pieza ya está agregada.");
+      // alert("La pieza ya está agregada.");
+      $('#alertBox').prepend(createAlert('danger', 'La pieza ya se encuentra agregada.'));
       return; // Salir de la función si la pieza ya existe
     }
 
@@ -127,3 +128,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+function createAlert(type, message) {
+  let icon = '';
+  switch(type) {
+    case "success":
+      icon = 'bi bi-check-circle'
+      break;
+    case "danger":
+      icon = 'bi bi-exclamation-triangle'
+      break;
+    case "info":
+      icon = 'bi bi-exclamation-circle'
+      break;
+  }
+  const wrapper = document.createElement('div')
+  wrapper.innerHTML = [
+    `<div class="alert alert-${type} alert-dismissible mt-3" role="alert">`,
+    `   <div><i class="${icon} me-2"> </i>${message}</div>`,
+    '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+    '</div>'
+  ].join('')
+  return wrapper;
+}
