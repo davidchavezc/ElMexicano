@@ -104,3 +104,17 @@ export const actualizarCantidadPieza = async (req, res) => {
         res.status(500).json({ message: "Error al actualizar cantidad de piezas" });
     }
 };
+
+// Obtener piezas por marca
+export const obtenerPiezasPorMarca = async (req, res) =>{
+    try{
+        const {id_marca} = req.params;
+        const result = await pool.query(
+            "SELECT * FROM pieza WHERE id_marca = $1", [id_marca]
+        );
+        res.json(result.rows);
+    } catch (error){
+        console.error("Error al obtener piezas por marca: ", error);
+        res.status(500).json({ message: "Error al obtener piezas por marca" });
+    }
+};
