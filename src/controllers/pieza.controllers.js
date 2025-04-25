@@ -66,4 +66,19 @@ export const actualizarPieza = async (req, res) => {
     }
 }
 
-// 
+// Eliminar pieza 
+export const eliminarPieza = async (req, res) => {
+    try{
+        const { id } = req.params;
+        
+        const result = await pool.query("DELETE FROM pieza WHERE id_pieza = $1 RETURNING *", [id]);
+
+        if (result.rows.length === 0){
+            return res.status(404).json({ message: "Pieza no encontrada" });
+        }
+        res.json({ message: "Pieza eliminada exitosamente", pieza: result.rows[0] });
+    } catch (error){
+        console.error("Error al eliminar pieza: ", error);
+        res.status(500).json({ message: "Error al eliminar pieza" });
+    }
+};
