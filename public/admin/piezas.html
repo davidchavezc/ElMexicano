@@ -40,57 +40,113 @@
       <div class="col-12 col-md-6 mb-4">
         <div class="border p-3 inventory-section">
           <h5 class="fw-bold">Añadir Artículo</h5>
-          <div class="mb-3">
-            <label class="fw-bold">Nombre</label>
-            <input type="text" class="form-control" placeholder="Ingrese el nombre del Artículo">
-            <label class="fw-bold">Modelo</label>
-            <input type="text" class="form-control" placeholder="Ingrese el nombre del Modelo">
-          </div>
-          <div class="row mb-3">
-            <div class="col-6">
-              <label class="fw-bold">Stock inicial</label>
-              <input type="number" class="form-control" placeholder="0">
+          <form id="formPieza">
+            <input type="hidden" id="id_pieza">
+            <input type="hidden" id="modo_edicion" value="crear">
+            
+            <div class="mb-3">
+              <label class="fw-bold">Nombre</label>
+              <input type="text" id="nombre_pieza" class="form-control" placeholder="Ingrese el nombre del Artículo" required>
             </div>
-            <div class="col-6">
+            
+            <div class="mb-3">
               <label class="fw-bold">Marca</label>
-              <select class="form-select">
+              <select id="marca_selector" class="form-select" required>
                 <option value="" selected>Seleccione una marca</option>
-                <option value="item">Duralast</option>
-                <option value="item">Bosch </option>
-                <option value="item">Denso</option>
-                <option value="item">AG</option>
               </select>
             </div>
-          </div>
-          <div class="mb-3">
-            <label class="fw-bold">Precio</label>
-            <input type="number" class="form-control" placeholder="$0.00">
-          </div>
-          <div class="mb-3">
-            <label class="fw-bold">Imagen</label>
-            <input type="file" class="form-control" accept="image/*">
-          </div>
-          <div class="d-flex gap-2">
-            <button class="btn btn-success">Crear</button>
-            <button class="btn btn">Cancelar</button>
-          </div>
+            
+            <div class="mb-3">
+              <label class="fw-bold">Modelo</label>
+              <select id="modelo_selector" class="form-select" required>
+                <option value="" selected>Seleccione un modelo</option>
+              </select>
+            </div>
+            
+            <div class="mb-3">
+              <label class="fw-bold">Categoría</label>
+              <select id="categoria_selector" class="form-select" required>
+                <option value="" selected>Seleccione una categoría</option>
+              </select>
+            </div>
+            
+            <div class="row mb-3">
+              <div class="col-6">
+                <label class="fw-bold">Stock inicial</label>
+                <input type="number" id="cantidad_pieza" class="form-control" placeholder="0" min="0" required>
+              </div>
+              <div class="col-6">
+                <label class="fw-bold">Precio</label>
+                <input type="number" id="precio_pieza" class="form-control" placeholder="$0.00" min="0" step="0.01" required>
+              </div>
+            </div>
+            
+            <div class="d-flex gap-2">
+              <button type="button" id="btnCrear" class="btn btn-success">Crear</button>
+              <button type="button" id="btnCancelar" class="btn btn">Cancelar</button>
+            </div>
+          </form>
         </div>
       </div>
+      
       <div class="col-12 col-md-6">
         <div class="border p-3 inventory-section">
           <h5 class="fw-bold">Eliminar Artículo</h5>
-          <div class="mb-3">
-            <label class="fw-bold">Artículo</label>
-            <input type="text" class="form-control" placeholder="Ingrese el nombre del Artículo">
-          </div>
-          <div class="d-flex gap-2 mb-3">
-            <input type="password" class="form-control" placeholder="Contraseña de Administrador">
-          </div>
-          <div class="d-flex gap-2 mb-3">
-            <button class="btn btn-danger">Eliminar</button>
-            <button class="btn btn">Cancelar</button>
-          </div>
+          <form id="formEliminarPieza">
+            <input type="hidden" id="id_eliminar">
+            
+            <div class="mb-3">
+              <label class="fw-bold">Nombre</label>
+              <input type="text" id="nombre_eliminar" class="form-control" readonly>
+            </div>
+            
+            <div class="mb-3">
+              <label class="fw-bold">Marca</label>
+              <select id="marca_eliminar" class="form-select" disabled>
+                <option value="" selected>Seleccione una marca</option>
+              </select>
+            </div>
+            
+            <div class="mb-3">
+              <label class="fw-bold">Modelo</label>
+              <select id="modelo_eliminar" class="form-select" disabled>
+                <option value="" selected>Seleccione un modelo</option>
+              </select>
+            </div>
+            
+            <div class="mb-3">
+              <label class="fw-bold">Categoría</label>
+              <select id="categoria_eliminar" class="form-select" disabled>
+                <option value="" selected>Seleccione una categoría</option>
+              </select>
+            </div>
+            
+            <div class="d-flex gap-2 mb-3">
+              <button type="button" id="btnEliminar" class="btn btn-danger">Eliminar</button>
+              <button type="button" id="btnCancelarEliminar" class="btn btn">Cancelar</button>
+            </div>
+          </form>
         </div>
+      </div>
+    </div>
+    
+    <!-- Tabla de piezas -->
+    <div class="border p-3 mt-4">
+      <h5 class="fw-bold">Listado de Piezas</h5>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Cantidad</th>
+              <th>Precio</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="lista_piezas">
+            <!-- Aquí se cargarán las piezas dinámicamente -->
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -112,6 +168,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="/scripts/jquery-3.7.1.min.js"></script>
+  <script src="/scripts/pieza.js"></script>
 </body>
 
 </html>

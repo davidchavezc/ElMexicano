@@ -30,17 +30,27 @@ export const getObtenerPiezaPorId = async (req, res) => {
 // Crear una pieza nueva
 export const postCrearPieza = async (req, res) => {
     try {
-        const { nombre_pieza, id_modelo, id_marca, id_categoria, cantidad } = req.body;
+        console.log("Datos recibidos:", req.body); // Para depuración
+        const { nombre_pieza, id_modelo, id_marca, id_categoria, cantidad, precio } = req.body;
 
-        const result = await poolquery(
-            "INSERT INTO pieza ( nombre_pieza, id_modelo, id_marca, id_categoria, cantidad) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-            [nombre_pieza,id_modelo, id_marca, id_categoria, cantidad]
+        // Validar que todos los campos necesarios estén presentes
+        if (!nombre_pieza || !id_modelo || !id_marca || !id_categoria || !cantidad) {
+            return res.status(400).json({ 
+                message: "Faltan campos requeridos", 
+                required: ["nombre_pieza", "id_modelo", "id_marca", "id_categoria", "cantidad"],
+                received: req.body 
+            });
+        }
+
+        const result = await pool.query(
+            "INSERT INTO pieza (nombre_pieza, id_modelo, id_marca, id_categoria, cantidad, precio) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+            [nombre_pieza, id_modelo, id_marca, id_categoria, cantidad, precio || 0]
         );
 
         res.status(201).json(result.rows[0]);
-    } catch ( error){
+    } catch (error){
         console.error("Error al crear pieza: ", error);
-        res.status(500).json({ message: "Error al crear pieza."});
+        res.status(500).json({ message: "Error al crear pieza: " + error.message });
     }
 } 
 
