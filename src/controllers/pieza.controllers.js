@@ -42,4 +42,28 @@ export const postCrearPieza = async (req, res) => {
         console.error("Error al crear pieza: ", error);
         res.status(500).json({ message: "Error al crear pieza."});
     }
+} 
+
+// Actualizar pieza
+export const actualizarPieza = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { nombre_pieza, id_modelo, id_categoria, cantidad } = req.body;
+
+        const result = await pool.query(
+            "UPDATE pieza SET nombre_pieza = $1, id_modelo = $2, id_categoria = $3, id_categoria = $4, cantidad = $5, WHERE id_pieza = $6 RETURNING *",
+            [nombre_pieza, id_modelo, id_categoria, cantidad, id]
+        );
+
+        if (result.rows.length === 0){
+            return res.status(404).json({ message: "Pieza no encontrada" });
+        }
+
+        res.json(result.rows[0]);
+    } catch (error){
+        console.error("Error al actualizar pieza: ", error);
+        res.status(500).json({ message: "Error al actualizar pieza" });
+    }
 }
+
+// 
