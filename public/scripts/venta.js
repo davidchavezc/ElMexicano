@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Función para cargar las piezas desde el backend
   async function getPiezas() {
     try {
-      const response = await fetch('/venta', { // Cambiar si el backend está en otro dominio
+      const response = await fetch('/ventas', { // Cambiar si el backend está en otro dominio
         method: 'GET',
       });
 
