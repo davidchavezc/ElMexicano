@@ -147,3 +147,14 @@ export const getPiezasPorCategoria = async (req, res) => {
         res.status(500).json({ message: "Error al obtener piezas por categoría" });
     }
 };
+
+// Obtener todas las categorías
+export const getCategorias = async (req, res) => {
+    try {
+        const result = await pool.query("SELECT * FROM categoria ORDER BY id_categoria");
+        res.json(result.rows);
+    } catch (error) {
+        console.error("Error al obtener categorías: ", error);
+        res.status(500).json({ message: "Error al obtener categorías" });
+    }
+};
