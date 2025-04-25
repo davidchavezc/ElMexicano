@@ -23,6 +23,11 @@ export const agregarUsuario = async (req, res) => {
       return res.status(400).json({ error: "Todos los campos son obligatorios" });
     }
 
+    const usuarioDuplicado = await pool.query('SELECT id_empleado FROM usuario WHERE usuario_empleado = $1',[usuario_empleado]);
+    if(usuarioDuplicado.rowCount > 0){
+    res.status(403).send('Este usuario ya está utilizado');
+    }
+
     const result = await pool.query(
       "INSERT INTO usuario (nombre_empleado, apellido_empleado, usuario_empleado, contrasena_empleado, id_rol) VALUES ($1, $2, $3, $4, $5) RETURNING *",
       [nombre_empleado, apellido_empleado, usuario_empleado, contrasena_empleado, id_rol]
