@@ -27,3 +27,19 @@ export const getObtenerPiezaPorId = async (req, res) => {
     }
 };
 
+// Crear una pieza nueva
+export const postCrearPieza = async (req, res) => {
+    try {
+        const { nombre_pieza, id_modelo, id_marca, id_categoria, cantidad } = req.body;
+
+        const result = await poolquery(
+            "INSERT INTO pieza ( nombre_pieza, id_modelo, id_marca, id_categoria, cantidad) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+            [nombre_pieza,id_modelo, id_marca, id_categoria, cantidad]
+        );
+
+        res.status(201).json(result.rows[0]);
+    } catch ( error){
+        console.error("Error al crear pieza: ", error);
+        res.status(500).json({ message: "Error al crear pieza."});
+    }
+}
