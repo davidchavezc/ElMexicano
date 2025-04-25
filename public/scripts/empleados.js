@@ -72,7 +72,7 @@ async function cargarEmpleados() {
         <td>${empleado.nombre_empleado} ${empleado.apellido_empleado}</td>
         <td>${empleado.usuario_empleado}</td>
         <td>${empleado.contrasena_empleado}</td>
-        <td>${empleado.id_rol}</td>
+        <td>${empleado.nombre_rol}</td>
         <td>
           <button class="btn btn-warning btn-sm" onclick="editarEmpleado(${empleado.id_empleado}, '${empleado.nombre_empleado}', '${empleado.apellido_empleado}', '${empleado.usuario_empleado}', '${empleado.contrasena_empleado}', '${empleado.id_rol}')">Editar</button>
           <button class="btn btn-danger btn-sm" onclick="eliminarEmpleado(${empleado.id_empleado})">Eliminar</button>
