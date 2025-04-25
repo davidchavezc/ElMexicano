@@ -3,7 +3,10 @@ import { pool } from '../db.js';
 // Obtener usuarios
 export const getUsuarios = async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM usuario");
+    const result = await pool.query(`
+      SELECT *, rol.nombre_tipo AS nombre_rol
+      FROM usuario INNER JOIN rol
+      ON usuario.id_rol = rol.id_rol;`);
     res.json(result.rows);
   } catch (error) {
     console.error("Error al obtener usuarios:", error);
