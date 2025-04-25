@@ -63,7 +63,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderPiezaSeleccionada(pieza) {
-    const html = `
+    let cantidad = 1;
+    const stockMaximo = pieza.cantidad // Usamos 10 por defecto si no viene el stock
+  
+    const $card = $(`
       <div class="container bg-white border rounded p-3 mt-3">
         <div class="row align-items-center">
           <div class="col-md-2 text-center">
@@ -72,23 +75,33 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="col-md-6">
             <h4 class="fw-bold">${pieza.nombre_pieza}</h4>
           </div>
-          <div class="col-md-2 text-center">
-            <label class="fw-bold">No. de Serie</label>
-            <select class="form-select">
-              <option>${pieza.numero_serie || '001'}</option>
-            </select>
-          </div>
-          <div class="col-md-2 text-center">
-            <button class="btn btn-outline-secondary" type="button" id="incrementBtn">+</button>
+          <div class="col-md-2 text-center d-flex align-items-center justify-content-center gap-2">
+            <button class="btn btn-outline-secondary btn-decrement">−</button>
+            <span class="fw-bold cantidad">${cantidad}</span>
+            <button class="btn btn-outline-secondary btn-increment">+</button>
           </div>
         </div>
         <div class="text-end mt-2">
           <button class="btn btn-light border"><i class="bi bi-plus"></i> Agregar Pieza</button>
         </div>
       </div>
-    `;
-
-    $('#pieza-seleccionada').append(html);
+    `);
+  
+    $card.find('.btn-increment').on('click', function () {
+      if (cantidad < stockMaximo) {
+        cantidad++;
+        $card.find('.cantidad').text(cantidad);
+      }
+    });
+  
+    $card.find('.btn-decrement').on('click', function () {
+      if (cantidad > 1) {
+        cantidad--;
+        $card.find('.cantidad').text(cantidad);
+      }
+    });
+  
+    $('#pieza-seleccionada').append($card)
   }
 
   // Ocultar sugerencias si se hace clic fuera
