@@ -11,7 +11,8 @@ $(document).ready(async function () {
     const rol = $("select").val();
 
     if (!nombre || !apellido || !usuario || !contrasena || !rol) {
-      alert("Por favor, completa todos los campos.");
+      const infoAlert = 'Por favor, completa todos los campos.';
+      $('#alertBox').append(createAlert('info', infoAlert));
       return;
     }
 
@@ -42,13 +43,16 @@ $(document).ready(async function () {
       }
 
       if (response.ok) {
-        alert(window.usuarioEditandoId ? "Empleado editado correctamente." : "Empleado agregado correctamente.");
+        const mensajeExito = (window.usuarioEditandoId ? "Empleado editado correctamente." : "Empleado agregado correctamente.");
         $("form")[0].reset();
         window.usuarioEditandoId = null;
         await cargarEmpleados();
+        $('#alertBox').prepend(createAlert('success', mensajeExito));
       } else {
         const errorText = await response.text();
-        alert("Error: " + errorText);
+        // alert("Error: " + errorText);
+        const errorAlert = createAlert('danger', 'Error al crear usuario: ' + errorText);
+        $('#alertBox').prepend(errorAlert);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -103,14 +107,37 @@ window.eliminarEmpleado = async function (id) {
     });
 
     if (response.ok) {
-      alert("Empleado eliminado correctamente.");
+      $('#alertBox').prepend(createAlert('success', 'Empleado eliminado correctamente.'))
       await cargarEmpleados();
     } else {
       const errorText = await response.text();
-      alert("Error al eliminar empleado: " + errorText);
+      $('#alertBox').prepend(createAlert('danger',"Error al eliminar empleado: " + errorText));
     }
   } catch (error) {
     console.error("Error al eliminar empleado:", error);
     alert("Ocurrió un error al intentar eliminar el empleado.");
   }
 };
+
+function createAlert(type, message) {
+  let icon = '';
+  switch(type) {
+    case "success":
+      icon = 'bi bi-check-circle'
+      break;
+    case "danger":
+      icon = 'bi bi-exclamation-triangle'
+      break;
+    case "info":
+      icon = 'bi bi-exclamation-circle'
+      break;
+  }
+  const wrapper = document.createElement('div')
+  wrapper.innerHTML = [
+    `<div class="alert alert-${type} alert-dismissible mt-3" role="alert">`,
+    `   <div><i class="${icon} me-2"> </i>${message}</div>`,
+    '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+    '</div>'
+  ].join('')
+  return wrapper;
+}
