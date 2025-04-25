@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="container bg-white border rounded p-3 mt-3">
         <div class="row align-items-center">
           <div class="col-md-2 text-center">
-            <img src="${pieza.imagen_url || 'https://via.placeholder.com/100'}" class="img-fluid rounded">
+            <img src="../img/${pieza.imagen}" class="img-fluid rounded">
           </div>
           <div class="col-md-6">
             <h4 class="fw-bold">${pieza.nombre_pieza}</h4>
