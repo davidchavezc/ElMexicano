@@ -25,18 +25,27 @@
       </header>
   </div>
     
-    <div class="container-fluid">
-        <div class="container bg-light border rounded p-3 mt-3">
-            <div class="d-flex justify-content-between align-items-center">
-                <h5 class="fw-bold">Registro de venta</h5>
-                <input type="text" class="form-control w-25" id="buscador-pieza" placeholder="Buscar producto">
-            </div>
+  <div class="container-fluid">
+    <div class="container bg-light border rounded p-3 mt-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="fw-bold mb-0 me-3">Registro de venta</h5>
+  
+        <!-- Agrupador con posición relativa -->
+        <div class="w-25 position-relative">
+          <input type="text" class="form-control" id="buscador-pieza" placeholder="Buscar producto" autocomplete="off">
+  
+          <!-- Lista de sugerencias: aparece justo debajo del input -->
+          <ul id="resultados" class="list-group position-absolute w-100 z-3 d-none" style="top: 100%; left: 0; max-height: 200px; overflow-y: auto;">
+            <!-- Aquí se llenan las sugerencias dinámicamente -->
+          </ul>
         </div>
-
-        <div class="container bg-white border rounded p-3 mt-3" id="pieza-seleccionada">
-            
       </div>
     </div>
+  
+    <div class="container bg-white border rounded p-3 mt-3" id="pieza-seleccionada">
+      <!-- Aquí irá la pieza seleccionada -->
+    </div>
+  </div>
     <div class="container bg-white border rounded p-3 mt-3">
         <div class="row text-center">
             <div class="col-md-4">

@@ -33,38 +33,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Mostrar los resultados debajo del input
   function mostrarResultados(lista) {
-    $('#resultados').empty(); // Limpiar resultados previos
-
-    if (lista.length === 0) return;
-
-    const $ul = $('<ul>', {
-      class: 'list-group position-absolute w-25 z-3',
-      css: {
-        top: $('#buscador-pieza').position().top + $('#buscador-pieza').outerHeight(),
-        left: $('#buscador-pieza').position().left,
-      },
-    });
-
+    const $resultados = $('#resultados');
+    $resultados.empty().removeClass('d-none');
+  
+    if (lista.length === 0) {
+      $resultados.addClass('d-none');
+      return;
+    }
+  
     lista.forEach(pieza => {
       const $li = $('<li>', {
         class: 'list-group-item list-group-item-action',
         text: pieza.nombre_pieza,
         click: function () {
           $('#buscador-pieza').val(pieza.nombre_pieza);
-          $('#resultados').empty();
-        },
+          $resultados.empty().addClass('d-none');
+        }
       });
-
-      $ul.append($li);
+      $resultados.append($li);
     });
-
-    $('#resultados').append($ul);
   }
 
   // Ocultar sugerencias si se hace clic fuera
   $(document).on('click', function (e) {
     if (!$(e.target).closest('#buscador-pieza, #resultados').length) {
-      $('#resultados').empty();
+      $('#resultados').empty().addClass('d-none');
     }
   });
 });
