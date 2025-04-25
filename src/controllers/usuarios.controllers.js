@@ -25,7 +25,7 @@ export const agregarUsuario = async (req, res) => {
 
     const usuarioDuplicado = await pool.query('SELECT id_empleado FROM usuario WHERE usuario_empleado = $1',[usuario_empleado]);
     if(usuarioDuplicado.rowCount > 0){
-    res.status(403).send('Este usuario ya está utilizado');
+    return res.status(403).send('Este usuario ya está utilizado');
     }
 
     const result = await pool.query(
@@ -81,7 +81,7 @@ export const eliminarUsuario = async (req, res) => {
     );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: "Usuario no encontrado" });
+      return res.status(404).send('Usuario no encontrado o ya eliminado previamente.');
     }
 
     res.json({ message: "Usuario eliminado correctamente" });
