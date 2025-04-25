@@ -118,3 +118,17 @@ export const obtenerPiezasPorMarca = async (req, res) =>{
         res.status(500).json({ message: "Error al obtener piezas por marca" });
     }
 };
+
+// Obtener piezas por modelo
+export const getPiezasPorModelo = async (req, res) => {
+    try {
+        const { id_modelo } = req.params;
+        const result = await pool.query(
+            "SELECT * FROM pieza WHERE id_modelo = $1", [id_modelo]
+        );
+        res.json(result.rows); 
+    } catch (error){
+        console.error("Error al obtener piezas por modelo: ", error);
+        res.status(500).json({ message: "Error al obtener piezas por modelo" });
+    }
+};
