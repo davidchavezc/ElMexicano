@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const stockMaximo = pieza.cantidad // Usamos 10 por defecto si no viene el stock
   
     const $card = $(`
-      <div class="container bg-white border rounded p-3 mt-3">
+      <div class="container bg-white border rounded p-3 mt-3" id="tarjeta">
         <div class="row align-items-center">
           <div class="col-md-2 text-center">
             <img src="../img/${pieza.imagen}" class="img-fluid rounded">
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
         <div class="text-end mt-2">
-          <button class="btn btn-light border"><i class="bi bi-plus"></i> Agregar Pieza</button>
+          <button class="btn btn-danger border" id="eliminarPieza"><i class="bi bi-plus"></i> Eliminar Pieza</button>
         </div>
       </div>
     `);
@@ -102,6 +102,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   
     $('#pieza-seleccionada').append($card)
+
+    $('#eliminarPieza').on("click", function() {
+      this.closest('#tarjeta').remove();
+    })
   }
 
   // Ocultar sugerencias si se hace clic fuera
