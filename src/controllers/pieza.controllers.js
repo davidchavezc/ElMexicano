@@ -1,4 +1,4 @@
-import { pool } from '../db,js';
+import { pool } from '../db.js';
 
 // Obtener todas las piezas
 export const getObtenerPieza = async (req, res) => {
