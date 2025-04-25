@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
         click: function () {
           $('#buscador-pieza').val('');
           $('#resultados').empty();
-          renderPiezaSeleccionada(pieza);
+          renderPiezaSeleccionada(pieza.id_pieza);
         }
       });
 
@@ -62,12 +62,20 @@ document.addEventListener("DOMContentLoaded", () => {
     $('#resultados').append($ul);
   }
 
-  function renderPiezaSeleccionada(pieza) {
+  async function renderPiezaSeleccionada(id_pieza) {
+    // Verificar si la pieza ya está en el contenedor
+    if ($(`div[idpieza="${id_pieza}"]`).length > 0) {
+      alert("La pieza ya está agregada.");
+      return; // Salir de la función si la pieza ya existe
+    }
+
+    const response = await fetch(`/ventas/${id_pieza}`);
+    const pieza = await response.json();
     let cantidad = 1;
-    const stockMaximo = pieza.cantidad // Usamos 10 por defecto si no viene el stock
-  
+    const stockMaximo = pieza.cantidad; // Usamos 10 por defecto si no viene el stock
+
     const $card = $(`
-      <div class="container bg-white border rounded p-3 mt-3" id="tarjeta">
+      <div class="container bg-white border rounded p-3 mt-3" id="tarjeta" idpieza="${pieza.id_pieza}">
         <div class="row align-items-center">
           <div class="col-md-2 text-center">
             <img src="../img/${pieza.imagen}" class="img-fluid rounded">
@@ -86,26 +94,30 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </div>
     `);
-  
+
+    // Incrementar cantidad
     $card.find('.btn-increment').on('click', function () {
       if (cantidad < stockMaximo) {
         cantidad++;
         $card.find('.cantidad').text(cantidad);
       }
     });
-  
+
+    // Decrementar cantidad
     $card.find('.btn-decrement').on('click', function () {
       if (cantidad > 1) {
         cantidad--;
         $card.find('.cantidad').text(cantidad);
       }
     });
-  
-    $('#pieza-seleccionada').append($card)
 
-    $('#eliminarPieza').on("click", function() {
-      this.closest('#tarjeta').remove();
-    })
+    // Eliminar tarjeta
+    $card.find('#eliminarPieza').on('click', function () {
+      $card.remove();
+    });
+
+    // Agregar la tarjeta al contenedor
+    $('#pieza-seleccionada').append($card);
   }
 
   // Ocultar sugerencias si se hace clic fuera
