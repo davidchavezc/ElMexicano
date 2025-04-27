@@ -168,3 +168,44 @@ export const getCategorias = async (req, res) => {
         res.status(500).json({ message: "Error al obtener categorías" });
     }
 };
+
+// Función para filtrar piezas por marca, modelo y/o categoría
+export const filtrarPiezas = async (req, res) => {
+    try {
+        const { marca, modelo, categoria } = req.query;
+        
+        console.log("Parámetros recibidos:", { marca, modelo, categoria });
+        
+        // Construir la consulta SQL con los filtros
+        let query = "SELECT * FROM pieza WHERE 1=1";
+        const params = [];
+        let paramIndex = 1;
+        
+        if (marca) {
+            query += ` AND id_marca = $${paramIndex}`;
+            params.push(parseInt(marca, 10)); // Convertir a número
+            paramIndex++;
+        }
+        
+        if (modelo) {
+            query += ` AND id_modelo = $${paramIndex}`;
+            params.push(parseInt(modelo, 10)); // Convertir a número
+            paramIndex++;
+        }
+        
+        if (categoria) {
+            query += ` AND id_categoria = $${paramIndex}`;
+            params.push(parseInt(categoria, 10)); // Convertir a número
+            paramIndex++;
+        }
+        
+        console.log("Consulta SQL:", query);
+        console.log("Parámetros:", params);
+        
+        const result = await pool.query(query, params);
+        res.json(result.rows);
+    } catch (error) {
+        console.error("Error al filtrar piezas:", error);
+        res.status(500).json({ message: "Error al filtrar piezas: " + error.message });
+    }
+};

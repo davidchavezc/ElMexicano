@@ -8,14 +8,17 @@ $(document).ready(function() {
     // Cargar categorías
     cargarCategorias();
     
-    // Cargar lista de piezas
-    cargarPiezas();
+    // NO cargar todas las piezas inicialmente
+    // En lugar de eso, mostrar un mensaje indicando que se deben usar los filtros
+    mostrarMensajeInicial();
     
     // Event listeners
     $("#btnCrear").click(crearPieza);
     $("#btnCancelar").click(limpiarFormulario);
     $("#btnEliminar").click(eliminarPieza);
     $("#btnCancelarEliminar").click(limpiarFormularioEliminar);
+    $("#btnFiltrar").click(filtrarPiezas);
+    $("#btnLimpiarFiltros").click(limpiarFiltros);
     
     // Cuando cambia la marca, actualizar modelos disponibles
     $("#marca_selector").change(function() {
@@ -31,7 +34,121 @@ $(document).ready(function() {
             cargarModelosPorMarca(idMarca, "#modelo_eliminar");
         }
     });
+    
+    // Cuando cambia la marca en el filtro, actualizar modelos disponibles
+    $("#filtro_marca").change(function() {
+        const idMarca = $(this).val();
+        if (idMarca) {
+            cargarModelosPorMarca(idMarca, "#filtro_modelo");
+        } else {
+            // Si no hay marca seleccionada, cargar todos los modelos
+            cargarModelos("#filtro_modelo");
+        }
+    });
 });
+
+// Función para mostrar mensaje inicial
+function mostrarMensajeInicial() {
+    const listaPiezas = $("#lista_piezas");
+    listaPiezas.empty();
+    listaPiezas.append('<tr><td colspan="4" class="text-center">Utiliza los filtros para buscar piezas</td></tr>');
+}
+
+// Función para filtrar piezas
+function filtrarPiezas() {
+    const idMarca = $("#filtro_marca").val();
+    const idModelo = $("#filtro_modelo").val();
+    const idCategoria = $("#filtro_categoria").val();
+    
+    console.log("Valores originales:", { idMarca, idModelo, idCategoria });
+    
+    // Verificar si al menos un filtro está seleccionado
+    if (!idMarca && !idModelo && !idCategoria) {
+        alert('Por favor, selecciona al menos un filtro para buscar piezas.');
+        return;
+    }
+    
+    // Construir la URL con los parámetros de filtro
+    let url = '/piezas/filtrar?';
+    let params = [];
+    
+    if (idMarca) {
+        // Asegúrate de que idMarca sea solo el número, sin caracteres adicionales
+        const marcaLimpia = idMarca.toString().split(':')[0]; // Elimina cualquier texto después de ':'
+        params.push(`marca=${marcaLimpia}`);
+    }
+    
+    if (idModelo) {
+        const modeloLimpio = idModelo.toString().split(':')[0];
+        params.push(`modelo=${modeloLimpio}`);
+    }
+    
+    if (idCategoria) {
+        const categoriaLimpia = idCategoria.toString().split(':')[0];
+        params.push(`categoria=${categoriaLimpia}`);
+    }
+    
+    url += params.join('&');
+    
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function(piezas) {
+            mostrarPiezas(piezas);
+        },
+        error: function(error) {
+            console.error('Error al filtrar piezas:', error);
+            alert('Error al filtrar las piezas. Por favor, intente de nuevo.');
+        }
+    });
+}
+
+// Función para limpiar los filtros
+function limpiarFiltros() {
+    $("#filtro_marca").val('');
+    $("#filtro_modelo").val('');
+    $("#filtro_categoria").val('');
+    
+    // Mostrar mensaje inicial en lugar de cargar todas las piezas
+    mostrarMensajeInicial();
+}
+
+// Función para mostrar las piezas en la tabla
+function mostrarPiezas(piezas) {
+    const listaPiezas = $("#lista_piezas");
+    
+    listaPiezas.empty();
+    
+    if (piezas.length === 0) {
+        listaPiezas.append('<tr><td colspan="4" class="text-center">No hay piezas que coincidan con los filtros</td></tr>');
+        return;
+    }
+    
+    piezas.forEach(pieza => {
+        listaPiezas.append(`
+            <tr>
+                <td>${pieza.nombre_pieza}</td>
+                <td>${pieza.cantidad}</td>
+                <td>${pieza.precio ? '$' + pieza.precio : 'N/A'}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary btn-editar" data-id="${pieza.id_pieza}">Editar</button>
+                    <button class="btn btn-sm btn-danger btn-eliminar" data-id="${pieza.id_pieza}">Eliminar</button>
+                </td>
+            </tr>
+        `);
+    });
+    
+    // Agregar event listeners para los botones de editar y eliminar
+    $(".btn-editar").click(function() {
+        const idPieza = $(this).data('id');
+        cargarPiezaParaEditar(idPieza);
+    });
+    
+    $(".btn-eliminar").click(function() {
+        const idPieza = $(this).data('id');
+        prepararEliminarPieza(idPieza);
+    });
+}
 
 // Función para cargar todas las marcas
 function cargarMarcas() {
@@ -41,16 +158,20 @@ function cargarMarcas() {
         success: function(marcas) {
             const marcaSelector = $("#marca_selector");
             const marcaEliminar = $("#marca_eliminar");
+            const filtroMarca = $("#filtro_marca");
             
             marcaSelector.empty();
             marcaEliminar.empty();
+            filtroMarca.empty();
             
             marcaSelector.append('<option value="" selected>Seleccione una marca</option>');
             marcaEliminar.append('<option value="" selected>Seleccione una marca</option>');
+            filtroMarca.append('<option value="" selected>Todas las marcas</option>');
             
             marcas.forEach(marca => {
                 marcaSelector.append(`<option value="${marca.id_marca}">${marca.nombre_marca}</option>`);
                 marcaEliminar.append(`<option value="${marca.id_marca}">${marca.nombre_marca}</option>`);
+                filtroMarca.append(`<option value="${marca.id_marca}">${marca.nombre_marca}</option>`);
             });
         },
         error: function(error) {
@@ -61,15 +182,20 @@ function cargarMarcas() {
 }
 
 // Función para cargar todos los modelos
-function cargarModelos() {
+function cargarModelos(selector = "#modelo_selector") {
     $.ajax({
         url: '/modelos',
         type: 'GET',
         success: function(modelos) {
-            const modeloSelector = $("#modelo_selector");
+            const modeloSelector = $(selector);
             
             modeloSelector.empty();
-            modeloSelector.append('<option value="" selected>Seleccione un modelo</option>');
+            
+            if (selector === "#filtro_modelo") {
+                modeloSelector.append('<option value="" selected>Todos los modelos</option>');
+            } else {
+                modeloSelector.append('<option value="" selected>Seleccione un modelo</option>');
+            }
             
             modelos.forEach(modelo => {
                 modeloSelector.append(`<option value="${modelo.id_modelo}">${modelo.nombre_modelo} (${modelo.anio_modelo})</option>`);
@@ -82,7 +208,7 @@ function cargarModelos() {
 }
 
 // Función para cargar modelos por marca
-function cargarModelosPorMarca(idMarca, selector = "#modelo_selector") {
+function cargarModelosPorMarca(idMarca, selector = "#modelo_selector", callback) {
     $.ajax({
         url: `/modelos/marca/${idMarca}`,
         type: 'GET',
@@ -95,6 +221,11 @@ function cargarModelosPorMarca(idMarca, selector = "#modelo_selector") {
             modelos.forEach(modelo => {
                 modeloSelector.append(`<option value="${modelo.id_modelo}">${modelo.nombre_modelo} (${modelo.anio_modelo})</option>`);
             });
+            
+            // Ejecutar callback si existe
+            if (typeof callback === 'function') {
+                callback();
+            }
         },
         error: function(error) {
             console.error('Error al cargar modelos por marca:', error);
@@ -110,16 +241,20 @@ function cargarCategorias() {
         success: function(categorias) {
             const categoriaSelector = $("#categoria_selector");
             const categoriaEliminar = $("#categoria_eliminar");
+            const filtroCategoria = $("#filtro_categoria");
             
             categoriaSelector.empty();
             categoriaEliminar.empty();
+            filtroCategoria.empty();
             
             categoriaSelector.append('<option value="" selected>Seleccione una categoría</option>');
             categoriaEliminar.append('<option value="" selected>Seleccione una categoría</option>');
+            filtroCategoria.append('<option value="" selected>Todas las categorías</option>');
             
             categorias.forEach(categoria => {
                 categoriaSelector.append(`<option value="${categoria.id_categoria}">${categoria.nombre}</option>`);
                 categoriaEliminar.append(`<option value="${categoria.id_categoria}">${categoria.nombre}</option>`);
+                filtroCategoria.append(`<option value="${categoria.id_categoria}">${categoria.nombre}</option>`);
             });
         },
         error: function(error) {
@@ -135,39 +270,7 @@ function cargarPiezas() {
         url: '/piezas',
         type: 'GET',
         success: function(piezas) {
-            const listaPiezas = $("#lista_piezas");
-            
-            listaPiezas.empty();
-            
-            if (piezas.length === 0) {
-                listaPiezas.append('<tr><td colspan="5" class="text-center">No hay piezas registradas</td></tr>');
-                return;
-            }
-            
-            piezas.forEach(pieza => {
-                listaPiezas.append(`
-                    <tr>
-                        <td>${pieza.nombre_pieza}</td>
-                        <td>${pieza.cantidad}</td>
-                        <td>${pieza.precio ? '$' + pieza.precio : 'N/A'}</td>
-                        <td>
-                            <button class="btn btn-sm btn-primary btn-editar" data-id="${pieza.id_pieza}">Editar</button>
-                            <button class="btn btn-sm btn-danger btn-eliminar" data-id="${pieza.id_pieza}">Eliminar</button>
-                        </td>
-                    </tr>
-                `);
-            });
-            
-            // Agregar event listeners para los botones de editar y eliminar
-            $(".btn-editar").click(function() {
-                const idPieza = $(this).data('id');
-                cargarPiezaParaEditar(idPieza);
-            });
-            
-            $(".btn-eliminar").click(function() {
-                const idPieza = $(this).data('id');
-                prepararEliminarPieza(idPieza);
-            });
+            mostrarPiezas(piezas);
         },
         error: function(error) {
             console.error('Error al cargar piezas:', error);
@@ -233,25 +336,34 @@ function limpiarFormulario() {
 
 // Función para preparar la eliminación de una pieza
 function prepararEliminarPieza(idPieza) {
+    // Obtener los datos de la pieza por su ID
     $.ajax({
         url: `/piezas/${idPieza}`,
         type: 'GET',
         success: function(pieza) {
+            // Llenar el formulario con los datos de la pieza
             $("#id_eliminar").val(pieza.id_pieza);
             $("#nombre_eliminar").val(pieza.nombre_pieza);
             
-            // Seleccionar la marca y cargar los modelos correspondientes
-            $("#marca_eliminar").val(pieza.id_marca).trigger('change');
+            // Seleccionar la marca correspondiente
+            $("#marca_eliminar").val(pieza.id_marca);
             
-            // Esperar a que se carguen los modelos y luego seleccionar el modelo
-            setTimeout(() => {
+            // Cargar y seleccionar el modelo correspondiente
+            cargarModelosPorMarca(pieza.id_marca, "#modelo_eliminar", function() {
                 $("#modelo_eliminar").val(pieza.id_modelo);
-                $("#categoria_eliminar").val(pieza.id_categoria);
+            });
+            
+            // Seleccionar la categoría correspondiente
+            $("#categoria_eliminar").val(pieza.id_categoria);
+            
+            // Hacer scroll hasta el formulario de eliminación
+            $('html, body').animate({
+                scrollTop: $("#formEliminarPieza").offset().top - 100
             }, 500);
         },
         error: function(error) {
-            console.error('Error al cargar pieza para eliminar:', error);
-            alert('Error al cargar la pieza. Por favor, intente de nuevo.');
+            console.error('Error al cargar la pieza para eliminar:', error);
+            alert('Error al cargar la pieza para eliminar. Por favor, intente de nuevo.');
         }
     });
 }
@@ -261,35 +373,40 @@ function eliminarPieza() {
     const idPieza = $("#id_eliminar").val();
     
     if (!idPieza) {
-        alert('Por favor, seleccione una pieza para eliminar.');
+        alert('No se ha seleccionado ninguna pieza para eliminar.');
         return;
     }
     
-    if (!confirm('¿Está seguro de que desea eliminar esta pieza? Esta acción no se puede deshacer.')) {
-        return;
+    if (confirm('¿Está seguro de que desea eliminar esta pieza? Esta acción no se puede deshacer.')) {
+        $.ajax({
+            url: `/piezas/${idPieza}`,
+            type: 'DELETE',
+            success: function(response) {
+                alert('Pieza eliminada exitosamente.');
+                limpiarFormularioEliminar();
+                
+                // Actualizar la lista de piezas si hay filtros aplicados
+                if ($("#filtro_marca").val() || $("#filtro_modelo").val() || $("#filtro_categoria").val()) {
+                    filtrarPiezas();
+                } else {
+                    // Si no hay filtros, mostrar mensaje inicial
+                    mostrarMensajeInicial();
+                }
+            },
+            error: function(error) {
+                console.error('Error al eliminar la pieza:', error);
+                alert('Error al eliminar la pieza. Por favor, intente de nuevo.');
+            }
+        });
     }
-    
-    $.ajax({
-        url: `/piezas/${idPieza}`,
-        type: 'DELETE',
-        success: function(response) {
-            alert('Pieza eliminada exitosamente.');
-            limpiarFormularioEliminar();
-            cargarPiezas();
-        },
-        error: function(error) {
-            console.error('Error al eliminar pieza:', error);
-            alert('Error al eliminar la pieza. Por favor, intente de nuevo.');
-        }
-    });
 }
 
 // Función para limpiar el formulario de eliminación
 function limpiarFormularioEliminar() {
     $("#id_eliminar").val('');
     $("#nombre_eliminar").val('');
-    $("#modelo_eliminar").val('');
     $("#marca_eliminar").val('');
+    $("#modelo_eliminar").val('');
     $("#categoria_eliminar").val('');
 }
 
