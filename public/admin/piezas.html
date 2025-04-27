@@ -95,14 +95,30 @@
           <form id="formEliminarPieza">
             <input type="hidden" id="id_eliminar">
             <div class="mb-3">
-              <label class="fw-bold">Nombre del artículo a eliminar</label>
-              <input type="text" id="nombre_eliminar" class="form-control">
+              <label class="fw-bold">Nombre</label>
+              <input type="text" id="nombre_eliminar" class="form-control" placeholder="Ingrese el nombre del Artículo a eliminar">
             </div>
-            <div class="alert alert-warning mb-3" role="alert" id="alertaEliminar" style="display: none;">
-              ¿Estás seguro de que deseas eliminar este artículo? Esta acción no se puede deshacer.
+            <div class="mb-3">
+              <label class="fw-bold">Marca</label>
+              <select id="marca_eliminar" class="form-select">
+                <option value="" selected>Seleccione una marca</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="fw-bold">Modelo</label>
+              <select id="modelo_eliminar" class="form-select">
+                <option value="" selected>Seleccione un modelo</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="fw-bold">Categoría</label>
+              <select id="categoria_eliminar" class="form-select">
+                <option value="" selected>Seleccione una categoría</option>
+              </select>
             </div>
             <div class="d-flex gap-2 mb-3">
-              <button type="button" id="btnEliminar" class="btn btn-danger">Eliminar</button>
+              <button type="button" id="btnBuscarEliminar" class="btn btn-primary">Buscar</button>
+              <button type="button" id="btnEliminar" class="btn btn-danger" disabled>Eliminar</button>
               <button type="button" id="btnCancelarEliminar" class="btn btn">Cancelar</button>
             </div>
           </form>
