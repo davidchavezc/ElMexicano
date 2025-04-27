@@ -402,12 +402,64 @@ function eliminarPieza() {
 }
 
 // Función para limpiar el formulario de eliminación
+// Lógica para buscar pieza a eliminar y habilitar el botón Eliminar
+$("#btnBuscarEliminar").click(function() {
+    const nombre = $("#nombre_eliminar").val().trim();
+    const idMarca = $("#marca_eliminar").val();
+    const idModelo = $("#modelo_eliminar").val();
+    const idCategoria = $("#categoria_eliminar").val();
+
+    if (!nombre && !idMarca && !idModelo && !idCategoria) {
+        alert("Por favor, ingresa al menos un filtro para buscar la pieza.");
+        return;
+    }
+
+    // Construir la URL de búsqueda
+    let url = "/piezas/filtrar?";
+    let params = [];
+    if (nombre) params.push(`nombre=${encodeURIComponent(nombre)}`);
+    if (idMarca) params.push(`marca=${idMarca}`);
+    if (idModelo) params.push(`modelo=${idModelo}`);
+    if (idCategoria) params.push(`categoria=${idCategoria}`);
+    url += params.join("&");
+
+    $.ajax({
+        url: url,
+        type: "GET",
+        success: function(piezas) {
+            if (piezas.length === 0) {
+                alert("No se encontró ninguna pieza con esos filtros.");
+                limpiarFormularioEliminar();
+                $("#btnEliminar").prop("disabled", true);
+                return;
+            }
+            // Tomar la primera coincidencia
+            const pieza = piezas[0];
+            $("#id_eliminar").val(pieza.id_pieza);
+            $("#nombre_eliminar").val(pieza.nombre_pieza);
+            $("#marca_eliminar").val(pieza.id_marca);
+            cargarModelosPorMarca(pieza.id_marca, "#modelo_eliminar", function() {
+                $("#modelo_eliminar").val(pieza.id_modelo);
+            });
+            $("#categoria_eliminar").val(pieza.id_categoria);
+            $("#btnEliminar").prop("disabled", false);
+        },
+        error: function(error) {
+            console.error("Error al buscar pieza para eliminar:", error);
+            alert("Error al buscar la pieza. Intenta de nuevo.");
+            $("#btnEliminar").prop("disabled", true);
+        }
+    });
+});
+
+// Deshabilitar el botón Eliminar al limpiar el formulario
 function limpiarFormularioEliminar() {
     $("#id_eliminar").val('');
     $("#nombre_eliminar").val('');
     $("#marca_eliminar").val('');
     $("#modelo_eliminar").val('');
     $("#categoria_eliminar").val('');
+    $("#btnEliminar").prop("disabled", true);
 }
 
 // Función para cargar una pieza para editar
