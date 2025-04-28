@@ -401,7 +401,7 @@ function eliminarPieza() {
     }
 }
 
-// Función para limpiar el formulario de eliminación
+
 // Lógica para buscar pieza a eliminar y habilitar el botón Eliminar
 $("#btnBuscarEliminar").click(function() {
     const nombre = $("#nombre_eliminar").val().trim();
