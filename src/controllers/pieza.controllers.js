@@ -169,39 +169,36 @@ export const getCategorias = async (req, res) => {
     }
 };
 
-// Función para filtrar piezas por marca, modelo y/o categoría
+// Función para filtrar piezas por nombre, marca, modelo y/o categoría
 export const filtrarPiezas = async (req, res) => {
     try {
-        const { marca, modelo, categoria } = req.query;
-        
-        console.log("Parámetros recibidos:", { marca, modelo, categoria });
-        
-        // Construir la consulta SQL con los filtros
+        const { nombre, marca, modelo, categoria } = req.query;
+
         let query = "SELECT * FROM pieza WHERE 1=1";
         const params = [];
         let paramIndex = 1;
-        
+
+        if (nombre) {
+            query += ` AND LOWER(nombre_pieza) LIKE LOWER($${paramIndex})`;
+            params.push(`%${nombre}%`);
+            paramIndex++;
+        }
         if (marca) {
             query += ` AND id_marca = $${paramIndex}`;
-            params.push(parseInt(marca, 10)); // Convertir a número
+            params.push(parseInt(marca, 10));
             paramIndex++;
         }
-        
         if (modelo) {
             query += ` AND id_modelo = $${paramIndex}`;
-            params.push(parseInt(modelo, 10)); // Convertir a número
+            params.push(parseInt(modelo, 10));
             paramIndex++;
         }
-        
         if (categoria) {
             query += ` AND id_categoria = $${paramIndex}`;
-            params.push(parseInt(categoria, 10)); // Convertir a número
+            params.push(parseInt(categoria, 10));
             paramIndex++;
         }
-        
-        console.log("Consulta SQL:", query);
-        console.log("Parámetros:", params);
-        
+
         const result = await pool.query(query, params);
         res.json(result.rows);
     } catch (error) {

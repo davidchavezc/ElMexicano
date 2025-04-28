@@ -71,19 +71,19 @@
             </div>
             
             <div class="row mb-3">
-              <div class="col-6">
+              <div class="col-md-6">
                 <label class="fw-bold">Stock inicial</label>
-                <input type="number" id="cantidad_pieza" class="form-control" placeholder="0" min="0" required>
+                <input type="number" id="cantidad_pieza" class="form-control" placeholder="0" required>
               </div>
-              <div class="col-6">
+              <div class="col-md-6">
                 <label class="fw-bold">Precio</label>
-                <input type="number" id="precio_pieza" class="form-control" placeholder="$0.00" min="0" step="0.01" required>
+                <input type="number" id="precio_pieza" class="form-control" placeholder="$0.00" required>
               </div>
             </div>
             
-            <div class="d-flex gap-2">
-              <button type="button" id="btnCrear" class="btn btn-success">Crear</button>
-              <button type="button" id="btnCancelar" class="btn btn">Cancelar</button>
+            <div class="d-flex justify-content-between">
+              <button type="submit" class="btn btn-success" id="btnCrear">Crear</button>
+              <button type="reset" class="btn btn-danger" id="btnCancelar">Cancelar</button>
             </div>
           </form>
         </div>
@@ -91,90 +91,72 @@
       
       <div class="col-12 col-md-6">
         <div class="border p-3 inventory-section">
-          <h5 class="fw-bold">Eliminar Artículo</h5>
-          <form id="formEliminarPieza">
-            <input type="hidden" id="id_eliminar">
-            <div class="mb-3">
-              <label class="fw-bold">Nombre</label>
-              <input type="text" id="nombre_eliminar" class="form-control" placeholder="Ingrese el nombre del Artículo a eliminar">
-            </div>
-            <div class="mb-3">
-              <label class="fw-bold">Marca</label>
-              <select id="marca_eliminar" class="form-select">
-                <option value="" selected>Seleccione una marca</option>
-              </select>
-            </div>
-            <div class="mb-3">
-              <label class="fw-bold">Modelo</label>
-              <select id="modelo_eliminar" class="form-select">
-                <option value="" selected>Seleccione un modelo</option>
-              </select>
-            </div>
-            <div class="mb-3">
-              <label class="fw-bold">Categoría</label>
-              <select id="categoria_eliminar" class="form-select">
-                <option value="" selected>Seleccione una categoría</option>
-              </select>
-            </div>
-            <div class="d-flex gap-2 mb-3">
-              <button type="button" id="btnBuscarEliminar" class="btn btn-primary">Buscar</button>
-              <button type="button" id="btnEliminar" class="btn btn-danger" disabled>Eliminar</button>
-              <button type="button" id="btnCancelarEliminar" class="btn btn">Cancelar</button>
-            </div>
-          </form>
+          <h5 class="fw-bold">Listado de Piezas</h5>
+          <div class="mb-3">
+            <label class="fw-bold">Filtrar por Marca</label>
+            <select id="filtro_marca" class="form-select">
+              <option value="" selected>Todas las marcas</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="fw-bold">Filtrar por Modelo</label>
+            <select id="filtro_modelo" class="form-select">
+              <option value="" selected>Todos los modelos</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="fw-bold">Filtrar por Categoría</label>
+            <select id="filtro_categoria" class="form-select">
+              <option value="" selected>Todas las categorías</option>
+            </select>
+          </div>
+          <div class="d-flex justify-content-between mb-3">
+            <button id="btnFiltrar" class="btn btn-primary">Filtrar</button>
+            <button id="btnLimpiarFiltros" class="btn btn-secondary">Limpiar filtros</button>
+          </div>
+          <div class="table-responsive mt-3">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Marca</th>
+                  <th>Modelo</th>
+                  <th>Categoría</th>
+                  <th>Stock</th>
+                  <th>Precio</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tabla-piezas">
+                
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
-    </div>
-    
-    <!-- Tabla de piezas con filtros -->
-    <div class="border p-3 mt-4">
-      <h5 class="fw-bold">Listado de Piezas</h5>
-      
-      <!-- Filtros -->
-      <div class="row mb-3">
-        <div class="col-md-4">
-          <label class="fw-bold">Filtrar por Marca</label>
-          <select id="filtro_marca" class="form-select">
-            <option value="" selected>Todas las marcas</option>
-          </select>
-        </div>
-        <div class="col-md-4">
-          <label class="fw-bold">Filtrar por Modelo</label>
-          <select id="filtro_modelo" class="form-select">
-            <option value="" selected>Todos los modelos</option>
-          </select>
-        </div>
-        <div class="col-md-4">
-          <label class="fw-bold">Filtrar por Categoría</label>
-          <select id="filtro_categoria" class="form-select">
-            <option value="" selected>Todas las categorías</option>
-          </select>
-        </div>
-      </div>
-      <div class="mb-3">
-        <button id="btnFiltrar" class="btn btn-primary">Filtrar</button>
-        <button id="btnLimpiarFiltros" class="btn btn-secondary ms-2">Limpiar filtros</button>
-      </div>
-      
-      <div class="table-responsive">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Cantidad</th>
-              <th>Precio</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="lista_piezas">
-            <!-- Aquí se cargarán las piezas dinámicamente -->
-          </tbody>
-        </table>
       </div>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <div class="container">
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+      <p class="col-md-4 mb-0 text-body-secondary">&copy; 2025 Autopartes El Mexicano S.A. de C.V.</p>
+      <a href="/"
+        class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+        <svg class="bi me-2" width="40" height="32">
+          <use xlink:href="#bootstrap" />
+        </svg>
+      </a>
+      <ul class="nav col-md-4 justify-content-end">
+        <li class="nav-item"><a href="/" class="nav-link px-2 text-body-secondary">Principal</a></li>
+        <li class="nav-item"><a href="/catalogo" class="nav-link px-2 text-body-secondary">Catalogo</a></li>
+        <li class="nav-item"><a href="/nosotros" class="nav-link px-2 text-body-secondary">Nosotros</a></li>
+      </ul>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
   <script src="/scripts/jquery-3.7.1.min.js"></script>
   <script src="/scripts/pieza.js"></script>
 </body>
