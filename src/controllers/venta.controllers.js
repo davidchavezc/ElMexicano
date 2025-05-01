@@ -83,3 +83,18 @@ export const postVenta = async (req, res) => {
         res.status(500).json({ message: "Error interno del servidor" });
     }
 };
+
+export const getMetodoPago = async (req, res) => {
+    try {
+        const result = await pool.query("SELECT * FROM metodo_pago");
+    console.log("Métodos de pago obtenidos:", result.rows);
+
+    res.json(result.rows.map(row => ({
+      id_metodopago: row.id_metodopago,
+      nombre_metodopago: row.nombre_metodopago,
+    })));
+    } catch (error) {
+      console.error("Error al obtener métodos de pago:", error);
+      res.status(500).json({ message: "Error al obtener métodos de pago" });
+    }
+  };

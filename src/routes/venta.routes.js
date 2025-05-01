@@ -1,10 +1,11 @@
 import {Router} from "express";
-import { getPiezaById, getPiezas, postVenta } from "../controllers/venta.controllers.js";
+import { getPiezaById, getPiezas, postVenta, getMetodoPago } from "../controllers/venta.controllers.js";
 
 const routerVenta = Router();
 
 routerVenta.get('/ventas', getPiezas);
-routerVenta.get('/ventas/:id', getPiezaById);
+routerVenta.get('/ventas', getPiezaById);
 routerVenta.post('/ventas', postVenta);
+routerVenta.get('/ventas', getMetodoPago);
 
 export default routerVenta;
