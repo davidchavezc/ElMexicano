@@ -151,3 +151,87 @@ function createAlert(type, message) {
   ].join('')
   return wrapper;
 }
+
+function createAlert(type, message) {
+  return `
+    <div class="alert alert-${type} alert-dismissible fade show my-2" role="alert">
+      ${message}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  `;
+}
+
+$(document).ready(() => {
+  // Evento para el botón "Registrar"
+  $('.btn.btn-primary:contains("Registrar")').on('click', async () => {
+    const cliente = $('.form-control:contains("Nombre del Cliente"), input[value="Nombre del Cliente"]').val().trim();
+    const fecha = $('input[type="date"]').val();
+    const metodoPago = $('select.form-select').val();
+
+    // Validaciones
+    if (!cliente || cliente === 'Nombre del Cliente') {
+      $('#alertBox').prepend(createAlert('danger', 'Por favor ingresa el nombre del cliente'));
+      return;
+    }
+    if (!fecha) {
+      $('#alertBox').prepend(createAlert('danger', 'Por favor selecciona una fecha'));
+      return;
+    }
+    if (!metodoPago) {
+      $('#alertBox').prepend(createAlert('danger', 'Por favor selecciona un método de pago'));
+      return;
+    }
+
+    // Obtener piezas seleccionadas
+    const piezasSeleccionadas = [];
+    $('#pieza-seleccionada .container').each(function () {
+      const idPieza = $(this).attr('idpieza');
+      const cantidad = parseInt($(this).find('.cantidad').text());
+
+      if (idPieza && cantidad > 0) {
+        piezasSeleccionadas.push({
+          id_pieza: idPieza,
+          cantidad
+        });
+      }
+    });
+
+    if (piezasSeleccionadas.length === 0) {
+      $('#alertBox').prepend(createAlert('danger', 'Agrega al menos una pieza a la venta'));
+      return;
+    }
+
+    // Enviar venta al backend
+    const ventaData = {
+      cliente,
+      fecha,
+      metodoPago,
+      piezas: piezasSeleccionadas
+    };
+
+    try {
+      const res = await fetch('/ventas/registrar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(ventaData)
+      });
+
+      if (!res.ok) throw new Error('Error al registrar la venta');
+
+      const result = await res.json();
+      $('#alertBox').prepend(createAlert('success', 'Venta registrada exitosamente'));
+
+      // Limpiar campos
+      $('input[type="text"]').val('');
+      $('input[type="date"]').val('');
+      $('select.form-select').val('');
+      $('#pieza-seleccionada').empty();
+    } catch (error) {
+      console.error(error);
+      $('#alertBox').prepend(createAlert('danger', 'Hubo un error al registrar la venta'));
+    }
+  });
+});
