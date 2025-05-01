@@ -182,6 +182,43 @@ $(document).ready(() => {
       return;
     }
 
+
+    $(document).ready(async function () {
+      // Función para cargar los métodos de pago
+      async function cargarMetodosPago() {
+        try {
+          const response = await fetch("/ventas");
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const metodos = await response.json();
+      
+          console.log("Métodos de pago recibidos:", metodos);
+
+      const $select = $("#selectMetodoPago");
+      $select.empty();
+
+      const $defaultOption = $("<option>")
+        .text("Seleccione un método de pago")
+        .prop("disabled", true)
+        .prop("selected", true);
+      $select.append($defaultOption);
+
+      metodos.forEach((metodo) => {
+        const $option = $("<option>")
+          .val(metodo.id_metodopago)
+          .text(metodo.nombre_metodopago);
+        $select.append($option);
+      });
+    } catch (error) {
+      console.error("Error al cargar métodos de pago:", error);
+    }
+  }
+      // Llamar a la función para cargar los métodos de pago
+      cargarMetodosPago();
+    });
+    
+    document.addEventListener('DOMContentLoaded', cargarMetodosPago());
     // Obtener piezas seleccionadas
     const piezasSeleccionadas = [];
     $('#pieza-seleccionada .container').each(function () {
@@ -210,7 +247,7 @@ $(document).ready(() => {
     };
 
     try {
-      const res = await fetch('/ventas/registrar', {
+      const res = await fetch('/ventas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
