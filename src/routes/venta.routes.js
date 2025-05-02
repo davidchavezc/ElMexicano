@@ -6,6 +6,6 @@ const routerVenta = Router();
 routerVenta.get('/ventas', getPiezas);
 routerVenta.get('/ventas', getPiezaById);
 routerVenta.post('/ventas', postVenta);
-routerVenta.get('/ventas', getMetodoPago);
+routerVenta.get('/ventas/metodoPago', getMetodoPago);
 
 export default routerVenta;

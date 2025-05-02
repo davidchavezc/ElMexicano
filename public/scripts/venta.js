@@ -1,82 +1,111 @@
 document.addEventListener("DOMContentLoaded", () => {
   let piezas = [];
 
-  // Función para cargar las piezas desde el backend
+  // Cargar piezas desde el backend
   async function getPiezas() {
     try {
-      const response = await fetch('/ventas', {
-        method: 'GET',
-        credentials: 'include' // importante si tu login maneja sesiones
-      });
-
+      const response = await fetch('/ventas', { method: 'GET', credentials: 'include' });
       if (!response.ok) throw new Error("Error en la solicitud al servidor");
-
       piezas = await response.json();
-      console.log("Piezas cargadas:", piezas);
     } catch (error) {
       console.error("Error al cargar piezas:", error);
     }
   }
 
-  getPiezas(); // Cargar piezas al iniciar
+  async function cargarMetodosPago() {
+    try {
+      console.log('Iniciando carga de métodos de pago...');
+      const response = await fetch('/ventas/metodoPago');
+      console.log('Respuesta recibida:', response);
+  
+      if (!response.ok) {
+        throw new Error(`Error HTTP: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      console.log('Datos obtenidos:', data);
+  
+      if (!Array.isArray(data)) {
+        throw new Error('La respuesta no es un arreglo');
+      }
+  
+      const $select = $('#selectMetodoPago');
+      console.log('Elemento select encontrado:', $select);
+  
+      // Limpiar las opciones existentes
+      $select.empty();
+  
+      // Agregar la opción por defecto
+      const $defaultOption = $("<option>")
+        .text("Seleccionar método de pago")
+        .prop("disabled", true)
+        .prop("selected", true);
+      $select.append($defaultOption);
+  
+      // Agregar las opciones de métodos de pago
+      data.forEach((metodo) => {
+        console.log('Agregando método de pago:', metodo);
+        if (!metodo.id_metodopago || !metodo.nombre_metodopago) {
+          console.error('Método de pago inválido:', metodo);
+          return;
+        }
+        const $option = $("<option>")
+          .val(metodo.id_metodopago)
+          .text(metodo.nombre_metodopago);
+        $select.append($option);
+      });
+  
+      console.log('Métodos de pago cargados correctamente.');
+  
+    } catch (err) {
+      console.error("Error al cargar métodos de pago:", err);
+    }
+  }
 
-  // Escuchar input del usuario
+  getPiezas();
+  cargarMetodosPago();
+
+  // Buscar piezas
   $('#buscador-pieza').on('input', function () {
     const query = $(this).val().trim().toLowerCase();
-
-    if (!query) {
-      $('#resultados').empty();
-      return;
-    }
-
-    const resultados = piezas.filter(pieza =>
-      pieza.nombre_pieza.toLowerCase().includes(query)
-    );
-
+    if (!query) return $('#resultados').empty();
+    const resultados = piezas.filter(p => p.nombre_pieza.toLowerCase().includes(query));
     mostrarResultados(resultados);
   });
 
   function mostrarResultados(lista) {
-    $('#resultados').empty(); // Limpiar resultados previos
-
+    $('#resultados').empty();
     if (lista.length === 0) return;
-
-    const $ul = $('<ul>', {
-      class: 'list-group position-absolute w-100 z-3'
-    });
-
+    const $ul = $('<ul>', { class: 'list-group position-absolute w-100 z-3' });
     lista.forEach(pieza => {
       const $li = $('<li>', {
         class: 'list-group-item list-group-item-action',
         text: pieza.nombre_pieza,
-        click: function () {
+        click: () => {
           $('#buscador-pieza').val('');
           $('#resultados').empty();
           renderPiezaSeleccionada(pieza.id_pieza);
         }
       });
-
       $ul.append($li);
     });
-
     $('#resultados').append($ul);
   }
 
+  // Renderizar pieza seleccionada
   async function renderPiezaSeleccionada(id_pieza) {
-    // Verificar si la pieza ya está en el contenedor
     if ($(`div[idpieza="${id_pieza}"]`).length > 0) {
-      // alert("La pieza ya está agregada.");
       $('#alertBox').prepend(createAlert('danger', 'La pieza ya se encuentra agregada.'));
-      return; // Salir de la función si la pieza ya existe
+      return;
     }
 
     const response = await fetch(`/ventas/${id_pieza}`);
     const pieza = await response.json();
     let cantidad = 1;
-    const stockMaximo = pieza.cantidad; // Usamos 10 por defecto si no viene el stock
+    const stockMaximo = pieza.cantidad;
 
     const $card = $(`
-      <div class="container bg-white border rounded p-3 mt-3" id="tarjeta" idpieza="${pieza.id_pieza}">
+      <div class="container bg-white border rounded p-3 mt-3" idpieza="${pieza.id_pieza}">
         <div class="row align-items-center">
           <div class="col-md-2 text-center">
             <img src="../img/${pieza.imagen}" class="img-fluid rounded">
@@ -84,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="col-md-6">
             <h4 class="fw-bold">${pieza.nombre_pieza}</h4>
           </div>
-          <div class="col-md-2 text-center d-flex align-items-center justify-content-center gap-2">
+          <div class="col-md-2 d-flex align-items-center justify-content-center gap-2">
             <button class="btn btn-outline-secondary btn-decrement">−</button>
             <span class="fw-bold cantidad">${cantidad}</span>
             <button class="btn btn-outline-secondary btn-increment">+</button>
@@ -96,7 +125,6 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `);
 
-    // Incrementar cantidad
     $card.find('.btn-increment').on('click', function () {
       if (cantidad < stockMaximo) {
         cantidad++;
@@ -104,7 +132,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Decrementar cantidad
     $card.find('.btn-decrement').on('click', function () {
       if (cantidad > 1) {
         cantidad--;
@@ -112,12 +139,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Eliminar tarjeta
     $card.find('#eliminarPieza').on('click', function () {
       $card.remove();
     });
 
-    // Agregar la tarjeta al contenedor
     $('#pieza-seleccionada').append($card);
   }
 
@@ -127,48 +152,13 @@ document.addEventListener("DOMContentLoaded", () => {
       $('#resultados').empty();
     }
   });
-});
 
-function createAlert(type, message) {
-  let icon = '';
-  switch(type) {
-    case "success":
-      icon = 'bi bi-check-circle'
-      break;
-    case "danger":
-      icon = 'bi bi-exclamation-triangle'
-      break;
-    case "info":
-      icon = 'bi bi-exclamation-circle'
-      break;
-  }
-  const wrapper = document.createElement('div')
-  wrapper.innerHTML = [
-    `<div class="alert alert-${type} alert-dismissible mt-3" role="alert">`,
-    `   <div><i class="${icon} me-2"> </i>${message}</div>`,
-    '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-    '</div>'
-  ].join('')
-  return wrapper;
-}
-
-function createAlert(type, message) {
-  return `
-    <div class="alert alert-${type} alert-dismissible fade show my-2" role="alert">
-      ${message}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-  `;
-}
-
-$(document).ready(() => {
-  // Evento para el botón "Registrar"
+  // Registrar venta
   $('.btn.btn-primary:contains("Registrar")').on('click', async () => {
-    const cliente = $('.form-control:contains("Nombre del Cliente"), input[value="Nombre del Cliente"]').val().trim();
+    const cliente = $('input[type="text"]:not(#buscador-pieza)').val().trim();
     const fecha = $('input[type="date"]').val();
-    const metodoPago = $('select.form-select').val();
+    const metodoPago = $('#selectMetodoPago').val();
 
-    // Validaciones
     if (!cliente || cliente === 'Nombre del Cliente') {
       $('#alertBox').prepend(createAlert('danger', 'Por favor ingresa el nombre del cliente'));
       return;
@@ -182,93 +172,52 @@ $(document).ready(() => {
       return;
     }
 
-
-    $(document).ready(async function () {
-      // Función para cargar los métodos de pago
-      async function cargarMetodosPago() {
-        try {
-          const response = await fetch("/ventas");
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          const metodos = await response.json();
-      
-          console.log("Métodos de pago recibidos:", metodos);
-
-      const $select = $("#selectMetodoPago");
-      $select.empty();
-
-      const $defaultOption = $("<option>")
-        .text("Seleccione un método de pago")
-        .prop("disabled", true)
-        .prop("selected", true);
-      $select.append($defaultOption);
-
-      metodos.forEach((metodo) => {
-        const $option = $("<option>")
-          .val(metodo.id_metodopago)
-          .text(metodo.nombre_metodopago);
-        $select.append($option);
+    const piezasVenta = [];
+    $('#pieza-seleccionada').children('[idpieza]').each(function () {
+      piezasVenta.push({
+        id_pieza: $(this).attr('idpieza'),
+        cantidad: parseInt($(this).find('.cantidad').text())
       });
-    } catch (error) {
-      console.error("Error al cargar métodos de pago:", error);
-    }
-  }
-      // Llamar a la función para cargar los métodos de pago
-      cargarMetodosPago();
-    });
-    
-    document.addEventListener('DOMContentLoaded', cargarMetodosPago());
-    // Obtener piezas seleccionadas
-    const piezasSeleccionadas = [];
-    $('#pieza-seleccionada .container').each(function () {
-      const idPieza = $(this).attr('idpieza');
-      const cantidad = parseInt($(this).find('.cantidad').text());
-
-      if (idPieza && cantidad > 0) {
-        piezasSeleccionadas.push({
-          id_pieza: idPieza,
-          cantidad
-        });
-      }
     });
 
-    if (piezasSeleccionadas.length === 0) {
-      $('#alertBox').prepend(createAlert('danger', 'Agrega al menos una pieza a la venta'));
+    if (piezasVenta.length === 0) {
+      $('#alertBox').prepend(createAlert('danger', 'Debes seleccionar al menos una pieza.'));
       return;
     }
 
-    // Enviar venta al backend
-    const ventaData = {
-      cliente,
-      fecha,
-      metodoPago,
-      piezas: piezasSeleccionadas
-    };
-
     try {
-      const res = await fetch('/ventas', {
+      const response = await fetch('/ventas/registrar', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify(ventaData)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cliente, fecha, metodoPago, piezas: piezasVenta })
       });
 
-      if (!res.ok) throw new Error('Error al registrar la venta');
-
-      const result = await res.json();
-      $('#alertBox').prepend(createAlert('success', 'Venta registrada exitosamente'));
-
-      // Limpiar campos
-      $('input[type="text"]').val('');
-      $('input[type="date"]').val('');
-      $('select.form-select').val('');
-      $('#pieza-seleccionada').empty();
-    } catch (error) {
-      console.error(error);
-      $('#alertBox').prepend(createAlert('danger', 'Hubo un error al registrar la venta'));
+      const result = await response.json();
+      if (response.ok) {
+        $('#alertBox').prepend(createAlert('success', result.message || 'Venta registrada con éxito.'));
+        $('#pieza-seleccionada').empty();
+      } else {
+        $('#alertBox').prepend(createAlert('danger', result.message || 'Error al registrar la venta.'));
+      }
+    } catch (err) {
+      console.error('Error al registrar la venta:', err);
+      $('#alertBox').prepend(createAlert('danger', 'Error inesperado.'));
     }
   });
 });
+
+// Función para crear alertas
+function createAlert(type, message) {
+  let icon = '';
+  switch(type) {
+    case "success": icon = 'bi bi-check-circle'; break;
+    case "danger": icon = 'bi bi-exclamation-triangle'; break;
+    case "info": icon = 'bi bi-exclamation-circle'; break;
+  }
+  return `
+    <div class="alert alert-${type} alert-dismissible fade show my-2" role="alert">
+      <i class="${icon} me-2"></i>${message}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  `;
+}
