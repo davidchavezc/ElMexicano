@@ -34,19 +34,21 @@ function llenarSelectsFecha() {
         <table class="table table-bordered table-striped table-hover" id="tabla-historial">
           <thead class="table-dark text-center">
             <tr>
-              <th>ID</th>
-              <th>Descripción</th>
+              <th>ID Venta</th>
+              <th>Cliente</th>
               <th>Fecha</th>
-              <th>Usuario</th>
+              <th>Empleado</th>
+              <th>Método de Pago</th>
             </tr>
           </thead>
           <tbody>
             ${data.map(item => `
               <tr>
-                <td>${item.id}</td>
-                <td>${item.descripcion}</td>
-                <td>${item.fecha}</td>
+                <td>${item.id_venta}</td>
+                <td>${item.nombre_cliente}</td>
+                <td>${new Date(item.fecha_hora).toLocaleString()}</td>
                 <td>${item.usuario}</td>
+                <td>${item.metodo_pago}</td>
               </tr>
             `).join('')}
           </tbody>
@@ -56,6 +58,7 @@ function llenarSelectsFecha() {
   
     $('#ventas-container').html(html);
   }
+  
   
   function cargarHistorial() {
     $.get('/api/historial', function (data) {
