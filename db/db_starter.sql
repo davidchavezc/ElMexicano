@@ -31,8 +31,9 @@ CREATE TABLE IF NOT EXISTS public.metodo_pago
 CREATE TABLE IF NOT EXISTS public.modelos
 (
     id_modelo integer NOT NULL GENERATED ALWAYS AS IDENTITY,
+    id_marca integer NOT NULL,
     nombre_modelo text COLLATE pg_catalog."default" NOT NULL,
-    "año_modelo" integer NOT NULL,
+    anio_modelo integer NOT NULL,
     CONSTRAINT modelos_pkey PRIMARY KEY (id_modelo)
 );
 
@@ -127,5 +128,11 @@ ALTER TABLE IF EXISTS public.venta
 ALTER TABLE IF EXISTS public.venta
     ADD CONSTRAINT venta_id_metodopago_fkey FOREIGN KEY (id_metodopago)
     REFERENCES public.metodo_pago (id_metodopago) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+ALTER TABLE IF EXISTS public.modelos
+    ADD CONSTRAINT modelos_id_marca_fkey FOREIGN KEY (id_marca)
+    REFERENCES public.marcas (id_marca) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION;
