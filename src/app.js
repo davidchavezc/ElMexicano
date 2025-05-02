@@ -11,6 +11,8 @@ import routerLogin from "./routes/login.routes.js";
 import routerPiezas from "./routes/detalleDePieza.routes.js";
 import routerModelos from "./routes/modelo.routes.js";
 import routerDePiezas from "./routes/pieza.routes.js";
+import routerHistorial from "./routes/historial.routes.js";
+
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -95,6 +97,11 @@ app.use("/", routerCategorias);
 app.use("/", routerPiezas);
 app.use("/", routerLogin);
 app.use("/", routerDePiezas);
+app.use("/", routerHistorial);
+
+
+
+
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
