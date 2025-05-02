@@ -42,7 +42,7 @@ export const postVenta = async (req, res) => {
     
         // Validar y calcular subtotal de cada pieza
         for (const item of piezas) {
-          const pieza = await Pieza.findByPk(item.id_pieza);
+          const pieza = await pieza.findByPk(item.id_pieza);
           if (!pieza) {
             return res.status(404).json({ message: `La pieza con ID ${item.id_pieza} no existe` });
           }
@@ -71,7 +71,7 @@ export const postVenta = async (req, res) => {
             subtotal: item.subtotal,
           });
     
-          const pieza = await Pieza.findByPk(item.id_pieza);
+          const pieza = await pieza.findByPk(item.id_pieza);
           pieza.stock -= item.cantidad;
           await pieza.save();
         }
@@ -85,16 +85,11 @@ export const postVenta = async (req, res) => {
 };
 
 export const getMetodoPago = async (req, res) => {
-    try {
-        const result = await pool.query("SELECT * FROM metodo_pago");
+  try {
+    const result = await pool.query("SELECT * FROM metodo_pago");
     console.log("Métodos de pago obtenidos:", result.rows);
-
-    res.json(result.rows.map(row => ({
-      id_metodopago: row.id_metodopago,
-      nombre_metodopago: row.nombre_metodopago,
-    })));
-    } catch (error) {
+  } catch (error) {
       console.error("Error al obtener métodos de pago:", error);
-      res.status(500).json({ message: "Error al obtener métodos de pago" });
-    }
-  };
+      res.status(500).json({ message: "Error al obtener métodos de pago", error: error.message });
+  }
+};
