@@ -44,6 +44,9 @@ CREATE TABLE IF NOT EXISTS public.pieza
     id_marca integer NOT NULL,
     id_categoria integer,
     cantidad integer,
+    precio integer,
+    descripcion text,
+    imagen text,
     CONSTRAINT pieza_pkey PRIMARY KEY (id_pieza)
 );
 
