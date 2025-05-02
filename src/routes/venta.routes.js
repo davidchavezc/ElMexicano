@@ -1,11 +1,16 @@
-import {Router} from "express";
-import { getPiezaById, getPiezas, postVenta, getMetodoPago } from "../controllers/venta.controllers.js";
+import { Router } from 'express';
+import {
+  getPiezas,
+  getPiezaById,
+  postVenta,
+  getMetodoPago
+} from '../controllers/venta.controllers.js';
 
-const routerVenta = Router();
+const router = Router();
 
-routerVenta.get('/ventas', getPiezas);
-routerVenta.get('/ventas', getPiezaById);
-routerVenta.post('/ventas', postVenta);
-routerVenta.get('/ventas/metodoPago', getMetodoPago);
+router.get('/ventas/metodoPago', getMetodoPago);
+router.get('/ventas/:id', getPiezaById);
+router.get('/ventas', getPiezas);
+router.post('/ventas', postVenta);
 
-export default routerVenta;
+export default router;
