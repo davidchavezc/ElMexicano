@@ -36,7 +36,15 @@ export const postVenta = async (req, res) => {
   try {
     const { id_empleado, nombre_cliente, id_metodopago, piezas } = req.body;
 
-    if (!id_empleado || !nombre_cliente || !id_metodopago || !Array.isArray(piezas) || piezas.length === 0) {
+    console.log('Datos recibidos en req.body:', req.body);
+
+    if (
+      id_empleado == null ||
+      nombre_cliente == null ||
+      id_metodopago == null ||
+      !Array.isArray(piezas) ||
+      piezas.length === 0
+    ) {
       return res.status(400).json({ message: "Datos incompletos" });
     }
 
@@ -55,7 +63,7 @@ export const postVenta = async (req, res) => {
 
       const pieza = rows[0];
 
-      if (pieza.stock < item.cantidad) {
+      if (pieza.cantidad < item.cantidad) {
         await client.query('ROLLBACK');
         return res.status(400).json({ message: `Stock insuficiente para la pieza ${pieza.nombre}` });
       }
@@ -82,7 +90,7 @@ export const postVenta = async (req, res) => {
       );
 
       await client.query(
-        `UPDATE pieza SET stock = stock - $1 WHERE id_pieza = $2`,
+        `UPDATE pieza SET cantidad = cantidad - $1 WHERE id_pieza = $2`,
         [item.cantidad, item.id_pieza]
       );
     }

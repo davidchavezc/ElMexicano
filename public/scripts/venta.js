@@ -153,6 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  
   // Registrar venta
   $('.btn.btn-primary:contains("Registrar")').on('click', async () => {
     const cliente = $('input[type="text"]:not(#buscador-pieza)').val().trim();
@@ -175,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const piezasVenta = [];
     $('#pieza-seleccionada').children('[idpieza]').each(function () {
       piezasVenta.push({
-        id_pieza: $(this).attr('idpieza'),
+        id_pieza: parseInt($(this).attr('idpieza')),
         cantidad: parseInt($(this).find('.cantidad').text())
       });
     });
@@ -189,7 +190,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const response = await fetch('/ventas/registrar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cliente, fecha, metodoPago, piezas: piezasVenta })
+        body: JSON.stringify({ id_empleado: 2,
+          nombre_cliente: cliente,
+          id_metodopago: metodoPago,
+          piezas: piezasVenta })
       });
 
       const result = await response.json();
@@ -205,7 +209,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-
 // Función para crear alertas
 function createAlert(type, message) {
   let icon = '';
