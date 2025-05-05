@@ -40,22 +40,32 @@ function renderTabla(data) {
         <thead class="table-dark text-center">
           <tr>
             <th>ID Venta</th>
+            <th>Pieza</th>
+            <th>Total de Piezas</th>
             <th>Cliente</th>
             <th>Fecha</th>
-            <th>Empleado</th>
             <th>Método de Pago</th>
+            <th>Empleado</th>
+            <th>Monto Total</th>
           </tr>
         </thead>
         <tbody>
-          ${data.map(item => `
-            <tr>
-              <td>${item.id_venta}</td>
-              <td>${item.nombre_cliente}</td>
-              <td>${new Date(item.fecha_hora).toLocaleString()}</td>
-              <td>${item.empleado}</td>
-              <td>${item.metodo_pago}</td>
-            </tr>
-          `).join('')}
+          ${data.map(item => {
+            const detalles = item.detalles.map(d => `${d.cantidad} x ${d.nombre_pieza} (ID: ${d.id_pieza})`).join('<br>');
+            const totalPiezas = item.detalles.reduce((sum, d) => sum + d.cantidad, 0);
+            return `
+              <tr>
+                <td>${item.id_venta}</td>
+                <td>${detalles}</td>
+                <td>${totalPiezas}</td>
+                <td>${item.nombre_cliente}</td>
+                <td>${new Date(item.fecha_hora).toLocaleString()}</td>
+                <td>${item.metodo_pago}</td>
+                <td>${item.empleado}</td>
+                <td>$${item.monto_total}</td>
+              </tr>
+            `;
+          }).join('')}
         </tbody>
       </table>
     </div>
@@ -78,6 +88,12 @@ function filtrarHistorial() {
   if (anio && anio !== "Año") params.año = anio;
   if (mes && mes !== "Mes") params.mes = mes;
   if (dia && dia !== "Día") params.dia = dia;
+
+  // Si no se selecciona ninguna fecha, mostrar todas las ventas
+  if (Object.keys(params).length === 0) {
+    cargarHistorial();
+    return;
+  }
 
   $.get('/api/historial', params, function (data) {
     renderTabla(data);
