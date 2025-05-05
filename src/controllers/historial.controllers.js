@@ -22,6 +22,7 @@ export const obtenerHistorial = async (req, res) => {
 // Filtrar por fecha
 export const filtrarPorFecha = async (req, res) => {
   const { año, mes, dia } = req.query;
+
   try {
     let query = `
       SELECT v.*, 
@@ -30,19 +31,26 @@ export const filtrarPorFecha = async (req, res) => {
       FROM venta v
       JOIN usuario u ON v.id_empleado = u.id_empleado
       JOIN metodo_pago m ON v.id_metodopago = m.id_metodopago
-      WHERE EXTRACT(YEAR FROM fecha_hora) = $1
+      WHERE 1 = 1
     `;
-    const params = [año];
 
+    const params = [];
+    let paramIndex = 1;
+
+    if (año) {
+      query += ` AND EXTRACT(YEAR FROM fecha_hora) = $${paramIndex++}`;
+      params.push(año);
+    }
     if (mes) {
-      query += ' AND EXTRACT(MONTH FROM fecha_hora) = $2';
+      query += ` AND EXTRACT(MONTH FROM fecha_hora) = $${paramIndex++}`;
       params.push(mes);
     }
-
     if (dia) {
-      query += ' AND EXTRACT(DAY FROM fecha_hora) = $3';
+      query += ` AND EXTRACT(DAY FROM fecha_hora) = $${paramIndex++}`;
       params.push(dia);
     }
+
+    query += ' ORDER BY v.fecha_hora DESC';
 
     const result = await pool.query(query, params);
     res.json(result.rows);
