@@ -1,10 +1,8 @@
-// historial.routes.js
-import { Router } from "express";
-import { obtenerHistorial, filtrarPorFecha } from "../controllers/historial.controllers.js";
+import express from 'express';
+import { obtenerHistorial, filtrarPorFecha } from '../controllers/historial.controllers.js';
 
-const routerHistorial = Router();
+const router = express.Router();
 
-routerHistorial.get("/api/historial", obtenerHistorial);        
-routerHistorial.get("/api/historial/filtrar", filtrarPorFecha);  
+router.get('/api/historial', filtrarPorFecha); // mismo endpoint para ambos
 
-export default routerHistorial;
+export default router;
