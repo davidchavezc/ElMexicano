@@ -4,7 +4,9 @@ import { pool } from '../db.js';
 export const obtenerHistorial = async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT v.*, u.usuario_empleado AS empleado, m.nombre_metodopago AS metodo_pago
+      SELECT v.*, 
+             CONCAT(u.nombre_empleado, ' ', u.apellido_empleado) AS empleado, 
+             m.nombre_metodopago AS metodo_pago
       FROM venta v
       JOIN usuario u ON v.id_empleado = u.id_empleado
       JOIN metodo_pago m ON v.id_metodopago = m.id_metodopago
@@ -22,7 +24,9 @@ export const filtrarPorFecha = async (req, res) => {
   const { año, mes, dia } = req.query;
   try {
     let query = `
-      SELECT v.*, u.usuario_empleado AS empleado, m.nombre_metodopago AS metodo_pago
+      SELECT v.*, 
+             CONCAT(u.nombre_empleado, ' ', u.apellido_empleado) AS empleado, 
+             m.nombre_metodopago AS metodo_pago
       FROM venta v
       JOIN usuario u ON v.id_empleado = u.id_empleado
       JOIN metodo_pago m ON v.id_metodopago = m.id_metodopago
