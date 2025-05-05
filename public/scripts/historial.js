@@ -29,6 +29,11 @@ function llenarSelectsFecha() {
 }
 
 function renderTabla(data) {
+  if (data.length === 0) {
+    $('#ventas-container').html('<div class="alert alert-info">No se encontraron ventas para la fecha seleccionada.</div>');
+    return;
+  }
+
   const html = `
     <div class="table-responsive">
       <table class="table table-bordered table-striped table-hover" id="tabla-historial">
@@ -55,7 +60,6 @@ function renderTabla(data) {
       </table>
     </div>
   `;
-
   $('#ventas-container').html(html);
 }
 
@@ -71,9 +75,9 @@ function filtrarHistorial() {
   const dia = $('#filtro-dia').val();
 
   const params = {};
-  if (anio) params.año = anio;  // Corrección del parámetro
-  if (mes) params.mes = mes;
-  if (dia) params.dia = dia;
+  if (anio && anio !== "Año") params.año = anio;
+  if (mes && mes !== "Mes") params.mes = mes;
+  if (dia && dia !== "Día") params.dia = dia;
 
   $.get('/api/historial', params, function (data) {
     renderTabla(data);
@@ -93,13 +97,12 @@ $(document).ready(function () {
   $('#ventas-container').before(botones);
 
   $('#btn-filtrar').click(function () {
-    console.log("Botón Filtrar presionado"); // Verifica si se detecta el clic en la consola
     filtrarHistorial();
-});
-
+  });
 
   $('#btn-limpiar').click(function () {
-    $('#filtro-anio, #filtro-mes, #filtro-dia').val('');
+    $('#filtro-anio').val('Año');
+    $('#filtro-mes').val('Mes');
     $('#filtro-dia').empty().append('<option value="">Día</option>');
     cargarHistorial();
   });
