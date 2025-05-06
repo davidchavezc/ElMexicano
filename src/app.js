@@ -87,6 +87,10 @@ app.get(["/admin/reporte"], (req, res) => {
   res.sendFile(path.join(__dirname, "../public/admin/reporte.html"))
 });
 
+app.get(["/admin/categoria"], (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/admin/categoria.html"))
+});
+
 // Routers
 
 app.use("/", routerUsuarios);
