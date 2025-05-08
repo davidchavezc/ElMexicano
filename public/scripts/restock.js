@@ -14,7 +14,7 @@ $(document).ready(async function cargarPiezas() {
         const div =(`
         <div class="col ">
                 <div class="card h-100">
-                    <img src="../img/${pieza.imagen || '../img/default.jpg'}" alt="Motor de arranque" class="card-img-top shadow-sm">
+                    <img src="../img/${pieza.id_categoria}.png" alt="Motor de arranque" class="card-img-top shadow-sm">
                     <div class="card-body text-center">
                         <p class="fs-2">${pieza.nombre_pieza}</p>
                         <p><span class="text-danger fs-3">${pieza.cantidad} en stock</span></p>

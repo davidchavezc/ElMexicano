@@ -527,7 +527,9 @@ function cargarPiezas() {
 }
 
 // Función para mostrar las piezas en la tabla
-function mostrarPiezas(piezas) {
+async function mostrarPiezas() {
+    const response = await fetch ("/piezas");
+    const piezas = await response.json();
     const tablaPiezas = $("#tabla-piezas");
     
     tablaPiezas.empty();
@@ -538,12 +540,13 @@ function mostrarPiezas(piezas) {
     }
     
     piezas.forEach(pieza => {
+        console.log(pieza)
         tablaPiezas.append(`
             <tr>
                 <td>${pieza.nombre_pieza}</td>
-                <td>${pieza.nombre_marca || 'N/A'}</td>
-                <td>${pieza.nombre_modelo || 'N/A'}</td>
-                <td>${pieza.nombre_categoria || 'N/A'}</td>
+                <td>${pieza.marca_nombre || 'N/A'}</td>
+                <td>${pieza.modelo_nombre || 'N/A'}</td>
+                <td>${pieza.categoria_nombre || 'N/A'}</td>
                 <td>${pieza.cantidad}</td>
                 <td>$${pieza.precio || '0.00'}</td>
                 <td>

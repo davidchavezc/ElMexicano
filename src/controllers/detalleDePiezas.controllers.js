@@ -34,7 +34,7 @@ export const getPiezaById = async (req, res) => {
         imagen, descripcion, cantidad, precio
         FROM pieza 
         INNER JOIN modelos ON pieza.id_modelo = modelos.id_modelo 
-        INNER JOIN categoria ON pieza.id_categoria = categoria.id_categoria 
+        INNER JOIN categoria ON pieza.id_categoria = categoria.id 
         INNER JOIN marcas ON pieza.id_marca = marcas.id_marca 
         WHERE id_pieza=$1`, [id]);
         if (result.rows.length === 0) {

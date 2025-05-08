@@ -3,7 +3,18 @@ import { pool } from '../db.js';
 // Obtener todas las piezas
 export const getObtenerPieza = async (req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM pieza");
+        const result = await pool.query(`
+            SELECT  pieza.*,
+            categoria.nombre AS categoria_nombre,
+            marcas.nombre_marca AS marca_nombre,
+            modelos.nombre_modelo AS modelo_nombre
+            FROM pieza INNER JOIN categoria ON
+            pieza.id_categoria = categoria.id
+            INNER JOIN modelos ON
+            modelos.id_modelo = pieza.id_modelo
+            INNER JOIN marcas ON
+            marcas.id_marca = pieza.id_marca;`);
+        // console.log(result.rows);
         res.json(result.rows);
     } catch (error) {
         console.error("Error al obtener las piezas: ", error);
