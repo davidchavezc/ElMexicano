@@ -29,13 +29,14 @@ async function desplegarCategorias(){
 
 async function desplegarPiezas(){
     const response = await fetch("/piezas");
-    const categorias = await response.json();
-    categorias.forEach(pieza => {
+    const piezas = await response.json();
+    piezas.forEach((pieza) => {
+        // console.log(pieza.nombre_categoria)
         const piezahtml = `
         <div class="col" class="pieza-tarjeta">
         <div class="card text-center">
         <a href='/producto?id=${pieza.id_pieza}' class='text-decoration-none text-black'>
-        <img src="/img/${pieza.imagen}" class="card-img-top" alt="${pieza.nombre_pieza}">
+        <img src="/img/${pieza.id_categoria}.png" class="card-img-top" alt="${pieza.nombre_pieza}">
         <div class="card-body">
         <h6 class="card-title">${pieza.nombre_pieza}</h6>
         <p class="card-text">SKU: ${pieza.id_pieza}</p>
