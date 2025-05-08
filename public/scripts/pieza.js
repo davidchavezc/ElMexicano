@@ -349,6 +349,7 @@ function limpiarFiltros() {
 function crearPieza() {
     // Obtener los datos del formulario
     const nombrePieza = $("#nombre").val();
+    const descripcion = $("#descripcion").val();
     const idMarca = $("#marca").val();
     const idModelo = $("#modelo").val();
     const idCategoria = $("#categoria").val();
@@ -370,6 +371,7 @@ function crearPieza() {
     // Crear objeto con los datos de la pieza
     const pieza = {
         nombre_pieza: nombrePieza,
+        descripcion: descripcion,
         id_marca: idMarca,
         id_modelo: idModelo,
         id_categoria: idCategoria,
