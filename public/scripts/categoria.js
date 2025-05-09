@@ -38,7 +38,7 @@ $(document).ready(async function () {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ nombre: nombrecategoria})
+        body: JSON.stringify({ nombre_categoria: nombrecategoria})
       });
   
       if (response.ok) {
@@ -46,7 +46,7 @@ $(document).ready(async function () {
         $("#nombre-categoria").val("");
   
         await cargarcategorias();
-        const operacionExitosa = createAlert('success', `Nueva categoria ${nuevacategoria.nombre} creada exitosamente.`);
+        const operacionExitosa = createAlert('success', `Nueva categoria ${nuevacategoria.nombre_categoria} creada exitosamente.`);
         $('#alerts').prepend(operacionExitosa);
       } else {
         const errorText = await response.text();

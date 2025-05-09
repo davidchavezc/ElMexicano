@@ -16,7 +16,7 @@ export const postCategoria = async (req, res) => {
       const { nombre } = req.body;
       
       const nombreEnUso = await pool.query(
-        "SELECT * FROM categoria WHERE nombre = $1",
+        "SELECT * FROM categoria WHERE nombre_categoria = $1",
         [nombre]);
 
       if (nombreEnUso.rowCount > 0) {
@@ -24,7 +24,7 @@ export const postCategoria = async (req, res) => {
       }
 
       const result = await pool.query(
-        "INSERT INTO categoria (nombre) VALUES ($1) RETURNING *",
+        "INSERT INTO categoria (nombre_categoria) VALUES ($1) RETURNING *",
         [nombre]
       );
   
