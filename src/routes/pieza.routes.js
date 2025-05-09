@@ -1,6 +1,5 @@
 import { Router } from "express";
 import{
-    getObtenerPieza,
     getObtenerPiezaPorId,
     postCrearPieza,
     actualizarPieza,
@@ -10,13 +9,14 @@ import{
     getPiezasPorModelo,
     getPiezasPorCategoria,
     getCategorias,
-    filtrarPiezas
+    filtrarPiezas,
+    getPiezas
 } from '../controllers/pieza.controllers.js';
 
 const routerDePiezas = Router();
 
 // Rutas para piezas
-routerDePiezas.get('/piezas', getObtenerPieza);
+routerDePiezas.get('/piezas', getPiezas);
 routerDePiezas.get('/piezas/:id', getObtenerPiezaPorId);
 routerDePiezas.post('/piezas', postCrearPieza);
 routerDePiezas.put('/piezas/:id', actualizarPieza);

@@ -1,26 +1,44 @@
 import { pool } from '../db.js';
 
 // Obtener todas las piezas
-export const getObtenerPieza = async (req, res) => {
+// export const getObtenerPieza = async (req, res) => {
+//     try {
+//         const result = await pool.query(`
+//             SELECT  pieza.*,
+//             categoria.nombre AS categoria_nombre,
+//             marcas.nombre_marca AS marca_nombre,
+//             modelos.nombre_modelo AS modelo_nombre
+//             FROM pieza INNER JOIN categoria ON
+//             pieza.id_categoria = categoria.id
+//             INNER JOIN modelos ON
+//             modelos.id_modelo = pieza.id_modelo
+//             INNER JOIN marcas ON
+//             marcas.id_marca = pieza.id_marca;`);
+//         // console.log(result.rows);
+//         res.json(result.rows);
+//     } catch (error) {
+//         console.error("Error al obtener las piezas: ", error);
+//         res.status (500).json({ message: "Error al obtener las piezas" });
+//     }
+// };
+
+export const getPiezas = async (req, res) => {
     try {
-        const result = await pool.query(`
-            SELECT  pieza.*,
-            categoria.nombre AS categoria_nombre,
-            marcas.nombre_marca AS marca_nombre,
-            modelos.nombre_modelo AS modelo_nombre
-            FROM pieza INNER JOIN categoria ON
-            pieza.id_categoria = categoria.id
-            INNER JOIN modelos ON
-            modelos.id_modelo = pieza.id_modelo
-            INNER JOIN marcas ON
-            marcas.id_marca = pieza.id_marca;`);
-        // console.log(result.rows);
-        res.json(result.rows);
+      const result = await pool.query(`
+        SELECT pieza.*,
+        marcas.nombre_marca AS marca_nombre,
+        modelos.nombre_modelo AS modelo_nombre,
+        categoria.nombre_categoria AS categoria_nombre
+        FROM pieza 
+        INNER JOIN marcas ON pieza.id_marca = marcas.id_marca
+        INNER JOIN categoria ON pieza.id_categoria = categoria.id_categoria
+        INNER JOIN modelos ON pieza.id_modelo = modelos.id_modelo;`);
+      res.json(result.rows);
     } catch (error) {
-        console.error("Error al obtener las piezas: ", error);
-        res.status (500).json({ message: "Error al obtener las piezas" });
+      console.error("Error al obtener usuarios:", error);
+      res.status(500).send("Error interno del servidor");
     }
-};
+  };
 
 // Obtener una pieza por ID
 export const getObtenerPiezaPorId = async (req, res) => {
