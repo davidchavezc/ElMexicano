@@ -12,7 +12,7 @@ $(document).ready(async function () {
       $select.append($defaultOption);
   
       categorias.forEach((categoria) => {
-        const $option = $("<option>").val(categoria.id_categoria).text(categoria.nombre);
+        const $option = $("<option>").val(categoria.id_categoria).text(categoria.nombre_categoria);
         $select.append($option);
       });
     } catch (error) {
