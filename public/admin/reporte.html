@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>El Mexicano - Todo para tu coche</title>
+    <title>El Mexicano - Reporte de Ventas</title>
     <link rel="stylesheet" href="../assets/styles/landingPage.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,7 @@
         <ul class="nav nav-pills">
           <li class="nav-item"><a href="/admin/empleados" class="nav-link ">Empleados</a></li>
           <li class="nav-item"><a href="/admin/historial" class="nav-link">Historial de venta</a></li>
-          <li class="nav-item"><a href="/admin/piezas" class="nav-link" aria-current="page">Piezas</a></li>
+          <li class="nav-item"><a href="/admin/piezas" class="nav-link">Piezas</a></li>
           <li class="nav-item"><a href="/admin/marcas" class="nav-link">Marcas</a></li>
           <li class="nav-item"><a href="/admin/modelos" class="nav-link">Modelo</a></li>
           <li class="nav-item"><a href="/admin/reporte" class="nav-link active" aria-current="page">Reporte</a></li>
@@ -28,18 +28,63 @@
         </ul>
       </header>
     </div>
-      <div class="container">
-        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-          <p class="col-md-4 mb-0 text-body-secondary">&copy; 2025 Autopartes El Mexicano S.A. de C.V.</p>
-          <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
-          </a>
-          <ul class="nav col-md-4 justify-content-end">
-          </ul>
-        </footer>
-      </div> 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <div class="container mt-4">
+      <h3 class="mb-4">Reporte de ventas</h3>
+
+      <div class="row g-3 mb-3 align-items-end">
+        <div class="col-md-4">
+          <label for="filtro-anio" class="form-label">Año</label>
+          <input type="number" min="2000" max="2100" class="form-control" id="filtro-anio" placeholder="Ej. 2025">
+        </div>
+        <div class="col-md-4">
+          <label for="filtro-mes" class="form-label">Mes</label>
+          <select id="filtro-mes" class="form-select">
+            <option value="">Todos</option>
+            <option value="1">Enero</option>
+            <option value="2">Febrero</option>
+            <option value="3">Marzo</option>
+            <option value="4">Abril</option>
+            <option value="5">Mayo</option>
+            <option value="6">Junio</option>
+            <option value="7">Julio</option>
+            <option value="8">Agosto</option>
+            <option value="9">Septiembre</option>
+            <option value="10">Octubre</option>
+            <option value="11">Noviembre</option>
+            <option value="12">Diciembre</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <button id="btn-generar-reporte" class="btn btn-primary w-100">Generar reporte</button>
+        </div>
+      </div>
+
+      <div class="container my-4">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-10">
+            <div class="position-relative" style="height: 350px;">
+              <canvas id="grafica-ventas"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <p class="col-md-4 mb-0 text-body-secondary">&copy; 2025 Autopartes El Mexicano S.A. de C.V.</p>
+        <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+          <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+        </a>
+        <ul class="nav col-md-4 justify-content-end"></ul>
+      </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="/scripts/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/scripts/reporte.js"></script>
   </body>
-</html> 
+</html>
