@@ -11,6 +11,8 @@ import routerLogin from "./routes/login.routes.js";
 import routerModelos from "./routes/modelo.routes.js";
 import routerDePiezas from "./routes/pieza.routes.js";
 import routerHistorial from "./routes/historial.routes.js";
+import routerReporte from "./routes/reporte.routes.js";
+
 
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -100,6 +102,7 @@ app.use("/", routerCategorias);
 app.use("/", routerLogin);
 app.use("/", routerDePiezas);
 app.use("/", routerHistorial);
+app.use("/", routerReporte);
 
 
 
