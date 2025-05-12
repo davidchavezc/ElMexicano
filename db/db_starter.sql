@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS public.categoria
 (
     id_categoria integer NOT NULL GENERATED ALWAYS AS IDENTITY,
-    nombre text COLLATE pg_catalog."default" NOT NULL,
+    nombre_categoria text COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT categoria_pkey PRIMARY KEY (id_categoria)
 );
 
