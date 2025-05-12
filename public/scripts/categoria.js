@@ -84,7 +84,7 @@ $(document).ready(async function () {
       if (response.ok) {
         const categoria = await response.json();
         cargarcategorias();
-        const operacionExitosa = createAlert('success', `Categoria ${categoria.nombre} eliminada correctamente.`);
+        const operacionExitosa = createAlert('success', `Categoria ${categoria.nombre_categoria} eliminada correctamente.`);
         $('#alerts').prepend(operacionExitosa);
       } else {
         const errorText = await response.text();
