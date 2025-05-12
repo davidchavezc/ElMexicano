@@ -26,19 +26,19 @@ $(document).ready(async function () {
   // Manejo del evento para crear una nueva categoria
   $("#btn-crear-categoria").on("click", async function () {
     const nombrecategoria = $("#nombre-categoria").val().trim();
+    // console.log(nombrecategoria)
   
     if (nombrecategoria === "") {
       alert("Por favor escribe un nombre de categoria.");
       return;
     }
-  
     try {
       const response = await fetch("/categorias", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ nombre_categoria: nombrecategoria})
+        body: JSON.stringify({ nombre: nombrecategoria})
       });
   
       if (response.ok) {
@@ -107,10 +107,22 @@ $(document).ready(async function () {
 });
 
 function createAlert(type, message) {
+  let icon = '';
+  switch(type) {
+    case "success":
+      icon = 'bi bi-check-circle'
+      break;
+    case "danger":
+      icon = 'bi bi-exclamation-triangle'
+      break;
+    case "info":
+      icon = 'bi bi-exclamation-circle'
+      break;
+  }
   const wrapper = document.createElement('div')
   wrapper.innerHTML = [
     `<div class="alert alert-${type} alert-dismissible mt-3" role="alert">`,
-    `   <div>${message}</div>`,
+    `   <div><i class="${icon} me-2"> </i>${message}</div>`,
     '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
     '</div>'
   ].join('')
