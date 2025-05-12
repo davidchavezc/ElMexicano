@@ -15,13 +15,17 @@ export const getMarcas = async (req,res) => {
 export const postMarcas = async (req, res) => {
     try {
       const { nombre_marca } = req.body;
-      
+  
       const nombreEnUso = await pool.query(
         "SELECT * FROM marcas WHERE nombre_marca = $1",
         [nombre_marca]);
 
       if (nombreEnUso.rowCount > 0) {
-          return res.status(403).json({message: "ya existe una marca llamada"});
+          return res.status(403).json({message: `ya existe una marca llamada ${nombre_marca}`});
+      }
+
+      if (nombre_marca == ''){
+        return res.status(400).json({message: "el nombre de marca no puede estar vacío"})
       }
 
       const result = await pool.query(

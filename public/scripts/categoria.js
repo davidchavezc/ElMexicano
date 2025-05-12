@@ -1,5 +1,4 @@
 $(document).ready(async function () {
-  // Función para cargar las categorias
   async function cargarcategorias() {
     try {
       const response = await fetch("/categorias");
@@ -24,41 +23,7 @@ $(document).ready(async function () {
   await cargarcategorias();
 
   // Manejo del evento para crear una nueva categoria
-  $("#btn-crear-categoria").on("click", async function () {
-    const nombrecategoria = $("#nombre-categoria").val().trim();
-    // console.log(nombrecategoria)
-  
-    if (nombrecategoria === "") {
-      alert("Por favor escribe un nombre de categoria.");
-      return;
-    }
-    try {
-      const response = await fetch("/categorias", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ nombre: nombrecategoria})
-      });
-  
-      if (response.ok) {
-        const nuevacategoria = await response.json();
-        $("#nombre-categoria").val("");
-  
-        await cargarcategorias();
-        const operacionExitosa = createAlert('success', `Nueva categoria ${nuevacategoria.nombre_categoria} creada exitosamente.`);
-        $('#alerts').prepend(operacionExitosa);
-      } else {
-        const errorText = await response.text();
-        const errorMessage = JSON.parse(errorText).message;
-        const errorAlert = createAlert('danger', `No se pudo crear la categoria, ${errorMessage} ${nombrecategoria}.`);
-        $('#alerts').prepend(errorAlert);
-      }
-    } catch (error) {
-      console.error("Error al crear la categoria:", error);
-      alert("Ocurrió un error al crear la categoria.");
-    }
-  });
+  $("#btn-crear-categoria").on("click", 
 
   $('#btn-eliminar-categoria').on("click", async function () {
     const idcategoria = $('#categoriasE').val()?.trim();

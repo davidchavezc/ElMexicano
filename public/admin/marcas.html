@@ -8,19 +8,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75,300..800;1,75,300..800&display=swap" rel="stylesheet">
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   </head>
   <body>
-    <div class="container">
+    <div id="pageHeader" class="container">
       <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
           <span class="fs-4 wordmark">Autopartes <strong>El Mexicano</strong></span>
           <span class="fs-5 ms-2">Administrador</span>
         </a>
         <ul class="nav nav-pills">
-          <li class="nav-item"><a href="/admin/empleados" class="nav-link ">Empleados</a></li>
+          <li class="nav-item"><a href="/admin/empleados" class="nav-link">Empleados</a></li>
           <li class="nav-item"><a href="/admin/historial" class="nav-link">Historial de venta</a></li>
           <li class="nav-item"><a href="/admin/piezas" class="nav-link">Piezas</a></li>
           <li class="nav-item"><a href="/admin/marcas" class="nav-link active" aria-current="page">Marcas</a></li>
@@ -29,55 +28,111 @@
           <li class="nav-item"><a href="/logOut" class="nav-link">Cerrar sesión</a></li>
         </ul>
       </header>
-  </div>
-    
-    <main class="container mt-4">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="border p-3">
-                    <h5 class="fw-bold">Añadir Marca</h5>
-                    <div class="mb-3">
-                        <label class="fw-bold">Nombre</label>
-                        <input type="text" class="form-control" id="nombre-marca" placeholder="Ingrese el nombre" required>
-                    </div>
-                    <button class="btn btn-success" id="btn-crear-marca">Crear</button>
-                    <button class="btn" id="btn-limpiar1-marca">Cancelar</button>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="border p-3">
-                    <h5 class="fw-bold">Eliminar Marca</h5>
-                    <div class="mb-3">
-                        <label class="fw-bold">Nombre</label>
-                        <select  class="form-select" id="marcasE"></select>
-                    </div>
-                    <button class="btn btn-danger" id="btn-eliminar-marca">Eliminar</button>
-                </div>
-            </div>
-        </div>
-        <div class="mt-3 border p-3">
-            <h5 class="fw-bold">Marcas</h5>
-            <select  class="form-select"></select>
-        </div>
     </div>
-    <div id="alerts"></div>
-  </main>
+    <main class="container">
+      <div class="mt-4">
+        <!-- Listado de Marcas -->
+        <div class="mt-3">
+          <h5 class="fw-bold mt-3">Listado Marcas</h5>
+        <table class="table table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th class="col-2">ID</th>
+              <th class="col-10">Nombre</th>
+            </tr>
+          </thead>
+          <tbody id="marcas-tbody"></tbody>
+        </table>
+      </div>
+      <!-- Listado de Categorías -->
+      <div class="mt-3">
+        <h5 class="fw-bold mt-3">Listado Categorías</h5>
+        <table class="table table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th class="col-2">ID</th>
+              <th class="col-10">Nombre</th>
+            </tr>
+          </thead>
+          <tbody id="categorias-tbody"></tbody>
+        </table>
+      </div>
+    </main>
+    <main class="container">
+      <div class="d-flex">
+        <!-- Menus Section -->
+        <div class="flex-grow-1">
+          <div class="row mt-4">
+            <!-- Menú Marcas -->
+            <div class="col-md-6">
+              <div class="border p-3 card">
+                <h5 class="fw-bold">Añadir Marca</h5>
+                <div class="mb-3">
+                  <label class="fw-bold">Nombre</label>
+                  <input type="text" class="form-control" id="nombre-marca" placeholder="Ingrese el nombre" required>
+                </div>
+                <button class="btn btn-success" id="btn-crear-marca">Crear</button>
+                <button class="btn" id="btn-limpiar1-marca">Cancelar</button>
+                <h5 class="fw-bold mt-3">Eliminar Marca</h5>
+                <div class="mb-3">
+                  <label class="fw-bold">Nombre</label>
+                  <select class="form-select" id="marcas"></select>
+                </div>
+                <button class="btn btn-danger" id="btn-eliminar-marca">Eliminar</button>
+              </div>
+            </div>
+            <!-- Menú Categorías -->
+            <div class="col-md-6">
+              <div class="border p-3 card">
+                <h5 class="fw-bold">Añadir Categoría</h5>
+                <div class="mb-3">
+                  <label class="fw-bold">Nombre</label>
+                  <input type="text" class="form-control" id="nombre-categoria" placeholder="Ingrese el nombre" required>
+                </div>
+                <button class="btn btn-success" id="btn-crear-categoria">Crear</button>
+                <button class="btn" id="limpiarCategoria">Cancelar</button>
+                <h5 class="fw-bold mt-3">Eliminar Categoría</h5>
+                <div class="mb-3">
+                  <label class="fw-bold">Nombre</label>
+                  <select class="form-select" id="categorias"></select>
+                </div>
+                <button class="btn btn-danger" id="btn-eliminar-categoria">Eliminar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Alerts Sidebar -->
+        <div id="alerts-sidebar" class="ms-3 card mt-4 p-3">
+          <!-- <div class="card-header"> -->
+            <h5 class="fw-bold">Notificaciones</h5>
+          <!-- </div> -->
+          <div id="alerts"></div>
+        </div>
+      </div>
+    </main>
     <div class="container">
       <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
         <p class="col-md-4 mb-0 text-body-secondary">&copy; 2025 Autopartes El Mexicano S.A. de C.V.</p>
-    
         <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
           <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
         </a>
-    
         <ul class="nav col-md-4 justify-content-end">
           <li class="nav-item"><a href="index.html" class="nav-link px-2 text-body-secondary">Principal</a></li>
-          <li class="nav-item"><a href="catalogo.html" class="nav-link px-2 text-body-secondary">Catalogo</a></li>
+          <li class="nav-item"><a href="catalogo.html" class="nav-link px-2 text-body-secondary">Catálogo</a></li>
           <li class="nav-item"><a href="nosotros.html" class="nav-link px-2 text-body-secondary">Nosotros</a></li>
         </ul>
       </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="/scripts/jquery-3.7.1.min.js"></script>
-    <script src="/scripts/marcas.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+      <script src="/scripts/jquery-3.7.1.min.js"></script>
+      <script src="/scripts/marca-categoria.js"></script>
+    </div>
   </body>
-</html> 
+</html>
+
+<style>
+  #alerts-sidebar {
+  width: 300px; 
+  max-height: 40vh;
+  overflow-y: auto;
+}
+</style>
