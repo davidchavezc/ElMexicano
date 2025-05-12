@@ -20,7 +20,11 @@ export const postCategoria = async (req, res) => {
         [nombre]);
 
       if (nombreEnUso.rowCount > 0) {
-          return res.status(403).json({message: "ya existe una categoría llamada"});
+          return res.status(403).json({message: `ya existe una categoria llamada ${nombre}`});
+      }
+
+      if (nombre == ''){
+        return res.status(400).json({message: "el nombre de la categoria no puede estar vacío"})
       }
 
       const result = await pool.query(
