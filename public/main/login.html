@@ -34,14 +34,14 @@
       <div class="row justify-content-center">
         <div class="col-md-4 bg-white p-4 rounded shadow">
           <h2 class="mb-4">Solo para empleados!</h2>
-          <form id="login-form">
+          <form action="/log-in" method="POST">
             <div class="mb-3">
-              <input type="text" name="usuario" class="form-control"  placeholder="Usuario" required id="usuario">
+              <input class="form-control" name="username" placeholder="Usuario" required>
             </div>
             <div class="mb-3">
-              <input type="password" name="contraseña"  class="form-control" placeholder="Contraseña" required id="contraseña">
+              <input class="form-control" name="password" type="password" placeholder="Contraseña" required>
             </div>
-            <button type="submit" class="btn btn-dark w-100"><a href="" style="text-decoration: none; color: aliceblue;" id="iniciar-sesion">Iniciar Sesión</a></button>
+            <button type="submit" class="btn btn-dark w-100">Iniciar Sesión</button>
           </form>
         </div>
       </div>
@@ -66,6 +66,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/scripts/jquery-3.7.1.min.js"></script>
-  <script src="/scripts/login.js"></script>
+  <!-- <script src="/scripts/login.js"></script> -->
+   <!-- No se utiliza porque ocupamos passport -->
 </body>
 </html>
