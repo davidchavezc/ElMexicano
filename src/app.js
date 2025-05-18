@@ -29,6 +29,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../public")));
 
+// Set EJS as the view engine
+app.set("views", path.join(__dirname, "../views"));
+app.set("view engine", "ejs");
+
 passport.use(
       // console.log('Reached')
   new LocalStrategy(async (username, password, done) => {
@@ -77,69 +81,69 @@ app.get("/log-out", (req, res, next) => {
 
 // Rutas para usuarios
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/main/index.html"));
+  res.render("index", { user: req.user });
 });
 
 app.get("/login", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/main/login.html"));
+  res.render("login", { user: req.user });
 });
 
 app.get("/error", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/main/error.html"));
+  res.render("error", { user: req.user });
 });
 
 app.get("/nosotros", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/main/nosotros.html"));
+  res.render("nosotros", { user: req.user });
 });
 
 app.get("/catalogo", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/main/catalogo.html"));
+  res.render("catalogo", { user: req.user });
 });
 
 app.get("/producto", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/main/producto.html"))
+  res.render("producto", { user: req.user });
 });
 
 // Rutas para pantallas de empleado
 app.get(["/empleado/venta", "/venta", "/empleado"], (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/empleado/venta.html"));
+  res.render("empleado/venta", { user: req.user });
 });
 
 app.get(["/empleado/restock", "/restock"], (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/empleado/restock.html"));
+  res.render("empleado/restock", { user: req.user });
 });
 
 // Rutas para administrador
 app.get("/admin", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/admin/reporte.html"));
+  res.render("admin/reporte", { user: req.user });
 });
 
 app.get(["/admin/empleados"], (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/admin/empleados.html"))
+  res.render("admin/empleados", { user: req.user });
 });
 
 app.get(["/admin/historial"], (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/admin/historial.html"))
+  res.render("admin/historial", { user: req.user });
 });
 
 app.get(["/admin/marcas"], (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/admin/marcas.html"))
+  res.render("admin/marcas", { user: req.user });
 });
 
 app.get(["/admin/modelos"], (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/admin/modelos.html"))
+  res.render("admin/modelos", { user: req.user });
 });
 
 app.get(["/admin/piezas"], (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/admin/piezas.html"))
+  res.render("admin/piezas", { user: req.user });
 });
 
 app.get(["/admin/reporte"], (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/admin/reporte.html"))
+  res.render("admin/reporte", { user: req.user });
 });
 
 app.get(["/admin/categoria"], (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/admin/categoria.html"))
+  res.render("admin/categoria", { user: req.user });
 });
 
 // Routers
