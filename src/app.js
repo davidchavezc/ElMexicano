@@ -158,13 +158,23 @@ app.use("/", routerDePiezas);
 app.use("/", routerHistorial);
 app.use("/", routerReporte);
 
-app.post(
-  "/log-in",
-  passport.authenticate("local", {
-    successRedirect: "/admin",
-    failureRedirect: "/error"
-  })
-);
+app.post("/log-in", (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) { return next(err); }
+    if (!user) { return res.redirect("/error"); }
+    req.logIn(user, (err) => {
+      if (err) { return next(err); }
+      // Redirección según el rol
+      if (user.id_rol === 1) {
+        return res.redirect("/admin");
+      } else if (user.id_rol === 2) {
+        return res.redirect("/empleado/venta");
+      } else {
+        return res.redirect("/");
+      }
+    });
+  })(req, res, next);
+});
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
