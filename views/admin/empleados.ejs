@@ -33,6 +33,9 @@
     </div>
     <!-- Contenedor principal -->
     <div class="container mt-4">
+        <% if (locals.user) {%>
+         <h1>Bienvenido, <%= user.nombre_empleado %></h1>
+           <% } %>
         <!-- Sección de empleados -->
         <div class="card">
             <div class="card-header bg-light">

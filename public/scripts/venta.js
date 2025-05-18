@@ -159,6 +159,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const cliente = $('input[type="text"]:not(#buscador-pieza)').val().trim();
     const fecha = $('input[type="date"]').val();
     const metodoPago = $('#selectMetodoPago').val();
+    const idEmpleado = $('#id_empleado').val();
+    console.log(idEmpleado)
 
     if (!cliente || cliente === 'Nombre del Cliente') {
       $('#alertBox').prepend(createAlert('danger', 'Por favor ingresa el nombre del cliente'));
@@ -190,7 +192,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const response = await fetch('/ventas/registrar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id_empleado: 2,
+        body: JSON.stringify({ 
+          id_empleado: idEmpleado,
           nombre_cliente: cliente,
           id_metodopago: metodoPago,
           piezas: piezasVenta })
