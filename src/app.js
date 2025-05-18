@@ -70,7 +70,7 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-app.get("/log-out", (req, res, next) => {
+app.get("/logOut", (req, res, next) => {
   req.logout((err) => {
     if (err) {
       return next(err);

@@ -30,6 +30,10 @@
     </div>
 
     <div class="container mt-4">
+      <% if (locals.user) {%>
+      <h1>Bienvenido, <%= user.nombre_empleado %></h1>
+        <% } %>
+      <!-- <a href="/log-out">LOG OUT</a> -->
       <h3 class="mb-4">Reporte de ventas</h3>
 
       <div class="row g-3 mb-3 align-items-end">
