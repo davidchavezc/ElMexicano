@@ -544,6 +544,7 @@ async function mostrarPiezas() {
         tablaPiezas.append(`
             <tr>
                 <td>${pieza.nombre_pieza}</td>
+                <td>${pieza.descripcion || 'Sin descripción'}</td>
                 <td>${pieza.marca_nombre || 'N/A'}</td>
                 <td>${pieza.modelo_nombre || 'N/A'}</td>
                 <td>${pieza.categoria_nombre || 'N/A'}</td>
