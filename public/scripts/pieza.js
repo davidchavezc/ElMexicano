@@ -14,12 +14,13 @@ $(document).ready(function() {
 
     // Event listeners para los botones
     $("#crear").click(function() {
-        crearPieza();
-    });
-    
-    // Event listeners para los botones
-    $("#crear").click(function() {
-        crearPieza();
+        const modo = $(this).data("modo");
+        if (modo === "editar") {
+            const idPieza = $(this).data("id");
+            actualizarPieza(idPieza);
+        } else {
+            crearPieza();
+        }
     });
     
     $("#cancelar").click(function() {
@@ -408,6 +409,74 @@ function crearPieza() {
                 icon: 'error',
                 title: 'Error',
                 text: 'Error al crear la pieza. Por favor, intente de nuevo.',
+                confirmButtonText: 'Aceptar'
+            });
+        }
+    });
+}
+
+// Función para actualizar una pieza
+function actualizarPieza(idPieza) {
+    // Obtener los datos del formulario
+    const nombrePieza = $("#nombre").val();
+    const descripcion = $("#descripcion").val();
+    const idMarca = $("#marca").val();
+    const idModelo = $("#modelo").val();
+    const idCategoria = $("#categoria").val();
+    const cantidad = $("#stock").val();
+    const precio = $("#precio").val();
+
+    // Validar que todos los campos requeridos estén completos
+    if (!nombrePieza || idMarca === "Seleccione una marca" || idModelo === "Seleccione un modelo" ||
+        idCategoria === "Seleccione una categoría" || !cantidad) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Atención',
+            text: 'Por favor, complete todos los campos requeridos.',
+            confirmButtonText: 'Aceptar'
+        });
+        return;
+    }
+
+    // Crear objeto con los datos de la pieza
+    const pieza = {
+        nombre_pieza: nombrePieza,
+        descripcion: descripcion,
+        id_marca: idMarca,
+        id_modelo: idModelo,
+        id_categoria: idCategoria,
+        cantidad: cantidad,
+        precio: precio || 0
+    };
+
+    // Enviar la solicitud al servidor
+    $.ajax({
+        url: `/piezas/${idPieza}`, // URL para actualizar la pieza específica
+        type: 'PUT', // Usar el método PUT para actualizaciones
+        contentType: 'application/json',
+        data: JSON.stringify(pieza),
+        success: function(response) {
+            // Mostrar mensaje de éxito
+            Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: 'Pieza actualizada exitosamente.',
+                confirmButtonText: 'Aceptar'
+            });
+
+            // Limpiar el formulario y resetear el botón
+            limpiarFormulario();
+            $("#crear").text("Crear").removeData("id").removeData("modo");
+            
+            // Recargar las piezas para mostrar los cambios
+            cargarPiezas();
+        },
+        error: function(error) {
+            console.error('Error al actualizar la pieza:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al actualizar la pieza. Por favor, intente de nuevo.',
                 confirmButtonText: 'Aceptar'
             });
         }
