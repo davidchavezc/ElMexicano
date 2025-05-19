@@ -26,19 +26,21 @@ export const getPiezas = async (req, res) => {
     try {
       const result = await pool.query(`
         SELECT pieza.*,
-        marcas.nombre_marca AS marca_nombre,
-        modelos.nombre_modelo AS modelo_nombre,
-        categoria.nombre_categoria AS categoria_nombre
+          marcas.nombre_marca AS marca_nombre,
+          modelos.nombre_modelo AS modelo_nombre,
+          categoria.nombre AS categoria_nombre
         FROM pieza 
         INNER JOIN marcas ON pieza.id_marca = marcas.id_marca
         INNER JOIN categoria ON pieza.id_categoria = categoria.id_categoria
-        INNER JOIN modelos ON pieza.id_modelo = modelos.id_modelo;`);
+        INNER JOIN modelos ON pieza.id_modelo = modelos.id_modelo;
+      `);
       res.json(result.rows);
     } catch (error) {
-      console.error("Error al obtener usuarios:", error);
+      console.error("Error al obtener piezas:", error);
       res.status(500).send("Error interno del servidor");
     }
-  };
+};
+
 
 // Obtener una pieza por ID
 export const getObtenerPiezaPorId = async (req, res) => {
@@ -87,11 +89,11 @@ export const postCrearPieza = async (req, res) => {
 export const actualizarPieza = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nombre_pieza, id_modelo, id_categoria, cantidad } = req.body;
+        const { nombre_pieza, descripcion, id_modelo, id_marca, id_categoria, cantidad, precio } = req.body;
 
         const result = await pool.query(
-            "UPDATE pieza SET nombre_pieza = $1, id_modelo = $2, id_categoria = $3, id_categoria = $4, cantidad = $5, WHERE id_pieza = $6 RETURNING *",
-            [nombre_pieza, id_modelo, id_categoria, cantidad, id]
+            "UPDATE pieza SET nombre_pieza = $1, descripcion = $2, id_modelo = $3, id_marca = $4, id_categoria = $5, cantidad = $6, precio = $7 WHERE id_pieza = $8 RETURNING *",
+            [nombre_pieza, descripcion, id_modelo, id_marca, id_categoria, cantidad, precio || 0, id]
         );
 
         if (result.rows.length === 0){
@@ -148,8 +150,17 @@ export const actualizarCantidadPieza = async (req, res) => {
 export const obtenerPiezasPorMarca = async (req, res) =>{
     try{
         const {id_marca} = req.params;
-        const result = await pool.query(
-            "SELECT * FROM pieza WHERE id_marca = $1", [id_marca]
+        const result = await pool.query(`
+            SELECT pieza.*,
+            marcas.nombre_marca AS marca_nombre,
+            modelos.nombre_modelo AS modelo_nombre,
+            categoria.nombre_categoria AS categoria_nombre
+            FROM pieza 
+            INNER JOIN marcas ON pieza.id_marca = marcas.id_marca
+            INNER JOIN categoria ON pieza.id_categoria = categoria.id_categoria
+            INNER JOIN modelos ON pieza.id_modelo = modelos.id_modelo
+            WHERE pieza.id_marca = $1`, 
+            [id_marca]
         );
         res.json(result.rows);
     } catch (error){
@@ -203,27 +214,37 @@ export const filtrarPiezas = async (req, res) => {
     try {
         const { nombre, marca, modelo, categoria } = req.query;
 
-        let query = "SELECT * FROM pieza WHERE 1=1";
+        let query = `
+            SELECT pieza.*,
+            marcas.nombre_marca AS marca_nombre,
+            modelos.nombre_modelo AS modelo_nombre,
+            categoria.nombre_categoria AS categoria_nombre
+            FROM pieza 
+            INNER JOIN marcas ON pieza.id_marca = marcas.id_marca
+            INNER JOIN categoria ON pieza.id_categoria = categoria.id_categoria
+            INNER JOIN modelos ON pieza.id_modelo = modelos.id_modelo
+            WHERE 1=1`;
+        
         const params = [];
         let paramIndex = 1;
 
         if (nombre) {
-            query += ` AND LOWER(nombre_pieza) LIKE LOWER($${paramIndex})`;
+            query += ` AND LOWER(pieza.nombre_pieza) LIKE LOWER($${paramIndex})`;
             params.push(`%${nombre}%`);
             paramIndex++;
         }
         if (marca) {
-            query += ` AND id_marca = $${paramIndex}`;
+            query += ` AND pieza.id_marca = $${paramIndex}`;
             params.push(parseInt(marca, 10));
             paramIndex++;
         }
         if (modelo) {
-            query += ` AND id_modelo = $${paramIndex}`;
+            query += ` AND pieza.id_modelo = $${paramIndex}`;
             params.push(parseInt(modelo, 10));
             paramIndex++;
         }
         if (categoria) {
-            query += ` AND id_categoria = $${paramIndex}`;
+            query += ` AND pieza.id_categoria = $${paramIndex}`;
             params.push(parseInt(categoria, 10));
             paramIndex++;
         }

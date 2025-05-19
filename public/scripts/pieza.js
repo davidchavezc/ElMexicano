@@ -8,9 +8,14 @@ $(document).ready(function() {
     cargarFiltroMarcas();
     cargarFiltroModelos();
     cargarFiltroCategorias();
-    
-    // Mostrar mensaje inicial en la tabla
-    mostrarMensajeInicial();
+
+    // Cargar todas las piezas al iniciar
+    cargarPiezas();
+
+    // Event listeners para los botones
+    $("#crear").click(function() {
+        crearPieza();
+    });
     
     // Event listeners para los botones
     $("#crear").click(function() {
@@ -514,28 +519,34 @@ function cargarPiezas() {
         success: function(piezas) {
             mostrarPiezas(piezas);
         },
-        error: function(error) {
+        error: function(xhr, status, error) {
             console.error('Error al cargar piezas:', error);
+            console.log('Estado de la respuesta:', status);
+            console.log('Respuesta del servidor:', xhr.responseText);
             Swal.fire({
                 icon: 'error',
-                title: 'Error',
-                text: 'Error al cargar las piezas. Por favor, intente de nuevo.',
+                title: 'Error al cargar piezas',
+                text: 'No se pudieron cargar las piezas. Detalles: ' + (xhr.responseText || error),
                 confirmButtonText: 'Aceptar'
             });
+
+            // Mostrar mensaje en la tabla para indicar que no hay piezas
+            const tablaPiezas = $("#tabla-piezas");
+            tablaPiezas.empty();
+            tablaPiezas.append('<tr><td colspan="8" class="text-center">No se pudieron cargar las piezas. Por favor, intente de nuevo.</td></tr>');
         }
     });
 }
 
 // Función para mostrar las piezas en la tabla
-async function mostrarPiezas() {
-    const response = await fetch ("/piezas");
-    const piezas = await response.json();
+async function mostrarPiezas(piezas) {
+    
     const tablaPiezas = $("#tabla-piezas");
     
     tablaPiezas.empty();
     
-    if (piezas.length === 0) {
-        tablaPiezas.append('<tr><td colspan="7" class="text-center">No hay piezas disponibles</td></tr>');
+    if (!piezas || piezas.length === 0) {
+        tablaPiezas.append('<tr><td colspan="8" class="text-center">No hay piezas disponibles</td></tr>');
         return;
     }
     
