@@ -218,7 +218,7 @@ export const filtrarPiezas = async (req, res) => {
             SELECT pieza.*,
             marcas.nombre_marca AS marca_nombre,
             modelos.nombre_modelo AS modelo_nombre,
-            categoria.nombre_categoria AS categoria_nombre
+            categoria.nombre AS categoria_nombre
             FROM pieza 
             INNER JOIN marcas ON pieza.id_marca = marcas.id_marca
             INNER JOIN categoria ON pieza.id_categoria = categoria.id_categoria
