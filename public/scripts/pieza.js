@@ -300,19 +300,20 @@ function aplicarFiltros() {
     let url = '/piezas/filtrar?';
     let parametros = [];
     
-    if (idMarca) {
+    // Validar que los IDs son numéricos antes de agregarlos
+    if (idMarca && idMarca !== "" && !isNaN(parseInt(idMarca, 10))) {
         parametros.push(`marca=${idMarca}`);
     }
     
-    if (idModelo) {
+    if (idModelo && idModelo !== "" && !isNaN(parseInt(idModelo, 10))) {
         parametros.push(`modelo=${idModelo}`);
     }
     
-    if (idCategoria) {
+    if (idCategoria && idCategoria !== "" && !isNaN(parseInt(idCategoria, 10))) {
         parametros.push(`categoria=${idCategoria}`);
     }
     
-    // Si no hay parámetros, cargar todas las piezas
+    // Si no hay parámetros válidos, cargar todas las piezas
     if (parametros.length === 0) {
         cargarPiezas();
         return;
