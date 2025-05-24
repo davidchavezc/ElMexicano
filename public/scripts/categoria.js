@@ -63,7 +63,7 @@ $(document).ready(async function () {
       console.error("Error al eliminar la categoria:", error);
       alert("Ocurrió un error al intentar eliminar la categoria.");
     }
-  });
+  }));
 
   // Limpiar el campo de texto al hacer clic en el botón de limpiar
   $("#btn-limpiar1-categoria").on("click", function () {

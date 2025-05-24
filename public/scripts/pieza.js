@@ -167,7 +167,7 @@ function cargarCategorias() {
             categoriaSelector.append('<option selected>Seleccione una categoría</option>');
             
             categorias.forEach(categoria => {
-                categoriaSelector.append(`<option value="${categoria.id_categoria}">${categoria.nombre}</option>`);
+                categoriaSelector.append(`<option value="${categoria.id_categoria}">${categoria.nombre_categoria}</option>`);
             });
         },
         error: function(error) {
@@ -275,7 +275,7 @@ function cargarFiltroCategorias() {
             categoriaSelector.append('<option value="" selected>Todas las categorías</option>');
             
             categorias.forEach(categoria => {
-                categoriaSelector.append(`<option value="${categoria.id_categoria}">${categoria.nombre}</option>`);
+                categoriaSelector.append(`<option value="${categoria.id_categoria}">${categoria.nombre_categoria}</option>`);
             });
         },
         error: function(error) {
