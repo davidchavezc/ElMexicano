@@ -93,7 +93,7 @@ app.get("/error", (req, res) => {
 });
 
 app.get("/teapot", (req, res) => {
-  res.render("error", { user: req.user })
+  res.render("teapot", { user: req.user })
 })
 
 app.get("/nosotros", (req, res) => {
