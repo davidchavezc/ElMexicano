@@ -92,6 +92,10 @@ app.get("/error", (req, res) => {
   res.render("error", { user: req.user });
 });
 
+app.get("/teapot", (req, res) => {
+  res.render("error", { user: req.user })
+})
+
 app.get("/nosotros", (req, res) => {
   res.render("nosotros", { user: req.user });
 });
@@ -161,7 +165,7 @@ app.use("/", routerReporte);
 app.post("/log-in", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) { return next(err); }
-    if (!user) { return res.redirect("/error"); }
+    if (!user) { return res.redirect("/teapot"); }
     req.logIn(user, (err) => {
       if (err) { return next(err); }
       // Redirección según el rol
