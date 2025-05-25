@@ -100,8 +100,8 @@ app.get("/catalogo", (req, res) => {
   res.render("catalogo", { user: req.user });
 });
 
-app.get("/producto", (req, res) => {
-  res.render("producto", { user: req.user });
+app.get("/detalle", (req, res) => {
+  res.render("detalle", { user: req.user });
 });
 
 // Rutas para pantallas de empleado
