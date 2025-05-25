@@ -2,8 +2,7 @@
 Nuestra página tiene como propósito ser un portal web para un punto de venta
 del negocio Autopartes “El Mexicano”, este negocio es propiedad del abuelo de
 uno de nuestros integrantes, y a todos nos pareció una buena idea en la cual
-basar nuestro proyecto. Para acceder al live preview de nuestro proyecto,
-haz [click aquí](./public/index.html).
+basar nuestro proyecto.
 
 En esta página habrá tres roles principales:
 ### Usuario: 
