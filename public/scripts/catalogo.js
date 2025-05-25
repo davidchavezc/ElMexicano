@@ -35,7 +35,7 @@ async function desplegarPiezas(){
         const piezahtml = `
         <div class="col" class="pieza-tarjeta">
         <div class="card text-center">
-        <a href='/producto?id=${pieza.id_pieza}' class='text-decoration-none text-black'>
+        <a href='/detalle?id=${pieza.id_pieza}' class='text-decoration-none text-black'>
         <img src="/img/${pieza.id_categoria}.png" class="card-img-top" alt="${pieza.nombre_pieza}">
         <div class="card-body">
         <h6 class="card-title">${pieza.nombre_pieza}</h6>
