@@ -23,7 +23,36 @@ $(document).ready(async function () {
   await cargarcategorias();
 
   // Manejo del evento para crear una nueva categoria
-  $("#btn-crear-categoria").on("click", 
+  $("#btn-crear-categoria").on("click", async function () {
+    const nombre = $("#nombre-categoria").val().trim();
+    if (!nombre) {
+      alert("Por favor ingresa un nombre de categoría.");
+      return;
+    }
+    try {
+      const response = await fetch("/categorias", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ nombre }),
+      });
+      if (response.ok) {
+        await cargarcategorias();
+        const operacionExitosa = createAlert('success', `Categoría "${nombre}" creada correctamente.`);
+        $('#alerts').prepend(operacionExitosa);
+        $("#nombre-categoria").val("");
+      } else {
+        const errorText = await response.text();
+        const errorMessage = JSON.parse(errorText).message;
+        const errorAlert = createAlert('danger', `No se pudo crear la categoría, ${errorMessage}.`);
+        $('#alerts').prepend(errorAlert);
+      }
+    } catch (error) {
+      console.error("Error al crear la categoría:", error);
+      alert("Ocurrió un error al intentar crear la categoría.");
+    }
+  });
 
   $('#btn-eliminar-categoria').on("click", async function () {
     const idcategoria = $('#categoriasE').val()?.trim();
@@ -63,7 +92,7 @@ $(document).ready(async function () {
       console.error("Error al eliminar la categoria:", error);
       alert("Ocurrió un error al intentar eliminar la categoria.");
     }
-  }));
+  });
 
   // Limpiar el campo de texto al hacer clic en el botón de limpiar
   $("#btn-limpiar1-categoria").on("click", function () {

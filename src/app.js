@@ -108,7 +108,7 @@ app.post('/media', upload.single('pic'), (req, res) => {
     return res.status(400).json({ error: "No file uploaded" });
   }
   // Devuelve la ruta relativa para usar en el frontend
-  res.json({ path: `/img/${req.file.filename}` });
+  res.render('pictures')
 })
 
 // Endpoint para obtener imágenes

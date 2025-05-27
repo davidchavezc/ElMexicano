@@ -428,7 +428,7 @@ function actualizarPieza(idPieza) {
     const idCategoria = $("#categoria").val();
     const cantidad = $("#stock").val();
     const precio = $("#precio").val();
-
+    const imagen = $("#imageSelect").val();
     // Validar que todos los campos requeridos estén completos
     if (!nombrePieza || idMarca === "Seleccione una marca" || idModelo === "Seleccione un modelo" ||
         idCategoria === "Seleccione una categoría" || !cantidad) {
@@ -449,7 +449,8 @@ function actualizarPieza(idPieza) {
         id_modelo: idModelo,
         id_categoria: idCategoria,
         cantidad: cantidad,
-        precio: precio || 0
+        precio: precio || 0,
+        imagen: imagen
     };
 
     // Enviar la solicitud al servidor

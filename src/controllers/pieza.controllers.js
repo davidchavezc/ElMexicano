@@ -96,11 +96,11 @@ export const postCrearPieza = async (req, res) => {
 export const actualizarPieza = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nombre_pieza, descripcion, id_modelo, id_marca, id_categoria, cantidad, precio } = req.body;
+        const { nombre_pieza, descripcion, id_modelo, id_marca, id_categoria, cantidad, precio, imagen } = req.body;
 
         const result = await pool.query(
-            "UPDATE pieza SET nombre_pieza = $1, descripcion = $2, id_modelo = $3, id_marca = $4, id_categoria = $5, cantidad = $6, precio = $7 WHERE id_pieza = $8 RETURNING *",
-            [nombre_pieza, descripcion, id_modelo, id_marca, id_categoria, cantidad, precio || 0, id]
+            "UPDATE pieza SET nombre_pieza = $1, descripcion = $2, id_modelo = $3, id_marca = $4, id_categoria = $5, cantidad = $6, precio = $7, imagen = $8 WHERE id_pieza = $9 RETURNING *",
+            [nombre_pieza, descripcion, id_modelo, id_marca, id_categoria, cantidad, precio || 0, imagen, id]
         );
 
         if (result.rows.length === 0){

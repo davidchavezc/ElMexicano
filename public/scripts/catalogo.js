@@ -22,7 +22,7 @@ async function desplegarCategorias(){
     const response = await fetch("/categorias");
     const categorias = await response.json();
     categorias.forEach(categoria => {
-        const categoriahtml = `<li><input type="checkbox"> ${categoria.nombre}</li>`
+        const categoriahtml = `<li><input type="checkbox"> ${categoria.nombre_categoria}</li>`
         $('#listaCategorias').append(categoriahtml);
     })
 }
