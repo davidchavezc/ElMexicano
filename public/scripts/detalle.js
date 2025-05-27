@@ -5,7 +5,7 @@ $(document).ready(async function (){
     const pieza = await cargarPieza(idPieza);
     const piezaHtml = `
     <div id="productDetails" class="row">
-    <img src="../img/${pieza.id_categoria}.png" class="col-md-4 card ">
+    <img src="img/${pieza.imagen}" class="col-md-4 card ">
     <div class="detalleProducto col-md-7">
     <div class="d-flex align-items-center"><h1 class="fs-1 fw-bold p-2">${pieza.nombre_pieza}</h1>
     <label id="idPieza" class="text-secondary ms-2" value="${pieza.id}">SKU: ${pieza.id_pieza}</label>
@@ -20,9 +20,6 @@ $(document).ready(async function (){
     </div>
     <div id="productoDescripcion" class="p-2">
     <div class="fs-5">${pieza.descripcion}</div>
-    </div>
-    <button class="btn btn-primary fs-4 mt-2 ms-auto col-md-5 col-12"><i class="bi bi-cart"></i> Agregar al carrito</button>
-    </div>
     </div>`;
     $('main').append(piezaHtml);
 })
