@@ -182,8 +182,8 @@ app.get(["/admin/marcas"], (req, res) => {
   res.render("admin/marcas", { user: req.user });
 });
 
-app.get("/pictures", (req, res) => {
-  res.render("photo", { user: req.user })
+app.get("/admin/pictures", (req, res) => {
+  res.render("pictures", { user: req.user })
 })
 
 app.get(["/admin/modelos"], (req, res) => {

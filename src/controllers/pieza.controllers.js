@@ -69,8 +69,7 @@ export const getPiezaById = async (req, res) => {
 // Crear una pieza nueva
 export const postCrearPieza = async (req, res) => {
     try {
-        console.log("Datos recibidos:", req.body); // Para depuración
-        const { nombre_pieza, descripcion, id_modelo, id_marca, id_categoria, cantidad, precio } = req.body;
+        const { nombre_pieza, descripcion, id_modelo, id_marca, id_categoria, cantidad, precio, imagen} = req.body;
 
         // Validar que todos los campos necesarios estén presentes
         if (!nombre_pieza || !id_modelo || !id_marca || !id_categoria || !cantidad) {
@@ -82,8 +81,8 @@ export const postCrearPieza = async (req, res) => {
         }
 
         const result = await pool.query(
-            "INSERT INTO pieza (nombre_pieza, descripcion, id_modelo, id_marca, id_categoria, cantidad, precio) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
-            [nombre_pieza, descripcion, id_modelo, id_marca, id_categoria, cantidad, precio || 0]
+            "INSERT INTO pieza (nombre_pieza, descripcion, id_modelo, id_marca, id_categoria, cantidad, precio, imagen) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
+            [nombre_pieza, descripcion, id_modelo, id_marca, id_categoria, cantidad, precio, imagen || 0]
         );
 
         res.status(201).json(result.rows[0]);
