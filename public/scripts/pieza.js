@@ -402,6 +402,36 @@ function crearPieza() {
                 text: 'Pieza creada exitosamente.',
                 confirmButtonText: 'Aceptar'
             });
+
+            // Agregar la nueva pieza a la tabla
+            const tablaPiezas = $("#tabla-piezas");
+            
+            // Si la tabla está vacía y muestra el mensaje "No hay piezas disponibles", limpiarla
+            if (tablaPiezas.find("tr td").length === 1 && tablaPiezas.find("tr td").text().includes("No hay piezas disponibles")) {
+                tablaPiezas.empty();
+            }
+
+            // Obtener los nombres de marca, modelo y categoría de los selectores
+            const marcaNombre = $("#marca option:selected").text();
+            const modeloNombre = $("#modelo option:selected").text();
+            const categoriaNombre = $("#categoria option:selected").text();
+
+            // Agregar la nueva fila a la tabla
+            tablaPiezas.append(`
+                <tr>
+                    <td>${nombrePieza}</td>
+                    <td>${descripcion || 'Sin descripción'}</td>
+                    <td>${marcaNombre}</td>
+                    <td>${modeloNombre}</td>
+                    <td>${categoriaNombre}</td>
+                    <td>${cantidad}</td>
+                    <td>$${precio || '0.00'}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary btn-editar" data-id="${response.id_pieza}">Editar</button>
+                        <button class="btn btn-sm btn-danger btn-eliminar" data-id="${response.id_pieza}">Eliminar</button>
+                    </td>
+                </tr>
+            `);
             
             // Limpiar el formulario
             limpiarFormulario();
