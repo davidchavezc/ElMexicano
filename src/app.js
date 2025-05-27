@@ -131,9 +131,6 @@ app.get("/", (req, res) => {
   res.render("index", { user: req.user });
 });
 
-app.get("/img", (req, res) => {
-  res.render("photo", { user: req.user })
-})
 
 app.get("/login", (req, res) => {
   res.render("login", { user: req.user });
@@ -184,6 +181,10 @@ app.get(["/admin/historial"], (req, res) => {
 app.get(["/admin/marcas"], (req, res) => {
   res.render("admin/marcas", { user: req.user });
 });
+
+app.get("/pictures", (req, res) => {
+  res.render("photo", { user: req.user })
+})
 
 app.get(["/admin/modelos"], (req, res) => {
   res.render("admin/modelos", { user: req.user });
