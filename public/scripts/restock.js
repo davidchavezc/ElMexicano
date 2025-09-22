@@ -5,7 +5,7 @@ $(document).ready(async function cargarPiezas() {
     try {
       const response = await fetch("/piezas");
       const piezas = await response.json();
-
+ 
       const $vistaGeneral = $("#piezas-disponibles");
       $vistaGeneral.empty();
 
@@ -14,7 +14,7 @@ $(document).ready(async function cargarPiezas() {
         const div =(`
         <div class="col ">
                 <div class="card h-100">
-                    <img src="../img/${pieza.id_categoria}.png" alt="Motor de arranque" class="card-img-top shadow-sm">
+                    <img src="../img/${pieza.imagen}" alt="Imagen de la pieza" class="card-img-top shadow-sm">
                     <div class="card-body text-center">
                         <p class="fs-2">${pieza.nombre_pieza}</p>
                         <p><span class="text-danger fs-3">${pieza.cantidad} en stock</span></p>
@@ -30,7 +30,7 @@ $(document).ready(async function cargarPiezas() {
         const nuevaCantidad = $(this).siblings('.quantity-control').find('.quantity-input').val();
       
         try {
-          const response = await fetch('/piezas', {
+          const response = await fetch(`/piezas/restock/${id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json'
@@ -123,7 +123,7 @@ $(document).ready(async function cargarPiezas() {
       
             // Generar el HTML con los datos de la pieza
             const html = `
-              <img src="../img/${pieza.imagen}" alt="" class="img-thumbnail me-3"
+              <img src="/img/${pieza.imagen}" alt="${pieza.nombre_pieza}" class="img-thumbnail me-3"
                 style="width: 150px;">
             <div>
                 <h3>${pieza.nombre_pieza}</h3>
@@ -154,6 +154,5 @@ $(document).ready(async function cargarPiezas() {
     });
   });
 
-  
 
-  
+
